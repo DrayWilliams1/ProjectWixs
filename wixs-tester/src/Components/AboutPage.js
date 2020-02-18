@@ -1,17 +1,74 @@
+// Dependencies
 import React from "react";
 
 // Components
 import NavBar from "./NavBar";
 
+// CSS/SASS
+import "./sass/AboutPage.scss";
+import { Container } from "react-bootstrap";
+
+/**
+ * Purpose: This is a file containing the about page of the ProjectWixs front-end. It documents basic layout and functionality of the about page.
+ */
 function AboutPage() {
   return (
     <div>
       <NavBar />
-      This is the About Page of the ProjectWixs
-      <br />
-      <br />
-      Our mission is to give you a better CMS experience, whether that be here
-      or there. Everywhere.
+      <Container>
+        <div className="word-content">
+          <h1>About Us</h1>
+          <h3>Project Purpose</h3>
+          <p>
+            ProjectWixs is a Content Management System allowing for a seamless
+            creation of single-page web pages featuring an easy-to-use drag and
+            drop component interface. ProjectWixs aims to provide an intuitive
+            experience for a wide range of users; from complete beginners
+            unfamiliar with any form of web design or HTML, to veteran designers
+            with multiple years of experience. The system will be able to have
+            up to ten user accounts that can create and edit web pages with a
+            range of content typical of any modern day website (such as text,
+            images, and video). Users will be able to create, edit, and delete
+            up to four templates and publish one at any time for live viewing.
+          </p>
+
+          <h3>The ProjectWixs Team</h3>
+          <ul>
+            <li>
+              <strong>Drayton Williams</strong> - GitHub Profile:{" "}
+              <a href="https://github.com/DrayWilliams1">DrayWilliams1</a>
+            </li>
+            <li>
+              <strong>Jasdeep Grewal</strong> - GitHub Profile:{" "}
+              <a href="https://github.com/jdip34">jdip34</a>
+            </li>
+            <li>
+              <strong>Cameron Hammel</strong> - GitHub Profile:{" "}
+              <a href="https://github.com/camhammel">camhammel</a>
+            </li>
+            <li>
+              <strong>Ian LeMasters</strong> - GitHub Profile:{" "}
+              <a href="https://github.com/GitG0">GitG0</a>
+            </li>
+            <li>
+              <strong>Curtis Honsberger</strong> - GitHub Profile:{" "}
+              <a href="https://github.com/HawtPie">HawtPie</a>
+            </li>
+            <li>
+              <strong>Liam Howes</strong> - GitHub Profile:{" "}
+              <a href="https://github.com/LiamHowes">LiamHowes</a>
+            </li>
+            <li>
+              <strong>Kieran Colaco</strong> - GitHub Profile:{" "}
+              <a href="https://github.com/sabonis123">sabonis123</a>
+            </li>
+            <li>
+              <strong>Nathan Hellinga</strong> - GitHub Profile:{" "}
+              <a href="https://github.com/nathan-hellinga">nathan-hellinga</a>
+            </li>
+          </ul>
+        </div>
+      </Container>
     </div>
   );
 }

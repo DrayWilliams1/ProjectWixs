@@ -1,0 +1,14 @@
+/* This file allows for the SASS styling of the NavBar. Major benefit of using SASS is the ability to have colour variables like the ones listed (and being used) below. Refer to ProjectWixs style Guide for colour codes, typography, and other styling. */
+$primary1: #2f4858;
+$primary2: #33658a;
+$accent1: #f6ae2d;
+$accent2: #f26419;
+$accent3: #55dde0;
+$black: #202020;
+$grey: #464646;
+$white: #fff;
+
+.word-content {
+  padding-left: 10px;
+  padding-right: 10px;
+}
