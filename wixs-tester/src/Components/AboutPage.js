@@ -36,35 +36,83 @@ function AboutPage() {
           <ul>
             <li>
               <strong>Drayton Williams</strong> - GitHub Profile:{" "}
-              <a href="https://github.com/DrayWilliams1">DrayWilliams1</a>
+              <a
+                href="https://github.com/DrayWilliams1"
+                title="Visit DrayWilliams1's GitHub"
+                target="_blank"
+              >
+                DrayWilliams1
+              </a>
             </li>
             <li>
               <strong>Jasdeep Grewal</strong> - GitHub Profile:{" "}
-              <a href="https://github.com/jdip34">jdip34</a>
+              <a
+                href="https://github.com/jdip34"
+                title="Visit jdip34's GitHub"
+                target="_blank"
+              >
+                jdip34
+              </a>
             </li>
             <li>
               <strong>Cameron Hammel</strong> - GitHub Profile:{" "}
-              <a href="https://github.com/camhammel">camhammel</a>
+              <a
+                href="https://github.com/camhammel"
+                title="Visit camhammel's GitHub"
+                target="_blank"
+              >
+                camhammel
+              </a>
             </li>
             <li>
               <strong>Ian LeMasters</strong> - GitHub Profile:{" "}
-              <a href="https://github.com/GitG0">GitG0</a>
+              <a
+                href="https://github.com/GitG0"
+                title="Visit GitG0's GitHub"
+                target="_blank"
+              >
+                GitG0
+              </a>
             </li>
             <li>
               <strong>Curtis Honsberger</strong> - GitHub Profile:{" "}
-              <a href="https://github.com/HawtPie">HawtPie</a>
+              <a
+                href="https://github.com/HawtPie"
+                title="Visit HawtPie's GitHub"
+                target="_blank"
+              >
+                HawtPie
+              </a>
             </li>
             <li>
               <strong>Liam Howes</strong> - GitHub Profile:{" "}
-              <a href="https://github.com/LiamHowes">LiamHowes</a>
+              <a
+                href="https://github.com/LiamHowes"
+                title="Visit LiamHowes's GitHub"
+                target="_blank"
+              >
+                LiamHowes
+              </a>
             </li>
             <li>
               <strong>Kieran Colaco</strong> - GitHub Profile:{" "}
-              <a href="https://github.com/sabonis123">sabonis123</a>
+              <a
+                href="https://github.com/sabonis123"
+                title="Visit sabonis123's GitHub"
+                target="_blank"
+              >
+                sabonis123
+              </a>
             </li>
             <li>
               <strong>Nathan Hellinga</strong> - GitHub Profile:{" "}
-              <a href="https://github.com/nathan-hellinga">nathan-hellinga</a>
+              <a
+                href="https://github.com/nathan-hellinga"
+                title="Visit nathan-hellinga's GitHub"
+                target="_blank"
+              >
+                nathan-hellinga
+              </a>
             </li>
           </ul>
         </div>
