@@ -18,7 +18,7 @@ function AboutPage() {
       <Container>
         <div className="word-content">
           <h1>About Us</h1>
-          <h3>Project Purpose</h3>
+          <h2 id="purpose">Project Purpose</h2>
           <p>
             ProjectWixs is a Content Management System allowing for a seamless
             creation of single-page web pages featuring an easy-to-use drag and
@@ -32,7 +32,7 @@ function AboutPage() {
             up to four templates and publish one at any time for live viewing.
           </p>
 
-          <h3>The ProjectWixs Team</h3>
+          <h2 id="team">The ProjectWixs Team</h2>
           <ul>
             <li>
               <strong>Drayton Williams</strong> - GitHub Profile:{" "}

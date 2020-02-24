@@ -1,6 +1,6 @@
 // Dependencies
 import React from "react";
-import { Form, Button, Container } from "react-bootstrap";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 // Components
@@ -21,16 +21,24 @@ function RegisterPage() {
           <h1>Registration Page</h1>
         </div>
         <Form>
+          <Form.Row>
+            <Form.Group as={Col} controlId="formGroupFirst">
+              <Form.Label>First Name</Form.Label>
+              <Form.Control type="text" placeholder="Enter your first name." />
+            </Form.Group>
+            <Form.Group as={Col} controlId="formGroupLast">
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control type="text" placeholder="Enter your last name." />
+            </Form.Group>
+          </Form.Row>
+
           <Form.Group controlId="formGroupEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter your email here." />
+            <Form.Label>Email address (Required)</Form.Label>
+            <Form.Control type="email" placeholder="Enter your email." />
           </Form.Group>
           <Form.Group controlId="formGroupPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter your password here."
-            />
+            <Form.Label>Password (Required)</Form.Label>
+            <Form.Control type="password" placeholder="Enter your password." />
           </Form.Group>
           <Button variant="warning" type="submit">
             Create Account
