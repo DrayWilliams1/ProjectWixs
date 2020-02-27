@@ -1,5 +1,6 @@
 #!/usr/bin/php-cgi
 <?php
+@ob_end_clean();
 /** 
  * A file for adding newly registered users to the ProjectWixs database. Connects the registration page to the 
  * users table within the database.
@@ -13,22 +14,35 @@
 require_once 'dbConfig.php';
  
 $dsn = "pgsql:host=$host;port=$port;dbname=$db;user=$username;password=$password";
- 
+
+// newly registered user can not be an admin and will not have any templates
+define("NOT_ADMIN", false);
+define("TEMP_COUNT", 0);
+
 try {
  // create a PostgreSQL database connection
  $pdo = new PDO($dsn);
  
  // display a message if connected to the PostgreSQL successfully
     if($pdo) { // connected successfully
-        $email_post = 'tester2@email.com';
-        $fName_post = 'Dray';
-        $lName_post = 'Williams';
-        $password_post = "password";
-        $admin_post = false;
-        $tempCount_post = 1;
+        if (($_SERVER['REQUEST_METHOD'] == 'POST')) {
+            // Using empty test instead of isset function
+            $email_post = empty($_POST['email']) ? null : $_POST['email']; // set email to form submission
+            
+            $fName_post = empty($_POST['first_name']) ? null : $_POST['first_name']; // set first name to form submission
+            
+            $lName_post = empty($_POST['last_name']) ? null : $_POST['last_name']; // set last name to form submission
 
-        if (validInputs() && !alreadyExists()) { // inputs are valid and user does not already exist -> insert user
-            insert_user();
+            $password_post = empty($_POST['password']) ? null : $_POST['password']; // set password name to form submission
+            
+            $admin_post = NOT_ADMIN;
+            $tempCount_post = TEMP_COUNT;
+
+            if (validInputs() && !alreadyExists()) { // inputs are valid and user does not already exist -> insert user
+                insert_user();
+            }
+        } else { // request method is not POST
+            echo "Invalid request";
         }
     }
 } catch (PDOException $e) { 
@@ -96,7 +110,7 @@ function validInputs() {
     }
 
     // checking if valid integer for user template count provided
-    if(!filter_var($tempCount_post, FILTER_VALIDATE_INT)){
+    if(!(filter_var($tempCount_post, FILTER_VALIDATE_INT) === 0 || filter_var($tempCount_post, FILTER_VALIDATE_INT))) {
         echo "Invalid template count: formatting. ";
         return false; // invalid
     }
@@ -166,4 +180,5 @@ function insert_user() {
     }
 }
 
+// possible json_encode()
 ?>
