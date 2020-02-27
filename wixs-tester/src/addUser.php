@@ -1,6 +1,5 @@
 #!/usr/bin/php-cgi
 <?php
-@ob_end_clean();
 /** 
  * A file for adding newly registered users to the ProjectWixs database. Connects the registration page to the 
  * users table within the database.
