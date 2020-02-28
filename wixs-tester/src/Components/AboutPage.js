@@ -2,7 +2,6 @@
 import React from "react";
 
 // Components
-import NavBar from "./NavBar";
 
 // CSS/SASS
 import "./sass/AboutPage.scss";
@@ -14,7 +13,6 @@ import { Container } from "react-bootstrap";
 function AboutPage() {
   return (
     <div>
-      <NavBar />
       <Container>
         <div className="word-content">
           <h1>About Us</h1>

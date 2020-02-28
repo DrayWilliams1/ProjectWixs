@@ -12,11 +12,14 @@ import RegisterPage from "./components/RegisterPage.js";
 
 // CSS/SASS
 import "./App.scss";
+import NavBar from "./Components/NavBar";
 
 function App() {
   return (
     <div className="App">
       <HRouter basename={process.env.PUBLIC_URL}>
+        {/*This places the navbar above every page*/}
+        <NavBar />
         <Switch>
           <Route exact path="/" component={HomePage} />{" "}
           {/* Routes to the home page */}

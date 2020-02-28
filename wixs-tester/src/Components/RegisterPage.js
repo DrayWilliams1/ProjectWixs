@@ -4,7 +4,6 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 // Components
-import NavBar from "./NavBar";
 
 // CSS/SASS
 import "./sass/RegisterPage.scss";
@@ -15,7 +14,6 @@ import "./sass/RegisterPage.scss";
 function RegisterPage() {
   return (
     <div>
-      <NavBar />
       <Container>
         <div className="word-content">
           <h1>Registration Page</h1>

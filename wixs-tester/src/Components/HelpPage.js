@@ -3,7 +3,6 @@ import React from "react";
 import { Container } from "react-bootstrap";
 
 // Components
-import NavBar from "./NavBar";
 
 // CSS/SASS
 import "./sass/HelpPage.scss";
@@ -14,7 +13,6 @@ import "./sass/HelpPage.scss";
 function HelpPage() {
   return (
     <div>
-      <NavBar />
       <Container>
         <div className="word-content">
           <h1>Help and FAQs</h1>

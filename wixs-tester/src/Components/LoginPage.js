@@ -4,7 +4,6 @@ import { Form, Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 // Components
-import NavBar from "./NavBar";
 
 // CSS/SASS
 import "./sass/LoginPage.scss";
@@ -15,7 +14,6 @@ import "./sass/LoginPage.scss";
 function LoginPage() {
   return (
     <div>
-      <NavBar />
       <Container>
         <div className="word-content">
           <h1>Login Page</h1>

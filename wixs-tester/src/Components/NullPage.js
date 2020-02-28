@@ -3,7 +3,6 @@ import React from "react";
 import { Container } from "react-bootstrap";
 
 // Components
-import NavBar from "./NavBar";
 
 // CSS/SASS
 import "./sass/NullPage.scss";
@@ -11,7 +10,6 @@ import "./sass/NullPage.scss";
 function NullPage() {
   return (
     <div>
-      <NavBar />
       <Container>
         <div className="word-content">
           <h2>404 - Page does not exist</h2>
