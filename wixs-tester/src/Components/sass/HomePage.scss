@@ -1,2 +1,44 @@
 /* This file allows for the SASS styling of the NavBar. Major benefit of using SASS is the ability to have colour variables like the ones listed (and being used) below. Refer to ProjectWixs style Guide for colour codes, typography, and other styling. */
 @import "Colors";
+
+.homePageGrid{
+  margin: 0 auto;
+  max-width: 1200px;
+  display: grid;
+  grid-template-rows: 250px auto 50px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas:
+          '. logo .'
+          'content1 content2 content3'
+          'login login login'
+}
+
+.homeLogo{
+  width: 250px;
+  height: 250px;
+  grid-area: logo;
+  margin: 0 auto;
+}
+
+.loginORregister{
+  grid-area: login;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginORregister * {
+  margin: 0 25px;
+}
+
+@media only screen and (max-width: 720px) {
+  .homePageGrid{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .loginORregister{
+    margin: 20px;
+  }
+}

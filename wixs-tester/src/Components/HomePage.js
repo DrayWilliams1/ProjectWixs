@@ -20,50 +20,51 @@ import "./sass/HomePage.scss";
 function HomePage() {
   return (
     <div>
-      <NavBar />
-      <Container>
-        <img src={logo} width="300" height="300" />
-        We've got the CMS to beat, what else did you expect?
-      </Container>
 
-      <Container>
-        <CardColumns>
-          <Card style={{ width: "18rem" }} border="success">
-            <Card.Body>
-              <Card.Img variant="top" src={pbIcon} />
-              <Card.Title>Product Feature 1</Card.Title>
-              <Card.Text>Lorem ipsum text for product feature 1</Card.Text>
-              <Button variant="success">See Info</Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "18rem" }} border="warning">
-            <Card.Body>
-              <Card.Img variant="top" src={batteryIcon} />
-              <Card.Title>Product Feature 2</Card.Title>
-              <Card.Text>Lorem ipsum text for product feature 2</Card.Text>
-              <Button variant="success">See Info</Button>
-            </Card.Body>
-          </Card>
-          <Card style={{ width: "18rem" }} border="info">
-            <Card.Body>
-              <Card.Img variant="top" src={batteryIcon} />
-              <Card.Title>Product Feature 3</Card.Title>
-              <Card.Text>Lorem ipsum text for product feature 3</Card.Text>
-              <Button variant="success">See Info</Button>
-            </Card.Body>
-          </Card>
-        </CardColumns>
-      </Container>
-      <Container>
-        <Link to="/login">
-          <Button variant="primary">Login</Button>
-        </Link>
 
-        <p>Or</p>
-        <Link to="/register">
-          <Button variant="warning">Register</Button>
-        </Link>
-      </Container>
+      <div className={"homePageGrid"}>
+        <img src={logo} className={'homeLogo'} />
+
+        {/*CARDS*/}
+        <Card style={{ gridArea: "content1", margin: '15px' }} border="secondary">
+          <Card.Body>
+            <Card.Img variant="top" src={pbIcon} />
+            <Card.Title>Product Feature 1</Card.Title>
+            <Card.Text>Lorem ipsum text for product feature 1Lorem ipsum text for product feature 1Lorem ipsum text
+              for product feature 1Lorem ipsum text for product feature 1Lorem ipsum text for product feature 1Lorem
+              ipsum text for product feature 1</Card.Text>
+          </Card.Body>
+        </Card>
+        <Card style={{ gridArea: "content2", margin: '15px' }} border="secondary">
+          <Card.Body>
+            <Card.Img variant="top" src={pbIcon} />
+            <Card.Title>Product Feature 2</Card.Title>
+            <Card.Text>Lorem ipsum text for product feature 1Lorem ipsum text for product feature 1Lorem ipsum text
+              for product feature 1Lorem ipsum text for product feature 1Lorem ipsum text for product feature 1Lorem
+              ipsum text for product feature 2</Card.Text>
+          </Card.Body>
+        </Card>
+        <Card style={{ gridArea: "content3", margin: '15px' }} border="secondary">
+          <Card.Body>
+            <Card.Img variant="top" src={pbIcon} />
+            <Card.Title>Product Feature 3</Card.Title>
+            <Card.Text>Lorem ipsum text for product feature 1Lorem ipsum text for product feature 1Lorem ipsum text
+              for product feature 1Lorem ipsum text for product feature 1Lorem ipsum text for product feature 1Lorem
+              ipsum text for product feature 3</Card.Text>
+          </Card.Body>
+        </Card>
+
+        <div className={'loginORregister'}>
+          <Link to="/login">
+            <Button variant="primary">Login</Button>
+          </Link>
+          <p>Or</p>
+          <Link to="/register">
+            <Button variant="secondary">Register</Button>
+          </Link>
+        </div>
+
+      </div>
     </div>
   );
 }
