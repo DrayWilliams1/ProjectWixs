@@ -7,7 +7,8 @@
  * 
  * 
  * -- Additional Notes --
- * - Do not use any upper case for column names or table names within database (will cause error when binding PDO values)
+ * - Do not use any upper case for column names or table names within database (will cause error when 
+ * binding PDO values)
  */
 
 require_once 'dbConfig.php';
