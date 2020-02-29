@@ -3,13 +3,12 @@ import React from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-// Components
-
 // CSS/SASS
 import "./sass/LoginPage.scss";
 
 /**
- * Purpose: This is a file containing the login page of the ProjectWixs front-end. It documents basic layout and functionality of the login page.
+ * Purpose: This is a file containing the login page of the ProjectWixs front-end. It documents
+ * basic layout and functionality of the login page.
  */
 function LoginPage() {
   return (

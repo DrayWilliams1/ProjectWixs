@@ -2,11 +2,13 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 
-// Components
-
 // CSS/SASS
 import "./sass/NullPage.scss";
 
+/**
+ * Purpose: This is the null page acting as a catch-all for any pages not currently setup for routing within the
+ * application. It is the custom 404 page.
+ */
 function NullPage() {
   return (
     <div>

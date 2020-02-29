@@ -2,13 +2,12 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 
-// Components
-
 // CSS/SASS
 import "./sass/HelpPage.scss";
 
 /**
- * Purpose: This is a file containing the help page of the ProjectWixs front-end. It documents basic layout and functionality of the help/FAQ page.
+ * Purpose: This is a file containing the help page of the ProjectWixs front-end. It documents
+ * basic layout and functionality of the help/FAQ page.
  */
 function HelpPage() {
   return (

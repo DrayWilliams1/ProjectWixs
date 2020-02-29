@@ -1,14 +1,13 @@
 // Dependencies
 import React from "react";
 
-// Components
-
 // CSS/SASS
 import "./sass/AboutPage.scss";
 import { Container } from "react-bootstrap";
 
 /**
- * Purpose: This is a file containing the about page of the ProjectWixs front-end. It documents basic layout and functionality of the about page.
+ * Purpose: This is a file containing the about page of the ProjectWixs front-end. It documents
+ * basic layout and functionality of the about page.
  */
 function AboutPage() {
   return (

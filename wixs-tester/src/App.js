@@ -14,6 +14,13 @@ import RegisterPage from "./components/RegisterPage.js";
 import "./App.scss";
 import NavBar from "./Components/NavBar";
 
+/**
+ * Purpose: This is a base file for the ProjectWixs application and helps with page routing and shared
+ * features/design amongst pages.
+ *
+ * -- Additional Notes --
+ * - By React rules, all rendered components must be contained within a single <div> component
+ */
 function App() {
   return (
     <div className="App">
