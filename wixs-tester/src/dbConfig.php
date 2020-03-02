@@ -1,4 +1,3 @@
-#!/usr/bin/php-cgi
 <?php
 /** 
  * A file containing the necessary credentials in order to login to the ProjectWixs Postgres database 
