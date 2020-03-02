@@ -16,15 +16,20 @@ function HelpPage() {
         <div className="word-content">
           <h1>Help and FAQs</h1>
           {/* Will give errors in the inspector for certain modifiers, hwoever, nothing is wrong. */}
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/71EZb94AS1k"
-            frameBorder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-          <h3>How to Use</h3>
+
+          {/* Video wrapper div allowing for video that maintains aspect ratio and resizes based on device screen size */}
+          <div class="videoWrapper">
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/71EZb94AS1k"
+              frameBorder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+
+          <h2>How to Use</h2>
           <p>
             ProjectWixs is a Content Management System allowing for a seamless
             creation of single-page web pages featuring an easy-to-use drag and
