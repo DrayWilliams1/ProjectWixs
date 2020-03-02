@@ -134,6 +134,16 @@ function validInputs() {
 }
 
 /**
+ * Checks if the user count is already at the maximum specified users for the system
+ * 
+ * @return boolean true if at capacity, false if not
+ */
+function atCapacity() {
+    // generate query and if results are greater than 10/system limit, then return true, else false
+    return true;
+}
+
+/**
  * Checks if the user's email already exists within the database and returns whether true or false.
  * 
  * @return boolean true if the user already exists, false if not
