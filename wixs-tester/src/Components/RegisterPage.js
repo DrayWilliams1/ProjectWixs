@@ -20,11 +20,6 @@ const ADD_USER_URL = "http://cosc.brocku.ca/~c4f00g02/projectWixs/addUser.php";
  *
  * - React does not always need colons to finish lines so thats why some lines are missing them
  *
- * - When testing in localhost, you will run into CORS (Cross-Origin Request Blocked) error
- *  because of accessing file through differing domains. There may be a way to solve this
- *  through altering .htaccess file. However my (Dray) best way of testing it was uploading
- *  files directly to sandcastle then testing through the actual website. Update me (or this)
- *  if a solution is found
  */
 export default class RegisterPage extends Component {
   constructor(props) {

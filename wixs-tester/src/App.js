@@ -10,6 +10,7 @@ import HelpPage from "./components/HelpPage.js";
 import LoginPage from "./components/LoginPage.js";
 import RegisterPage from "./components/RegisterPage.js";
 import DashboardPage from "./components/DashboardPage.js";
+import AdminPage from "./components/AdminPage.js";
 
 // CSS/SASS
 import "./App.scss";
@@ -41,6 +42,8 @@ function App() {
           {/* Routes to the login page */}
           <Route exact path="/dashboard" component={DashboardPage} />{" "}
           {/* Routes to the user dashboard/template select page */}
+          <Route exact path="/admin" component={AdminPage} />{" "}
+          {/* Routes to the administrator's site info page */}
           <Route path="*" component={NullPage} />{" "}
           {/* Routes to a 404 page. A catch-all for any pages not existing on the server or in the application. */}
         </Switch>
