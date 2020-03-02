@@ -9,7 +9,12 @@
  * -- Additional Notes --
  * - Do not use any upper case for column names or table names within database (will cause error when 
  * binding PDO values)
+ * - On password hash:  Note that this constant is designed to change over time as new and stronger algorithms
+ * are added to PHP. For that reason, the length of the result from using this identifier can change over time.
+ *  Therefore, it is recommended to store the result in a database column that can expand beyond 60 characters
+ * (255 characters would be a good choice).
  */
+header("Access-Control-Allow-Origin: *");
 
 require_once 'dbConfig.php';
  
@@ -122,6 +127,8 @@ function validInputs() {
     $lName_post = filter_var($lName_post,FILTER_SANITIZE_STRING);
     $password_post = filter_var($password_post,FILTER_SANITIZE_STRING);
     $tempCount_post = filter_var($tempCount_post,FILTER_SANITIZE_NUMBER_INT);
+
+    $password_post = password_hash($password_post, PASSWORD_DEFAULT); // hashing password for user's security
 
     return true; // tests passed -> valid
 }

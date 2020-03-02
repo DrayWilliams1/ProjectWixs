@@ -1,3 +1,5 @@
 # Don't track content of these folders
 ./wixs-tester/node_modules
 node_modules/
+wixs-tester/dist/
+dist/
