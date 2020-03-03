@@ -16,6 +16,7 @@ $dsn = "pgsql:host=$host;port=$port;dbname=$db;user=$username;password=$password
 // newly registered user can not be an admin and will not have any templates
 define("NOT_ADMIN", false);
 define("TEMP_COUNT", 0);
+define("MAX_DATABASE_SIZE", 10);
 
 try {
  // create a PostgreSQL database connection
@@ -36,7 +37,7 @@ try {
             $admin_post = NOT_ADMIN;
             $tempCount_post = TEMP_COUNT;
 
-            if (validInputs() && !alreadyExists()) { // inputs are valid and user does not already exist -> insert user
+            if (validInputs() && !alreadyExists() && !atCapacity()) { // inputs are valid, user does not already exist, and table is not full -> insert user
                 insert_user();
             }
         } else { // request method is not POST
@@ -132,8 +133,21 @@ function validInputs() {
  * @return boolean true if at capacity, false if not
  */
 function atCapacity() {
-    // generate query and if results are greater than 10/system limit, then return true, else false
-    return true;
+    global $pdo;
+
+    $sql_select = "SELECT * FROM users";
+    $stmt = $pdo->prepare($sql_select);
+    
+    if($stmt->execute()) { // The query has executed successfully
+        if ($stmt->rowCount() >= MAX_DATABASE_SIZE) { // another user with same email found
+            echo "Database is at capacity. User not created. ";
+            return true;
+        } else { // database users not full
+            return false;
+        }
+    } else {
+        echo "Error querying users table: capacity. ";
+    }
 }
 
 /**
@@ -160,7 +174,7 @@ function alreadyExists() {
             return false;
         }
     } else {
-        echo "Error querying users table. ";
+        echo "Error querying users table: already exists. ";
     }
 }
 
