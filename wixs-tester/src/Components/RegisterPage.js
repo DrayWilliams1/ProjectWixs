@@ -201,7 +201,9 @@ export default class RegisterPage extends Component {
           <Form>
             <Form.Row>
               <Form.Group as={Col} controlId="formGroupFirst">
-                <Form.Label>First Name</Form.Label>
+                <Form.Label>
+                  First Name <strong>(Required)</strong>
+                </Form.Label>
                 <Form.Control
                   type="text"
                   value={this.state.first_name}
@@ -211,7 +213,9 @@ export default class RegisterPage extends Component {
                 />
               </Form.Group>
               <Form.Group as={Col} controlId="formGroupLast">
-                <Form.Label>Last Name</Form.Label>
+                <Form.Label>
+                  Last Name <strong>(Required)</strong>
+                </Form.Label>
                 <Form.Control
                   type="text"
                   value={this.state.last_name}
