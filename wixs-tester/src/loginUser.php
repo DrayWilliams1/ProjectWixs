@@ -15,6 +15,10 @@ require_once 'dbConfig.php';
  
 $dsn = "pgsql:host=$host;port=$port;dbname=$db;user=$username;password=$password";
 
+$responseObject = array();
+$responseObject['success']=false; // whether the operation executed successfully
+$responseObject['message']=""; // the message from the execution, error or success
+
 try {
  // create a PostgreSQL database connection
  $pdo = new PDO($dsn);
@@ -28,15 +32,15 @@ try {
             $password_post = empty($_POST['password']) ? null : $_POST['password']; // set password name to form submission
 
             if (validInputs() && accountExists()) {
-                echo(var_export(true)); // echoing a response that can be used to redirect page after AJAX call
+                $responseObject['success']=true; // echoing a response that can be used to redirect page after AJAX call
             } // otherwise, error, response message is displayed in alert
             
         } else { // request method is not POST
-            echo "Invalid request. ";
+            $responseObject['message']="Invalid request. ";
         }
     }
 } catch (PDOException $e) { 
-    echo $e->getMessage(); // report error message
+    $responseObject['message']=$e->getMessage(); // report error message
 }
 
 /**
@@ -47,11 +51,12 @@ try {
  * */
 function validInputs() {
     global $email_post, $password_post;
+    global $responseObject;
 
     // Round 1 -- Are inputs empty
     // does not check template count because field may be null
     if(empty($email_post) || empty($password_post)) {
-        echo "One of more fields are missing. Please complete. ";
+        $responseObject['message']="One of more fields are missing. Please complete. ";
         return false; // invalid
     }
 
@@ -63,25 +68,25 @@ function validInputs() {
     // Round 3 -- Checking input lengths and validity
     // checking email length
     if(strlen($email_post) > 100) {
-        echo "Invalid email: length too long. ";
+        $responseObject['message']="Invalid email: length too long. ";
         return false;
     }
 
     // checking password length (max)
     if(strlen($password_post) > 100) {
-        echo "Invalid password: length too long. ";
+        $responseObject['message']="Invalid password: length too long. ";
         return false;
     }
 
     // checking password length (min)
     if(strlen($password_post) < 8) {
-        echo "Invalid password: length too short. ";
+        $responseObject['message']="Invalid password: length too short. ";
         return false;
     }
 
     // checking if valid user email provided
     if(!filter_var($email_post, FILTER_VALIDATE_EMAIL)){
-        echo "Invalid email: formatting.  ";
+        $responseObject['message']="Invalid email: formatting.  ";
         return false; // invalid
     }
 
@@ -104,6 +109,7 @@ function validInputs() {
 function accountExists() {
     global $pdo;
     global $email_post, $password_post;
+    global $responseObject;
 
     // prepare statement for insert
     $sql_select = "SELECT * FROM users WHERE email = ? LIMIT 1";
@@ -122,14 +128,17 @@ function accountExists() {
 
                 return true;
             } else {
-                echo "Account with email {$email_post} exists, however, password is incorrect. ";
+                $responseObject['message']="Account with email {$email_post} exists, however, password is incorrect. ";
             }
         } else {
-            echo "User with email {$email_post} does not exist. Please login again or register account. ";
+            $responseObject['message']="User with email {$email_post} does not exist. Please login again or register account. ";
             return false;
         }
     } else {
-        echo "Error querying users table. ";
+        $responseObject['message']="Error querying users table. ";
     }
 }
+
+
+echo json_encode($responseObject);
 ?>

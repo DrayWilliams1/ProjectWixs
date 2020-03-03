@@ -13,10 +13,15 @@ require_once 'dbConfig.php';
  
 $dsn = "pgsql:host=$host;port=$port;dbname=$db;user=$username;password=$password";
 
+// Constants
 // newly registered user can not be an admin and will not have any templates
 define("NOT_ADMIN", false);
 define("TEMP_COUNT", 0);
 define("MAX_DATABASE_SIZE", 10);
+
+$responseObject = array();
+$responseObject['success']=false; // whether the operation executed successfully
+$responseObject['message']=""; // the message from the execution, error or success
 
 try {
  // create a PostgreSQL database connection
@@ -39,13 +44,14 @@ try {
 
             if (validInputs() && !alreadyExists() && !atCapacity()) { // inputs are valid, user does not already exist, and table is not full -> insert user
                 insert_user();
+                $responseObject['success']=true; // echoing a response that can be used to redirect page after AJAX call
             }
         } else { // request method is not POST
-            echo "Invalid request. ";
+            $responseObject['message']="Invalid request. ";
         }
     }
 } catch (PDOException $e) { 
-    echo $e->getMessage(); // report error message
+    $responseObject['message']=$e->getMessage(); // report error message
 }
 
 /**
@@ -56,11 +62,12 @@ try {
  * */
 function validInputs() {
     global $email_post, $fName_post, $lName_post, $password_post, $admin_post, $tempCount_post;
+    global $responseObject;
 
     // Round 1 -- Are inputs empty
     // does not check template count because field may be null
     if(empty($email_post) || empty($fName_post) || empty($lName_post) || empty($password_post)) {
-        echo "One of more fields are missing. Please complete. ";
+        $responseObject['message']="One of more fields are missing. Please complete. ";
         return false; // invalid
     }
 
@@ -74,7 +81,7 @@ function validInputs() {
     // Round 3 -- Checking input lengths and validity
     // checking email length
     if(strlen($email_post) > 100) {
-        echo "Invalid email: length too long. ";
+        $responseObject['message']="Invalid email: length too long. ";
         return false;
     }
 
@@ -134,19 +141,20 @@ function validInputs() {
  */
 function atCapacity() {
     global $pdo;
+    global $responseObject;
 
     $sql_select = "SELECT * FROM users";
     $stmt = $pdo->prepare($sql_select);
     
     if($stmt->execute()) { // The query has executed successfully
         if ($stmt->rowCount() >= MAX_DATABASE_SIZE) { // another user with same email found
-            echo "Database is at capacity. User not created. ";
+            $responseObject['message']="Database is at capacity. User not created. ";
             return true;
         } else { // database users not full
             return false;
         }
     } else {
-        echo "Error querying users table: capacity. ";
+        $responseObject['message']="Error querying users table: capacity. ";
     }
 }
 
@@ -158,6 +166,7 @@ function atCapacity() {
 function alreadyExists() {
     global $pdo;
     global $email_post;
+    global $responseObject;
 
     // prepare statement for insert
     $sql_select = "SELECT email FROM users WHERE email = ? LIMIT 1";
@@ -168,13 +177,13 @@ function alreadyExists() {
 
     if($stmt->execute()) { // The query has executed successfully
         if ($stmt->rowCount() > 0) { // another user with same email found
-            echo "User with email already exists. Please register again. ";
+            $responseObject['message']="User with email already exists. Please register again. ";
             return true;
         } else {
             return false;
         }
     } else {
-        echo "Error querying users table: already exists. ";
+        $responseObject['message']="Error querying users table: already exists. ";
     }
 }
 
@@ -184,6 +193,7 @@ function alreadyExists() {
 function insert_user() {
     global $pdo;
     global $email_post, $fName_post, $lName_post, $password_post, $admin_post, $tempCount_post;
+    global $responseObject;
 
      // prepare statement for insert
      $sql_insert = "INSERT INTO users (email, first_name, last_name, password, admin, template_count) VALUES (?,?,?,?,?,?)";
@@ -198,11 +208,11 @@ function insert_user() {
      $stmt->bindValue(6, $tempCount_post, PDO::PARAM_INT); // bind to integer
  
     if($stmt->execute()) { // The query has executed successfully
-        echo "{$email_post} has been added. Welcome {$fName_post}. ";
+        $responseObject['message']="{$email_post} has been added. Welcome {$fName_post}. ";
     } else { // The query has failed
-        echo "Error inserting the user. ";
+        $responseObject['message']="Error inserting the user. ";
     }
 }
 
-// possible json_encode()
+ echo json_encode($responseObject);
 ?>

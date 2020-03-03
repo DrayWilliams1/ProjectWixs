@@ -99,7 +99,7 @@ export default class LoginPage extends Component {
         .then(response => {
           console.log(response);
 
-          if (response.data === true) {
+          if (response.data["success"] === true) {
             window.alert("Sign in successful.");
 
             this.setState({
@@ -107,10 +107,10 @@ export default class LoginPage extends Component {
               loggedIn: true
             });
           } else {
-            window.alert(response.data);
+            window.alert(response.data["message"]);
           }
 
-          // TODO: have a stylized React-Bootstrap alert component show details.
+          // TODO: have a stylized React-Bootstrap alert component show details (maybe).
         })
         .catch(error => {
           console.log(error);
@@ -119,11 +119,12 @@ export default class LoginPage extends Component {
   }
 
   render() {
+    if (this.state.loggedIn) {
+      return <Redirect to="/dashboard" />;
+      // Will redirect to user dashboard once successfully logged in
+    }
     return (
       <div>
-        {this.state.loggedIn ? <Redirect to="/dashboard" /> : "/"}
-        {/* Will redirect to user dashboard once successfully logged in */}
-
         <Container>
           <div className="word-content">
             <h1>Login Page</h1>

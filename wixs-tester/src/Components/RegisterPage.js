@@ -1,7 +1,7 @@
 // Dependencies
 import React, { Component } from "react";
 import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
 
@@ -146,9 +146,18 @@ export default class RegisterPage extends Component {
         .then(response => {
           console.log(response);
 
-          window.alert(response.data);
-          //location.reload();
-          // TODO: redirect to user dashboard and have a stylized React-Bootstrap alert component show details.
+          if (response.data["success"] === true) {
+            window.alert(response.data["message"]);
+
+            this.setState({
+              // sets state to logged in so redirect can work
+              loggedIn: true
+            });
+          } else {
+            // error or another message
+            window.alert(response.data["message"]);
+          }
+          // TODO: have a stylized React-Bootstrap alert component show details (maybe).
         })
         .catch(error => {
           console.log(error);
@@ -157,6 +166,10 @@ export default class RegisterPage extends Component {
   }
 
   render() {
+    if (this.state.loggedIn) {
+      return <Redirect to="/dashboard" />;
+      // Will redirect to user dashboard once successfully registered
+    }
     return (
       <div>
         <Container>
