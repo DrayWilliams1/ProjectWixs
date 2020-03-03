@@ -30,6 +30,7 @@ export default class RegisterPage extends Component {
       first_name: "",
       last_name: "",
       password: "",
+      passwordConfirm: "",
       loggedIn: false
     };
 
@@ -38,6 +39,7 @@ export default class RegisterPage extends Component {
     this.firstNameChanged = this.firstNameChanged.bind(this);
     this.lastNameChanged = this.lastNameChanged.bind(this);
     this.passwordChanged = this.passwordChanged.bind(this);
+    this.passwordConfirmChanged = this.passwordConfirmChanged.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -69,6 +71,14 @@ export default class RegisterPage extends Component {
   passwordChanged(e) {
     this.setState({
       password: e.target.value,
+      status: "" // resets status once typing is started
+    });
+  }
+
+  // Updates the component state to reflect the user confirmed password currently in the input field
+  passwordConfirmChanged(e) {
+    this.setState({
+      passwordConfirm: e.target.value,
       status: "" // resets status once typing is started
     });
   }
@@ -119,6 +129,17 @@ export default class RegisterPage extends Component {
       // could also update status here if we wanted to display it on page after
       this.setState({
         status: "Password field must be filled out"
+      });
+
+      return false;
+    }
+
+    if (this.state.password !== this.state.passwordConfirm) {
+      alert("Password fields must match. Try again");
+
+      // could also update status here if we wanted to display it on page after
+      this.setState({
+        status: "Password fields must match"
       });
 
       return false;
@@ -222,6 +243,18 @@ export default class RegisterPage extends Component {
                 value={this.state.password}
                 placeholder="Enter your password (min 8/max 100 characters)"
                 onChange={this.passwordChanged}
+                maxLength="100"
+              />
+            </Form.Group>
+            <Form.Group controlId="formGroupPasswordConfirm">
+              <Form.Label>
+                Confirm Password <strong>(Required)</strong>
+              </Form.Label>
+              <Form.Control
+                type="password"
+                value={this.state.passwordConfirm}
+                placeholder="Please enter password again"
+                onChange={this.passwordConfirmChanged}
                 maxLength="100"
               />
             </Form.Group>
