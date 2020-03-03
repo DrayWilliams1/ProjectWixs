@@ -21,7 +21,9 @@ export default class RegisterPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      loggedIn: false
+    };
   }
 
   render() {

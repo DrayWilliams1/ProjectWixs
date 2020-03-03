@@ -5,12 +5,7 @@
  * users table within the database.
  * 
  * -- Additional Notes --
- * - Do not use any upper case for column names or table names within database (will cause error when 
- * binding PDO values)
- * - On password hash:  Note that this constant is designed to change over time as new and stronger algorithms
- * are added to PHP. For that reason, the length of the result from using this identifier can change over time.
- *  Therefore, it is recommended to store the result in a database column that can expand beyond 60 characters
- * (255 characters would be a good choice).
+ * - On password hash:  would prefer to use password_hash() function, but it is only available on > PHP v5.5. Sandcastle uses PHP v5.4.16 so MD5 is used here. 
  */
 header("Access-Control-Allow-Origin: *");
 
@@ -126,7 +121,7 @@ function validInputs() {
     $password_post = filter_var($password_post,FILTER_SANITIZE_STRING);
     $tempCount_post = filter_var($tempCount_post,FILTER_SANITIZE_NUMBER_INT);
 
-    $password_post = password_hash($password_post, PASSWORD_DEFAULT); // hashing password for user's security
+    $password_post = md5($password_post); // hashing password for user's security
 
     return true; // tests passed -> valid
 }

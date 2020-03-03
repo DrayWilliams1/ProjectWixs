@@ -7,10 +7,7 @@
  * -- Additional Notes --
  * - Do not use any upper case for column names or table names within database (will cause error when 
  * binding PDO values)
- * - On password hash:  Note that this constant is designed to change over time as new and stronger algorithms
- * are added to PHP. For that reason, the length of the result from using this identifier can change over time.
- *  Therefore, it is recommended to store the result in a database column that can expand beyond 60 characters
- * (255 characters would be a good choice).
+ * - On password hash:  would prefer to use password_hash() function, but it is only available on > PHP v5.5. Sandcastle uses PHP v5.4.16 so MD5 is used here. 
  */
 header("Access-Control-Allow-Origin: *");
 
@@ -30,9 +27,10 @@ try {
 
             $password_post = empty($_POST['password']) ? null : $_POST['password']; // set password name to form submission
 
-            if (validInputs() && accountExists()) { // inputs are valid and user does not already exist -> insert user
-                echo true; // echoing a response that can be used to redirect page after AJAX call
-            }
+            if (validInputs() && accountExists()) {
+                echo(var_export(true)); // echoing a response that can be used to redirect page after AJAX call
+            } // otherwise, error, response message is displayed in alert
+            
         } else { // request method is not POST
             echo "Invalid request. ";
         }
@@ -92,20 +90,11 @@ function validInputs() {
     $email_post = filter_var($email_post,FILTER_SANITIZE_EMAIL);
     $password_post = filter_var($password_post,FILTER_SANITIZE_STRING);
 
-    $password_post = password_hash($password_post, PASSWORD_DEFAULT); // hashing password for user's security
+    $password_post = md5($password_post); // hashing password for user's security
 
     return true; // tests passed -> valid
 }
 
-/**
- * Checks if the user password matches that which is in the database
- * 
- * @return boolean true if passwords match, false if not
- */
-function passwordMatches() {
-    // generate query that checks if submitted password matches that found in database
-    return true;
-}
 
 /**
  * Checks if the user's account exists within the database with the macthing credentials returns whether true or false.
@@ -117,15 +106,24 @@ function accountExists() {
     global $email_post, $password_post;
 
     // prepare statement for insert
-    $sql_select = "SELECT email FROM users WHERE email = ? LIMIT 1";
+    $sql_select = "SELECT * FROM users WHERE email = ? LIMIT 1";
     $stmt = $pdo->prepare($sql_select);
 
     // pass and bind values to the statement
-    $stmt->bindValue(1, $email_post, PDO::PARAM_STR); // binding to strings
+    $stmt->bindValue(1, $email_post, PDO::PARAM_STR); // binding to string
 
     if($stmt->execute()) { // The query has executed successfully
         if ($stmt->rowCount() > 0) { // account with username found
-            return true;
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if($password_post == $user['password']) { // the inputted password matches that of the user's account in the database
+
+                // TODO: give user a session id with a update statement
+
+                return true;
+            } else {
+                echo "Account with email {$email_post} exists, however, password is incorrect. ";
+            }
         } else {
             echo "User with email {$email_post} does not exist. Please login again or register account. ";
             return false;

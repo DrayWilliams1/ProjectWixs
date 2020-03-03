@@ -29,7 +29,8 @@ export default class RegisterPage extends Component {
       email: "",
       first_name: "",
       last_name: "",
-      password: ""
+      password: "",
+      loggedIn: false
     };
 
     // Binds React class component methods
@@ -44,7 +45,7 @@ export default class RegisterPage extends Component {
   emailChanged(e) {
     this.setState({
       email: e.target.value,
-      status: ""
+      status: "" // resets status once typing is started
     });
   }
 
@@ -52,7 +53,7 @@ export default class RegisterPage extends Component {
   firstNameChanged(e) {
     this.setState({
       first_name: e.target.value,
-      status: ""
+      status: "" // resets status once typing is started
     });
   }
 
@@ -60,7 +61,7 @@ export default class RegisterPage extends Component {
   lastNameChanged(e) {
     this.setState({
       last_name: e.target.value,
-      status: ""
+      status: "" // resets status once typing is started
     });
   }
 
@@ -68,7 +69,7 @@ export default class RegisterPage extends Component {
   passwordChanged(e) {
     this.setState({
       password: e.target.value,
-      status: ""
+      status: "" // resets status once typing is started
     });
   }
 

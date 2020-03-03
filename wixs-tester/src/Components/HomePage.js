@@ -74,7 +74,7 @@ function HomePage() {
           </Link>
           <p>Or</p>
           <Link to="/register">
-            <Button variant="secondary">Register</Button>
+            <Button variant="warning">Register</Button>
           </Link>
         </div>
       </div>
