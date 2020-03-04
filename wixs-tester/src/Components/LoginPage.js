@@ -199,9 +199,6 @@ export default class LoginPage extends Component {
     var currentUser = this.getCookie("user");
     var currentSession = this.getCookie("usid");
 
-    console.log(currentUser);
-    console.log(currentSession);
-
     if (currentUser && currentSession) {
       return true;
       // checks that the cookie fields are not empty
