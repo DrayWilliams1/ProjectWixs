@@ -1,6 +1,6 @@
 // Dependencies
 import React from "react";
-import { Navbar } from "react-bootstrap";
+import { Navbar, Nav, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
 // Assets
@@ -12,7 +12,7 @@ import "./sass/NavBar.scss";
 /**
  * Purpose: This is a file containing the shared navigation bar of the website
  */
-function NavBar() {
+function NavBar(props) {
   return (
     <div>
       <Navbar
@@ -44,6 +44,12 @@ function NavBar() {
             {/* Will possibly change this to activeClassName when using css file */}
             Help/FAQs
           </NavLink>
+          <Nav className="ml-auto">
+            <Button variant="secondary">Logout</Button>
+            <Navbar.Text>
+              Signed in as: <span id="userEmail">{props.currentUser}</span>
+            </Navbar.Text>
+          </Nav>
         </Navbar.Collapse>
       </Navbar>
     </div>

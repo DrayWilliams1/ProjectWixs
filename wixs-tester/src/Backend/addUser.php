@@ -42,6 +42,8 @@ try {
             $admin_post = NOT_ADMIN;
             $tempCount_post = TEMP_COUNT;
 
+            $session_id = empty($_POST['usid']) ? null : $_POST['usid']; // retrieve session id
+
             if (validInputs() && !alreadyExists() && !atCapacity()) { // inputs are valid, user does not already exist, and table is not full -> insert user
                 insert_user();
                 $responseObject['success']=true; // echoing a response that can be used to redirect page after AJAX call

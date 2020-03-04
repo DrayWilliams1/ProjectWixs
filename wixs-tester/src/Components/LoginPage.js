@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Form, Button, Container, Alert } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
-import axios from "axios";
-import qs from "qs";
+import axios from "axios"; // for AJAX call to PHP files
+import qs from "qs"; // for packaging details collected from the form
+import { v4 as uuidv4 } from "uuid"; // Will generate a uuid from cryptographically-strong random values
 
 // CSS/SASS
 import "./sass/LoginPage.scss";
@@ -28,16 +29,26 @@ export default class LoginPage extends Component {
     this.state = {
       email: "",
       password: "",
+      usid: "", // user session identifier
       loggedIn: false
     };
 
     // Binds React class component methods
     this.emailChanged = this.emailChanged.bind(this);
     this.passwordChanged = this.passwordChanged.bind(this);
+    this.inputsValidated = this.inputsValidated.bind(this);
+    this.setCookie = this.setCookie.bind(this);
+    this.getCookie = this.getCookie.bind(this);
+    this.eraseCookie = this.eraseCookie.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.isLoggedIn = this.isLoggedIn.bind(this);
   }
 
-  // Updates the component state to reflect the user email currently in the input field
+  /**
+   * Updates the component state to reflect the user email currently in the input field
+   *
+   * @param {*} e
+   */
   emailChanged(e) {
     this.setState({
       email: e.target.value,
@@ -45,7 +56,11 @@ export default class LoginPage extends Component {
     });
   }
 
-  // Updates the component state to reflect the user password currently in the input field
+  /**
+   * Updates the component state to reflect the user password currently in the input field
+   *
+   * @param {*} e
+   */
   passwordChanged(e) {
     this.setState({
       password: e.target.value,
@@ -53,8 +68,9 @@ export default class LoginPage extends Component {
     });
   }
 
-  // Checks whether each input field has been filled out
-  // TODO: password matching for both password fields
+  /**
+   * Checks whether each input field has been filled out and that password fields match
+   */
   inputsValidated() {
     if (this.state.email === "") {
       // email field is empty
@@ -82,16 +98,71 @@ export default class LoginPage extends Component {
     return true;
   }
 
-  // Submits the input details to the PHP script using axios' HTTP POST request
+  // TODO: possible creation of a cookie class that can be referenced from each file instead of copy-pasting each function
+  /**
+   * Allows for the creation of a cookie
+   *
+   * @param {*} name the name of the cookie to be created
+   * @param {*} value the value for which the cookie will contain
+   * @param {*} days the number of days until the cookie expires
+   */
+  setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    console.log("Cookie created");
+  }
+
+  /**
+   * Allows for the retrieval of a cookie based on name
+   *
+   * @param {*} name
+   */
+  getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(";");
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == " ") c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+
+  /**
+   * Allows for the deletion of a cookie
+   *
+   * @param {*} name the name of the cookie to be deleted
+   */
+  eraseCookie(name) {
+    document.cookie = name + "=; Max-Age=-99999999;";
+  }
+
+  /**
+   * Submits the input details to the PHP script using axios' HTTP POST request
+   *
+   * @param {*} event
+   */
   handleSubmit(event) {
     event.preventDefault();
+
+    // creating and setting unique user session id
+    var usid = uuidv4();
+    this.setState({
+      usid: usid
+    });
 
     if (this.inputsValidated()) {
       // if no inputs are empty upon button click
       // setting params for axios form submission
       const params = {
         email: this.state.email,
-        password: this.state.password
+        password: this.state.password,
+        usid: this.state.usid
       };
 
       axios
@@ -100,6 +171,9 @@ export default class LoginPage extends Component {
           console.log(response);
 
           if (response.data["success"] === true) {
+            this.setCookie("usid", usid, 7);
+            this.setCookie("user", this.state.email, 7);
+
             window.alert("Sign in successful.");
 
             this.setState({
@@ -118,8 +192,25 @@ export default class LoginPage extends Component {
     }
   }
 
+  /**
+   * Checks if the
+   */
+  isLoggedIn() {
+    var currentUser = this.getCookie("user");
+    var currentSession = this.getCookie("usid");
+
+    console.log(currentUser);
+    console.log(currentSession);
+
+    if (currentUser && currentSession) {
+      return true;
+      // checks that the cookie fields are not empty
+    }
+    return false;
+  }
+
   render() {
-    if (this.state.loggedIn) {
+    if (this.isLoggedIn()) {
       return <Redirect to="/dashboard" />;
       // Will redirect to user dashboard once successfully logged in
     }

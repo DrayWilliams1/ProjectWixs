@@ -2,8 +2,9 @@
 import React, { Component } from "react";
 import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
-import axios from "axios";
-import qs from "qs";
+import axios from "axios"; // for AJAX call to PHP files
+import qs from "qs"; // for packaging details collected from the form
+import { v4 as uuidv4 } from "uuid"; // Will generate a uuid from cryptographically-strong random values
 
 // CSS/SASS
 import "./sass/RegisterPage.scss";
@@ -40,6 +41,7 @@ export default class RegisterPage extends Component {
     this.lastNameChanged = this.lastNameChanged.bind(this);
     this.passwordChanged = this.passwordChanged.bind(this);
     this.passwordConfirmChanged = this.passwordConfirmChanged.bind(this);
+    this.inputsValidated = this.inputsValidated.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 

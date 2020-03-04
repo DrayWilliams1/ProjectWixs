@@ -31,7 +31,9 @@ try {
 
             $password_post = empty($_POST['password']) ? null : $_POST['password']; // set password name to form submission
 
-            if (validInputs() && accountExists()) {
+            $session_id = empty($_POST['usid']) ? null : $_POST['usid']; // retrieve session id
+
+            if (validInputs() && accountExists() && updateSession()) {
                 $responseObject['success']=true; // echoing a response that can be used to redirect page after AJAX call
             } // otherwise, error, response message is displayed in alert
             
@@ -41,6 +43,26 @@ try {
     }
 } catch (PDOException $e) { 
     $responseObject['message']=$e->getMessage(); // report error message
+}
+
+function updateSession() {
+    global $pdo;
+    global $responseObject;
+    global $session_id, $email_post;
+
+    $sql_update = "UPDATE users SET session_id = ? WHERE email = ?";
+    $stmt = $pdo->prepare($sql_update);
+
+    // pass and bind values to the statement
+    $stmt->bindValue(1, $session_id, PDO::PARAM_STR); // binding to strings
+    $stmt->bindValue(2, $email_post, PDO::PARAM_STR); // binding to strings
+    
+    if($stmt->execute()) { // The query has executed successfully
+        return true;
+    } else {
+        $responseObject['message']="Error querying users table: update session. ";
+        return false;
+    }
 }
 
 /**
