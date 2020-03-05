@@ -136,6 +136,22 @@ class NavBar extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <NavLink
+              to="/dashboard"
+              className="navLink-normal"
+              activeClassName="navLink-selected"
+            >
+              {/* Will possibly change this to activeClassName when using css file */}
+              Dashboard
+            </NavLink>
+            <NavLink
+              to="/editor"
+              className="navLink-normal"
+              activeClassName="navLink-selected"
+            >
+              {/* Will possibly change this to activeClassName when using css file */}
+              Editor
+            </NavLink>
+            <NavLink
               to="/about"
               className="navLink-normal"
               activeClassName="navLink-selected"
@@ -151,8 +167,11 @@ class NavBar extends Component {
               {/* Will possibly change this to activeClassName when using css file */}
               Help/FAQs
             </NavLink>
-            <Nav className="ml-auto">
-              <Button variant="secondary" onClick={this.logoutUser}>
+            <Nav className="ml-auto ">
+              <Button variant="primary" href={"#/login"} size="sm">
+                Login
+              </Button>
+              <Button variant="secondary" onClick={this.logoutUser} size="sm">
                 Logout
               </Button>
               <Navbar.Text>

@@ -46,29 +46,7 @@ class Auth {
     document.cookie = name + "=; Max-Age=-99999999;";
   }
 
-  /**
-   *
-   */
-  getCurrentUser() {
-    var currentUser = this.getCookie("user");
-
-    if (currentUser) {
-      return currentUser;
-    } else {
-      return "Not currently signed in.";
-    }
-  }
-
-  login(cb) {
-    this.authenticated = true;
-    cb();
-  }
-
-  logout(cb) {
-    this.authenticated = false;
-    cb();
-  }
-
+  // TODO: check the database to ensure the username and session id match that which was submitted to during the login/registration
   isAuthenticated() {
     var currentUser = this.getCookie("user");
     var currentSession = this.getCookie("usid");

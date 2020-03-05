@@ -99,7 +99,7 @@ export default class App extends Component {
   }
 
   /**
-   *
+   * Returns the current logged in user of the system. Displays it in the navbar component
    */
   getCurrentUser() {
     var currentUser = this.getCookie("user");
@@ -139,10 +139,10 @@ export default class App extends Component {
           <Switch>
             {/* Routes to the home page */}
             <Route exact path="/" component={HomePage} />
-              
+
             {/* Routes to the Editor page (temporary) */}
             <Route exact path="/editor" component={Editor} />
-              
+
             {/* Routes to the about page */}
             <Route exact path="/about" component={AboutPage} />
 
