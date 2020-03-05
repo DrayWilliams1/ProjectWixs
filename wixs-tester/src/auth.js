@@ -1,29 +1,8 @@
-// Dependencies
-import React, { Component } from "react";
-import { Container } from "react-bootstrap";
-import { Redirect } from "react-router-dom";
-
-// CSS/SASS
-import "./sass/DashboardPage.scss";
-
-/**
- * Purpose: This is a file containing...
- */
-export default class DashboardPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loggedIn: false
-    };
-
-    // Binds React class component methods
-    this.setCookie = this.setCookie.bind(this);
-    this.getCookie = this.getCookie.bind(this);
-    this.eraseCookie = this.eraseCookie.bind(this);
+class Auth {
+  constructor() {
+    this.authenticated = false;
   }
 
-  // TODO: possible creation of a cookie class that can be referenced from each file instead of copy-pasting each function
   /**
    * Allows for the creation of a cookie
    *
@@ -68,28 +47,38 @@ export default class DashboardPage extends Component {
   }
 
   /**
-   * Checks if the user is currently logged in
+   *
    */
-  componentDidMount() {
+  getCurrentUser() {
+    var currentUser = this.getCookie("user");
+
+    if (currentUser) {
+      return currentUser;
+    } else {
+      return "Not currently signed in.";
+    }
+  }
+
+  login(cb) {
+    this.authenticated = true;
+    cb();
+  }
+
+  logout(cb) {
+    this.authenticated = false;
+    cb();
+  }
+
+  isAuthenticated() {
     var currentUser = this.getCookie("user");
     var currentSession = this.getCookie("usid");
 
     if (currentUser && currentSession) {
-      this.setState({
-        loggedIn: true
-      });
+      return true;
+    } else {
+      return false;
     }
-  }
-
-  render() {
-    return (
-      <div>
-        <Container>
-          <div className="word-content">
-            <h1>Dashboard --</h1>
-          </div>
-        </Container>
-      </div>
-    );
+    //return this.authenticated;
   }
 }
+export default new Auth();

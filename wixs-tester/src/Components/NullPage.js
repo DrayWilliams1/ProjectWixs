@@ -18,7 +18,7 @@ function NullPage() {
           <br />
           <br />
 
-          <h3>-- Joke of the Month: February Edition --</h3>
+          <h3>-- Joke of the Month: March Edition --</h3>
           <h4>Computer Science Majors: Beep Boop Boop</h4>
           <br />
           <h4>Employers: 100k Salary</h4>

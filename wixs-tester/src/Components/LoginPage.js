@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { Form, Button, Container, Alert } from "react-bootstrap";
+import { Form, Button, Container } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios"; // for AJAX call to PHP files
 import qs from "qs"; // for packaging details collected from the form
 import { v4 as uuidv4 } from "uuid"; // Will generate a uuid from cryptographically-strong random values
+
+import auth from "/auth.js";
 
 // CSS/SASS
 import "./sass/LoginPage.scss";
@@ -41,7 +43,10 @@ export default class LoginPage extends Component {
     this.getCookie = this.getCookie.bind(this);
     this.eraseCookie = this.eraseCookie.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.isLoggedIn = this.isLoggedIn.bind(this);
+
+    /*window.addEventListener("hashchange", function() {
+      this.console.log("hash has changed");
+    });*/
   }
 
   /**
@@ -51,8 +56,7 @@ export default class LoginPage extends Component {
    */
   emailChanged(e) {
     this.setState({
-      email: e.target.value,
-      status: "" // resets status to empty once typing is started
+      email: e.target.value
     });
   }
 
@@ -63,8 +67,7 @@ export default class LoginPage extends Component {
    */
   passwordChanged(e) {
     this.setState({
-      password: e.target.value,
-      status: "" // resets status once typing is started
+      password: e.target.value
     });
   }
 
@@ -87,11 +90,6 @@ export default class LoginPage extends Component {
     if (this.state.password === "") {
       // last name field is empty
       alert("Password field must be filled out");
-
-      // could also update status here if we wanted to display it on page after
-      this.setState({
-        status: "Password field must be filled out"
-      });
 
       return false;
     }
@@ -174,12 +172,17 @@ export default class LoginPage extends Component {
             this.setCookie("usid", usid, 7);
             this.setCookie("user", this.state.email, 7);
 
-            window.alert("Sign in successful.");
-
             this.setState({
-              // sets state to logged in so redirect can work
               loggedIn: true
             });
+
+            //auth.login();
+
+            window.alert("Sign in successful.");
+
+            //this.props.history.push("/dashboard");
+            window.location.href = "#/dashboard";
+            //window.location.replace("#/dashboard"); // redirects to dashboard after login
           } else {
             window.alert(response.data["message"]);
           }
@@ -193,24 +196,20 @@ export default class LoginPage extends Component {
   }
 
   /**
-   * Checks if the
+   * Checks if the user is currently logged in
    */
-  isLoggedIn() {
+  componentDidMount() {
     var currentUser = this.getCookie("user");
     var currentSession = this.getCookie("usid");
 
     if (currentUser && currentSession) {
-      return true;
-      // checks that the cookie fields are not empty
+      this.setState({
+        loggedIn: true
+      });
     }
-    return false;
   }
 
   render() {
-    if (this.isLoggedIn()) {
-      return <Redirect to="/dashboard" />;
-      // Will redirect to user dashboard once successfully logged in
-    }
     return (
       <div>
         <Container>

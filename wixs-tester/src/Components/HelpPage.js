@@ -18,7 +18,7 @@ function HelpPage() {
           {/* Will give errors in the inspector for certain modifiers, hwoever, nothing is wrong. */}
 
           {/* Video wrapper div allowing for video that maintains aspect ratio and resizes based on device screen size */}
-          <div class="videoWrapper">
+          <div className="videoWrapper">
             <iframe
               width="560"
               height="315"
