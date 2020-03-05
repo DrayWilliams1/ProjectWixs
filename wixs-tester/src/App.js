@@ -17,6 +17,8 @@ import RegisterPage from "./components/RegisterPage.js";
 import DashboardPage from "./components/DashboardPage.js";
 import AdminPage from "./components/AdminPage.js";
 
+import ProtectedRoute from "./components/ProtectedRoute.js";
+
 // CSS/SASS
 import "./App.scss";
 import NavBar from "./Components/NavBar";
@@ -45,7 +47,11 @@ export default class App extends Component {
     this.getCookie = this.getCookie.bind(this);
     this.eraseCookie = this.eraseCookie.bind(this);
     this.getCurrentUser = this.getCurrentUser.bind(this);
-    this.isLoggedIn = this.isLoggedIn.bind(this);
+
+    window.addEventListener("hashchange", function() {
+      //this.console.log("hash has changed");
+      this.window.location.reload();
+    });
   }
 
   // TODO: possible creation of a cookie class that can be referenced from each file instead of copy-pasting each function
@@ -109,7 +115,7 @@ export default class App extends Component {
    * Checks if the user is logged in and will display necessary info or redirect
    * pages accordingly
    */
-  isLoggedIn() {
+  componentDidMount() {
     var currentUser = this.getCookie("user");
     var currentSession = this.getCookie("usid");
 
@@ -118,16 +124,7 @@ export default class App extends Component {
       this.setState({
         // updates state so it can be passed as props to child components (Subpages and other components)
         email: currentUser,
-        usid: currentSession
-      });
-      return true; // user is logged in
-    }
-    return false; // user not logged in
-  }
-
-  componentDidMount() {
-    if (this.isLoggedIn()) {
-      this.setState({
+        usid: currentSession,
         loggedIn: true
       });
     }
@@ -141,45 +138,33 @@ export default class App extends Component {
           <NavBar currentUser={this.getCurrentUser()} />
           <Switch>
             {/* Routes to the home page */}
-            <Route exact path="/" component={HomePage} />{" "}
+            <Route exact path="/" component={HomePage} />
+              
             {/* Routes to the Editor page (temporary) */}
-            <Route exact path="/editor" component={Editor} />{" "}
+            <Route exact path="/editor" component={Editor} />
+              
             {/* Routes to the about page */}
-            <Route exact path="/about" component={AboutPage} />{" "}
+            <Route exact path="/about" component={AboutPage} />
+
             {/* Routes to the help/tutorial page */}
-            <Route exact path="/help" component={HelpPage} />{" "}
+            <Route exact path="/help" component={HelpPage} />
+
             {/* Routes to the user registration page */}
-            <Route exact path="/register" component={RegisterPage} />{" "}
+            <Route exact path="/register" component={RegisterPage} />
+
             {/* Routes to the login page */}
-            <Route
-              exact
-              path="/login"
-              render={() =>
-                this.state.loggedIn ? (
-                  <Redirect to="/dashboard" />
-                ) : (
-                  <LoginPage />
-                )
-              }
-            />
+            <Route exact path="/login" component={LoginPage} />
+
             {/* Routes to the user dashboard/template select page */}
-            <Route
-              exact
-              path="/dashboard"
-              render={() =>
-                this.state.loggedIn ? (
-                  <DashboardPage />
-                ) : (
-                  <Redirect to="/login" />
-                )
-              }
-            />
+            <ProtectedRoute exact path="/dashboard" component={DashboardPage} />
+
             {/* Routes to the administrator's site info page */}
-            <Route exact path="/admin" component={AdminPage} />{" "}
+            <Route exact path="/admin" component={AdminPage} />
+
             {/* Routes to a 404 page. A catch-all for any pages not existing on the server or in the application. */}
-            <Route path="*" component={NullPage} />{" "}
+            <Route path="*" component={NullPage} />
           </Switch>
-        {/* This places the footer at the end of every page */}
+          {/* This places the footer at the end of every page */}
           <Footer />
         </HRouter>
       </div>

@@ -1,7 +1,11 @@
 // Dependencies
 import React, { Component } from "react";
 import { Navbar, Nav, Button } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
+import axios from "axios"; // for AJAX call to PHP files
+import qs from "qs"; // for packaging details collected from the form
+
+import auth from "/auth.js";
 
 // Assets
 import logo from "./assets/logo-v6.png";
@@ -9,10 +13,18 @@ import logo from "./assets/logo-v6.png";
 // CSS/SASS
 import "./sass/NavBar.scss";
 
+const LOGOUT_USER_URL =
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/logoutUser.php";
+
 /**
  * Purpose: This is a file containing the shared navigation bar of the website
+ *
+ * -- Additional Notes --
+ * - Component is wrapped in a withRouter because it is not nested under a <Route /> in the main App
+ * file. In order to give the navbar access to props.history.push when the logout button is clicked
+ * it must be wrapped in a withRouter upon component export
  */
-export default class NavBar extends Component {
+class NavBar extends Component {
   constructor(props) {
     super(props);
 
@@ -66,11 +78,45 @@ export default class NavBar extends Component {
     document.cookie = name + "=; Max-Age=-99999999;";
   }
 
-  logoutUser() {
-    this.eraseCookie("user");
-    this.eraseCookie("usid");
+  logoutUser(event) {
+    event.preventDefault();
 
-    window.alert("User has been signed out -- locally");
+    var currentUser = this.getCookie("user");
+    var currentSession = this.getCookie("usid");
+
+    if (currentUser && currentSession) {
+      const params = {
+        email: currentUser
+      };
+
+      axios
+        .post(LOGOUT_USER_URL, qs.stringify(params))
+        .then(response => {
+          console.log(response);
+
+          if (response.data["success"] === true) {
+            // successful user logout
+            this.eraseCookie("user"); // erases user email from cookies
+            this.eraseCookie("usid"); // erases user session id from cookies
+
+            //auth.logoutUser();
+
+            window.alert(response.data["message"]);
+
+            this.props.history.push("/");
+
+            //window.location.replace("/"); // redirects to homepage after login
+          } else {
+            window.alert(response.data["message"]);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+      return true;
+      // checks that the cookie fields are not empty
+    }
   }
 
   render() {
@@ -120,3 +166,5 @@ export default class NavBar extends Component {
     );
   }
 }
+
+export default withRouter(NavBar);
