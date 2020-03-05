@@ -23,6 +23,7 @@ import ProtectedRoute from "./components/ProtectedRoute.js";
 import "./App.scss";
 import NavBar from "./Components/NavBar";
 import Footer from "./components/Footer";
+import Editor from "./Components/Editor/Editor";
 
 /**
  * Purpose: This is a base file for the ProjectWixs application and helps with page routing and shared
@@ -138,7 +139,10 @@ export default class App extends Component {
           <Switch>
             {/* Routes to the home page */}
             <Route exact path="/" component={HomePage} />
-
+              
+            {/* Routes to the Editor page (temporary) */}
+            <Route exact path="/editor" component={Editor} />
+              
             {/* Routes to the about page */}
             <Route exact path="/about" component={AboutPage} />
 

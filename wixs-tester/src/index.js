@@ -2,6 +2,8 @@ import React from "react";
 import { render } from "react-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
 
 // Components
 import App from "./App";
