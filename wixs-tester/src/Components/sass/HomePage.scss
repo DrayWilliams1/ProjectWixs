@@ -10,6 +10,7 @@
   grid-template-areas:
           '. logo .'
           'content1 content2 content3'
+          '. goMsg .'
           'login login login'
 }
 
@@ -28,8 +29,14 @@
   align-items: center;
 }
 
+.goMessage{
+  grid-area: goMsg;
+  margin: 0 auto;
+  font-size: 36px;
+}
+
 .loginORregister * {
-  margin: 0 25px;
+  margin: 25px 25px;
 }
 
 @media only screen and (max-width: 720px) {

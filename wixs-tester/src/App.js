@@ -20,6 +20,7 @@ import AdminPage from "./components/AdminPage.js";
 // CSS/SASS
 import "./App.scss";
 import NavBar from "./Components/NavBar";
+import Footer from "./components/Footer";
 
 /**
  * Purpose: This is a base file for the ProjectWixs application and helps with page routing and shared
@@ -175,6 +176,8 @@ export default class App extends Component {
             {/* Routes to a 404 page. A catch-all for any pages not existing on the server or in the application. */}
             <Route path="*" component={NullPage} />{" "}
           </Switch>
+        {/* This places the footer at the end of every page */}
+          <Footer />
         </HRouter>
       </div>
     );
