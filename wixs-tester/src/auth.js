@@ -1,3 +1,6 @@
+/**
+ * Purpose: A file for checking whether the system user is currently logged and able to access authenticated routes.
+ */
 class Auth {
   constructor() {
     this.authenticated = false;
@@ -43,7 +46,7 @@ class Auth {
    * @param {*} name the name of the cookie to be deleted
    */
   eraseCookie(name) {
-    document.cookie = name + "=; Max-Age=-99999999; path=/";
+    document.cookie = name + "=; Max-Age=-99999999; path=/;";
   }
 
   // TODO: check the database to ensure the username and session id match that which was submitted to during the login/registration
@@ -52,11 +55,11 @@ class Auth {
     var currentSession = this.getCookie("usid");
 
     if (currentUser && currentSession) {
-      return true;
+      this.authenticated = true;
     } else {
-      return false;
+      this.authenticated = false;
     }
-    //return this.authenticated;
+    return this.authenticated;
   }
 }
 export default new Auth();
