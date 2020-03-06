@@ -1,7 +1,6 @@
 // Dependencies
 import React, { Component } from "react";
 import { Container } from "react-bootstrap";
-import { Redirect } from "react-router-dom";
 
 import auth from "/auth.js";
 
