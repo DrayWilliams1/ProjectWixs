@@ -1,11 +1,6 @@
 // Dependencies
 import React, { Component } from "react";
-import {
-  HashRouter as HRouter,
-  Route,
-  Switch,
-  Redirect
-} from "react-router-dom";
+import { HashRouter as HRouter, Route, Switch } from "react-router-dom";
 
 // Components
 import HomePage from "./components/HomePage.js";
@@ -43,34 +38,12 @@ export default class App extends Component {
     };
 
     // Binds React class component methods
-    this.setCookie = this.setCookie.bind(this);
     this.getCookie = this.getCookie.bind(this);
-    this.eraseCookie = this.eraseCookie.bind(this);
     this.getCurrentUser = this.getCurrentUser.bind(this);
 
     window.addEventListener("hashchange", function() {
-      //this.console.log("hash has changed");
-      this.window.location.reload();
+      this.window.location.reload(); // reloads page any time it notices the # in the URL has changed. Helps with keeping display data current
     });
-  }
-
-  // TODO: possible creation of a cookie class that can be referenced from each file instead of copy-pasting each function
-  /**
-   * Allows for the creation of a cookie
-   *
-   * @param {*} name the name of the cookie to be created
-   * @param {*} value the value for which the cookie will contain
-   * @param {*} days the number of days until the cookie expires
-   */
-  setCookie(name, value, days) {
-    var expires = "";
-    if (days) {
-      var date = new Date();
-      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-      expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
-    console.log("Cookie created");
   }
 
   /**
@@ -90,15 +63,6 @@ export default class App extends Component {
   }
 
   /**
-   * Allows for the deletion of a cookie
-   *
-   * @param {*} name the name of the cookie to be deleted
-   */
-  eraseCookie(name) {
-    document.cookie = name + "=; Max-Age=-99999999;";
-  }
-
-  /**
    * Returns the current logged in user of the system. Displays it in the navbar component
    */
   getCurrentUser() {
@@ -108,25 +72,6 @@ export default class App extends Component {
       return currentUser;
     } else {
       return "Not currently signed in.";
-    }
-  }
-
-  /**
-   * Checks if the user is logged in and will display necessary info or redirect
-   * pages accordingly
-   */
-  componentDidMount() {
-    var currentUser = this.getCookie("user");
-    var currentSession = this.getCookie("usid");
-
-    if (currentUser && currentSession) {
-      // checks that the cookie fields are not empty
-      this.setState({
-        // updates state so it can be passed as props to child components (Subpages and other components)
-        email: currentUser,
-        usid: currentSession,
-        loggedIn: true
-      });
     }
   }
 

@@ -43,7 +43,7 @@ class Auth {
    * @param {*} name the name of the cookie to be deleted
    */
   eraseCookie(name) {
-    document.cookie = name + "=; Max-Age=-99999999;";
+    document.cookie = name + "=; Max-Age=-99999999; path=/";
   }
 
   // TODO: check the database to ensure the username and session id match that which was submitted to during the login/registration

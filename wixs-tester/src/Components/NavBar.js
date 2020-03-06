@@ -75,7 +75,7 @@ class NavBar extends Component {
    * @param {*} name the name of the cookie to be deleted
    */
   eraseCookie(name) {
-    document.cookie = name + "=; Max-Age=-99999999;";
+    document.cookie = name + "=; Max-Age=-99999999; path=/;";
   }
 
   logoutUser(event) {
@@ -98,8 +98,6 @@ class NavBar extends Component {
             // successful user logout
             this.eraseCookie("user"); // erases user email from cookies
             this.eraseCookie("usid"); // erases user session id from cookies
-
-            //auth.logoutUser();
 
             window.alert(response.data["message"]);
 
