@@ -45,7 +45,7 @@ export default class LoginPage extends Component {
   /**
    * Updates the component state to reflect the user email currently in the input field
    *
-   * @param {*} e
+   * @param {*} e the event that launched the function
    */
   emailChanged(e) {
     this.setState({
@@ -56,7 +56,7 @@ export default class LoginPage extends Component {
   /**
    * Updates the component state to reflect the user password currently in the input field
    *
-   * @param {*} e
+   * @param {*} e the event that launched the function
    */
   passwordChanged(e) {
     this.setState({
@@ -87,7 +87,7 @@ export default class LoginPage extends Component {
   /**
    * Submits the input details to the PHP script using axios' HTTP POST request
    *
-   * @param {*} event
+   * @param {*} event the event that launched the function
    */
   handleSubmit(event) {
     event.preventDefault();

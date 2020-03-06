@@ -80,20 +80,25 @@ class NavBar extends Component {
     if (isAuthenticated) {
       // display logout button
       buttons = (
-        <Button variant="secondary" onClick={this.logoutUser} size="sm">
-          Logout
-        </Button>
+        <div>
+          <Button variant="secondary" onClick={this.logoutUser} size="sm">
+            Logout
+          </Button>
+          <Navbar.Text>
+            Signed in as: <span id="userEmail">{this.props.currentUser}</span>
+          </Navbar.Text>
+        </div>
       );
     } else {
       // display login and register buttons
       buttons = (
         <div>
           <ButtonToolbar>
-            <Button variant="primary" href={"#/login"} size="sm">
+            <Button variant="primary" href={"#/login"}>
               Login
             </Button>
             <Navbar.Text>Or</Navbar.Text>
-            <Button variant="warning" href={"#/register"} size="sm">
+            <Button variant="warning" href={"#/register"}>
               Register
             </Button>
           </ButtonToolbar>
@@ -148,13 +153,7 @@ class NavBar extends Component {
               {/* Will possibly change this to activeClassName when using css file */}
               Help/FAQs
             </NavLink>
-            <Nav className="ml-auto ">
-              {buttons}
-              <Navbar.Text>
-                Signed in as:{" "}
-                <span id="userEmail">{this.props.currentUser}</span>
-              </Navbar.Text>
-            </Nav>
+            <Nav className="ml-auto ">{buttons}</Nav>
           </Navbar.Collapse>
         </Navbar>
       </div>
