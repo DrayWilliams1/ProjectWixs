@@ -33,7 +33,8 @@ export default class RegisterPage extends Component {
       first_name: "",
       last_name: "",
       password: "",
-      passwordConfirm: ""
+      passwordConfirm: "",
+      usid: ""
     };
 
     // Binds React class component methods
@@ -150,6 +151,12 @@ export default class RegisterPage extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    // creating and setting unique user session id
+    var usid = uuidv4();
+    this.setState({
+      usid: usid
+    });
+
     if (this.inputsValidated()) {
       // if no inputs are empty upon button click
       // setting params for axios form submission
@@ -157,7 +164,8 @@ export default class RegisterPage extends Component {
         email: this.state.email,
         first_name: this.state.first_name,
         last_name: this.state.last_name,
-        password: this.state.password
+        password: this.state.password,
+        usid: this.state.usid
       };
 
       axios
@@ -166,7 +174,12 @@ export default class RegisterPage extends Component {
           console.log(response);
 
           if (response.data["success"] === true) {
+            auth.setCookie("usid", usid, 7);
+            auth.setCookie("user", this.state.email, 7);
+
             window.alert(response.data["message"]);
+
+            window.location.href = "#/dashboard"; // could use this or history push
           } else {
             // error or another message
             window.alert(response.data["message"]);
@@ -180,9 +193,9 @@ export default class RegisterPage extends Component {
   }
 
   render() {
-    if (this.state.loggedIn) {
-      return <Redirect to="/dashboard" />;
-      // Will redirect to user dashboard once successfully registered
+    if (auth.isAuthenticated()) {
+      // redirects to the dashboard if already registered
+      this.props.history.push("/dashboard");
     }
     return (
       <div>

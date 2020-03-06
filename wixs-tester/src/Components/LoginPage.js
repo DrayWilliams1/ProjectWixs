@@ -130,7 +130,10 @@ export default class LoginPage extends Component {
   }
 
   render() {
-    // TODO: add redirect to dashboard if already authenticated
+    if (auth.isAuthenticated()) {
+      this.props.history.push("/dashboard"); // redirects to the dashboard if already registered
+    }
+
     return (
       <div>
         <Container>

@@ -42,7 +42,7 @@ try {
             $admin_post = NOT_ADMIN;
             $tempCount_post = TEMP_COUNT;
 
-            $session_id = empty($_POST['usid']) ? null : $_POST['usid']; // retrieve session id
+            $sessionID_post = empty($_POST['usid']) ? null : $_POST['usid']; // retrieve session id
 
             if (validInputs() && !alreadyExists() && !atCapacity()) { // inputs are valid, user does not already exist, and table is not full -> insert user
                 insert_user();
@@ -194,11 +194,11 @@ function alreadyExists() {
  * */
 function insert_user() {
     global $pdo;
-    global $email_post, $fName_post, $lName_post, $password_post, $admin_post, $tempCount_post;
+    global $email_post, $fName_post, $lName_post, $password_post, $admin_post, $tempCount_post, $sessionID_post;
     global $responseObject;
 
      // prepare statement for insert
-     $sql_insert = "INSERT INTO users (email, first_name, last_name, password, admin, template_count) VALUES (?,?,?,?,?,?)";
+     $sql_insert = "INSERT INTO users (email, first_name, last_name, password, admin, template_count, session_id) VALUES (?,?,?,?,?,?,?)";
      $stmt = $pdo->prepare($sql_insert);
      
      // pass and bind values to the statement
@@ -208,6 +208,7 @@ function insert_user() {
      $stmt->bindValue(4, $password_post, PDO::PARAM_STR);
      $stmt->bindValue(5, $admin_post, PDO::PARAM_BOOL); // bind to boolean
      $stmt->bindValue(6, $tempCount_post, PDO::PARAM_INT); // bind to integer
+     $stmt->bindValue(7, $sessionID_post, PDO::PARAM_STR);
  
     if($stmt->execute()) { // The query has executed successfully
         $responseObject['message']="{$email_post} has been added. Welcome {$fName_post}. ";
