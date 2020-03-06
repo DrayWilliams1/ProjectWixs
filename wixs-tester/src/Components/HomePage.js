@@ -10,7 +10,6 @@ import plaintextPreview from "./assets/plaintextPreview.png";
 
 // CSS/SASS
 import "./sass/HomePage.scss";
-import "./sass/Colors.scss";
 
 /**
  * Purpose: This is a file containing the landing of the ProjectWixs front-end. It documents basic

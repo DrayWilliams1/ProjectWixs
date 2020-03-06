@@ -1,3 +1,4 @@
+// Dependencies
 import React, { Component } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
@@ -31,22 +32,14 @@ export default class LoginPage extends Component {
     this.state = {
       email: "",
       password: "",
-      usid: "", // user session identifier
-      loggedIn: false
+      usid: "" // user session identifier
     };
 
     // Binds React class component methods
     this.emailChanged = this.emailChanged.bind(this);
     this.passwordChanged = this.passwordChanged.bind(this);
     this.inputsValidated = this.inputsValidated.bind(this);
-    this.setCookie = this.setCookie.bind(this);
-    this.getCookie = this.getCookie.bind(this);
-    this.eraseCookie = this.eraseCookie.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
-    /*window.addEventListener("hashchange", function() {
-      this.console.log("hash has changed");
-    });*/
   }
 
   /**
@@ -79,11 +72,6 @@ export default class LoginPage extends Component {
       // email field is empty
       alert("Email field must be filled out");
 
-      // could also update status here if we wanted to display it on page after
-      this.setState({
-        status: "Email field must be filled out"
-      });
-
       return false;
     }
 
@@ -94,50 +82,6 @@ export default class LoginPage extends Component {
       return false;
     }
     return true;
-  }
-
-  // TODO: possible creation of a cookie class that can be referenced from each file instead of copy-pasting each function
-  /**
-   * Allows for the creation of a cookie
-   *
-   * @param {*} name the name of the cookie to be created
-   * @param {*} value the value for which the cookie will contain
-   * @param {*} days the number of days until the cookie expires
-   */
-  setCookie(name, value, days) {
-    var expires = "";
-    if (days) {
-      var date = new Date();
-      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-      expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
-    console.log("Cookie created");
-  }
-
-  /**
-   * Allows for the retrieval of a cookie based on name
-   *
-   * @param {*} name
-   */
-  getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(";");
-    for (var i = 0; i < ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == " ") c = c.substring(1, c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
-  }
-
-  /**
-   * Allows for the deletion of a cookie
-   *
-   * @param {*} name the name of the cookie to be deleted
-   */
-  eraseCookie(name) {
-    document.cookie = name + "=; Max-Age=-99999999;";
   }
 
   /**
@@ -169,25 +113,15 @@ export default class LoginPage extends Component {
           console.log(response);
 
           if (response.data["success"] === true) {
-            this.setCookie("usid", usid, 7);
-            this.setCookie("user", this.state.email, 7);
-
-            this.setState({
-              loggedIn: true
-            });
-
-            //auth.login();
+            auth.setCookie("usid", usid, 7);
+            auth.setCookie("user", this.state.email, 7);
 
             window.alert("Sign in successful.");
 
-            //this.props.history.push("/dashboard");
-            window.location.href = "#/dashboard";
-            //window.location.replace("#/dashboard"); // redirects to dashboard after login
+            window.location.href = "#/dashboard"; // could use this or history push
           } else {
             window.alert(response.data["message"]);
           }
-
-          // TODO: have a stylized React-Bootstrap alert component show details (maybe).
         })
         .catch(error => {
           console.log(error);
@@ -195,21 +129,8 @@ export default class LoginPage extends Component {
     }
   }
 
-  /**
-   * Checks if the user is currently logged in
-   */
-  componentDidMount() {
-    var currentUser = this.getCookie("user");
-    var currentSession = this.getCookie("usid");
-
-    if (currentUser && currentSession) {
-      this.setState({
-        loggedIn: true
-      });
-    }
-  }
-
   render() {
+    // TODO: add redirect to dashboard if already authenticated
     return (
       <div>
         <Container>

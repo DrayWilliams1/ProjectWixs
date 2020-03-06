@@ -6,6 +6,8 @@ import axios from "axios"; // for AJAX call to PHP files
 import qs from "qs"; // for packaging details collected from the form
 import { v4 as uuidv4 } from "uuid"; // Will generate a uuid from cryptographically-strong random values
 
+import auth from "/auth.js";
+
 // CSS/SASS
 import "./sass/RegisterPage.scss";
 
@@ -31,8 +33,7 @@ export default class RegisterPage extends Component {
       first_name: "",
       last_name: "",
       password: "",
-      passwordConfirm: "",
-      loggedIn: false
+      passwordConfirm: ""
     };
 
     // Binds React class component methods
@@ -48,40 +49,35 @@ export default class RegisterPage extends Component {
   // Updates the component state to reflect the user email currently in the input field
   emailChanged(e) {
     this.setState({
-      email: e.target.value,
-      status: "" // resets status once typing is started
+      email: e.target.value
     });
   }
 
   // Updates the component state to reflect the user first name currently in the input field
   firstNameChanged(e) {
     this.setState({
-      first_name: e.target.value,
-      status: "" // resets status once typing is started
+      first_name: e.target.value
     });
   }
 
   // Updates the component state to reflect the user last name currently in the input field
   lastNameChanged(e) {
     this.setState({
-      last_name: e.target.value,
-      status: "" // resets status once typing is started
+      last_name: e.target.value
     });
   }
 
   // Updates the component state to reflect the user password currently in the input field
   passwordChanged(e) {
     this.setState({
-      password: e.target.value,
-      status: "" // resets status once typing is started
+      password: e.target.value
     });
   }
 
   // Updates the component state to reflect the user confirmed password currently in the input field
   passwordConfirmChanged(e) {
     this.setState({
-      passwordConfirm: e.target.value,
-      status: "" // resets status once typing is started
+      passwordConfirm: e.target.value
     });
   }
 
@@ -171,11 +167,6 @@ export default class RegisterPage extends Component {
 
           if (response.data["success"] === true) {
             window.alert(response.data["message"]);
-
-            this.setState({
-              // sets state to logged in so redirect can work
-              loggedIn: true
-            });
           } else {
             // error or another message
             window.alert(response.data["message"]);

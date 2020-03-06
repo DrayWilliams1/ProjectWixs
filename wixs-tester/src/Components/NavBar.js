@@ -1,6 +1,6 @@
 // Dependencies
 import React, { Component } from "react";
-import { Navbar, Nav, Button } from "react-bootstrap";
+import { Navbar, Nav, Button, ButtonToolbar } from "react-bootstrap";
 import { NavLink, withRouter } from "react-router-dom";
 import axios from "axios"; // for AJAX call to PHP files
 import qs from "qs"; // for packaging details collected from the form
@@ -28,63 +28,22 @@ class NavBar extends Component {
   constructor(props) {
     super(props);
 
-    this.setCookie = this.setCookie.bind(this);
-    this.getCookie = this.getCookie.bind(this);
-    this.eraseCookie = this.eraseCookie.bind(this);
     this.logoutUser = this.logoutUser.bind(this);
   }
 
-  // TODO: possible creation of a cookie class that can be referenced from each file instead of copy-pasting each function
   /**
-   * Allows for the creation of a cookie
+   * Performs logout operation for the user. Removes user details from cookies and deletes session_id from database
    *
-   * @param {*} name the name of the cookie to be created
-   * @param {*} value the value for which the cookie will contain
-   * @param {*} days the number of days until the cookie expires
+   * @param {*} event the event that launched the function
    */
-  setCookie(name, value, days) {
-    var expires = "";
-    if (days) {
-      var date = new Date();
-      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-      expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
-    console.log("Cookie created");
-  }
-
-  /**
-   * Allows for the retrieval of a cookie based on name
-   *
-   * @param {*} name
-   */
-  getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(";");
-    for (var i = 0; i < ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == " ") c = c.substring(1, c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
-  }
-
-  /**
-   * Allows for the deletion of a cookie
-   *
-   * @param {*} name the name of the cookie to be deleted
-   */
-  eraseCookie(name) {
-    document.cookie = name + "=; Max-Age=-99999999; path=/;";
-  }
-
   logoutUser(event) {
     event.preventDefault();
 
-    var currentUser = this.getCookie("user");
-    var currentSession = this.getCookie("usid");
+    var currentUser = auth.getCookie("user");
+    var currentSession = auth.getCookie("usid");
 
     if (currentUser && currentSession) {
+      // checks that cookie fields are not empty
       const params = {
         email: currentUser
       };
@@ -96,14 +55,12 @@ class NavBar extends Component {
 
           if (response.data["success"] === true) {
             // successful user logout
-            this.eraseCookie("user"); // erases user email from cookies
-            this.eraseCookie("usid"); // erases user session id from cookies
+            auth.eraseCookie("user"); // erases user email from cookies
+            auth.eraseCookie("usid"); // erases user session id from cookies
 
             window.alert(response.data["message"]);
 
-            this.props.history.push("/");
-
-            //window.location.replace("/"); // redirects to homepage after login
+            this.props.history.push("/"); // redirects to the landing page
           } else {
             window.alert(response.data["message"]);
           }
@@ -113,11 +70,37 @@ class NavBar extends Component {
         });
 
       return true;
-      // checks that the cookie fields are not empty
     }
   }
 
   render() {
+    const isAuthenticated = auth.isAuthenticated();
+    let buttons;
+
+    if (isAuthenticated) {
+      // display logout button
+      buttons = (
+        <Button variant="secondary" onClick={this.logoutUser} size="sm">
+          Logout
+        </Button>
+      );
+    } else {
+      // display login and register buttons
+      buttons = (
+        <div>
+          <ButtonToolbar>
+            <Button variant="primary" href={"#/login"} size="sm">
+              Login
+            </Button>
+            <Navbar.Text>Or</Navbar.Text>
+            <Button variant="warning" href={"#/register"} size="sm">
+              Register
+            </Button>
+          </ButtonToolbar>
+        </div>
+      );
+    }
+
     return (
       <div>
         <Navbar
@@ -166,12 +149,7 @@ class NavBar extends Component {
               Help/FAQs
             </NavLink>
             <Nav className="ml-auto ">
-              <Button variant="primary" href={"#/login"} size="sm">
-                Login
-              </Button>
-              <Button variant="secondary" onClick={this.logoutUser} size="sm">
-                Logout
-              </Button>
+              {buttons}
               <Navbar.Text>
                 Signed in as:{" "}
                 <span id="userEmail">{this.props.currentUser}</span>

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
 
+import auth from "/auth.js";
+
 // CSS/SASS
 import "./sass/AdminPage.scss";
 
@@ -20,10 +22,6 @@ import "./sass/AdminPage.scss";
 export default class RegisterPage extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      loggedIn: false
-    };
   }
 
   render() {

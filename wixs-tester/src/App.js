@@ -33,8 +33,7 @@ export default class App extends Component {
 
     this.state = {
       email: "",
-      usid: "", // user session identifier
-      loggedIn: false
+      usid: "" // user session identifier
     };
 
     // Binds React class component methods
