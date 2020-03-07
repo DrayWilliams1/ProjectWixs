@@ -26,7 +26,7 @@ export const SCHEMA = {
   gridOptions: {h: 2, w: 4, minW: 2, minH: 2 },     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
   props: {
     content: {
-      type: "String",
+      type: "StringArea",
       name: "Content",
       value: "Hello world.",
       desc: "Text to be displayed.",

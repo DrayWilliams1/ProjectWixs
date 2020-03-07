@@ -21,7 +21,6 @@ export default class Editor extends React.Component{
 
     this.generateItem = this.generateItem.bind(this);
     this.generateDOM = this.generateDOM.bind(this);
-    this.updateLayout = this.updateLayout.bind(this);
     this.saveGrid = this.saveGrid.bind(this);
     this.loadGrid = this.loadGrid.bind(this);
     this.componentEditor = this.componentEditor.bind(this);
@@ -35,17 +34,19 @@ export default class Editor extends React.Component{
     // let item = {type: "Textbox", props: {content: {value: "hello world "}, key: this.state.gridElements.length + 1}};
     const typeName = "Textbox";
     const typeRef = LEGEND[typeName];
-    // this is just assuming we never have key conflicts, if we do the page will break. TODO check for conflicts
-    const key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    let key;
+    do {
+      key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    }while(this.state.gridElements.length !== 0 && this.state.gridElements.filter(e => e.props.key === key).length > 0);
+
     // it is important that props be added last, when parsing props the form generator will ignore the first two props (key and data-grid)
-    //TODO generate component at the bottom of the page instead of inserting it near the top (x and y value)
-    let item = {type: typeName, props: {key: key, "data-grid": {x: 0, y: 0, ...typeRef.gridOptions}, ...typeRef.props}};
+    const height = this.state.layout.reduce((total, value) => {
+      if(value.y + value.h > total) return(value.y + value.h);
+      return total
+    }, 0);
+    let item = {type: typeName, props: {key: key, "data-grid": {x: 0, y: height, ...typeRef.gridOptions}, ...typeRef.props}};
 
     this.setState(prevState => ({gridElements: [...prevState.gridElements, item]}));
-  }
-
-  updateLayout(layout){
-    this.setState(prevState => ({layout: layout}))
   }
 
   saveGrid(){
@@ -111,7 +112,13 @@ export default class Editor extends React.Component{
   componentEditor(){
     const OBJ_TYPE = LEGEND[this.state.gridElements[this.state.activeElement].type];
     const ELEMENT = this.state.gridElements[this.state.activeElement];
-
+    const inputType = {
+      StringArea: "textarea",
+      String: "input",
+      // Int: "TODO",
+      // Number: "TODO",
+      // Boolean: "TODO",
+    };
     return(
       <div className={'editor-sidebar component-editor'}>
         <p className={'component-editor-close-button'} onClick={() => this.setState({activeElement: null})}>X</p>
@@ -125,6 +132,8 @@ export default class Editor extends React.Component{
                     name={key}
                     value={this.state.editElement[key]}
                     onChange={this.handleChange}
+                    as={inputType[ELEMENT.props[key].type]}
+                    type={"number"}
                   />
                 </Form.Group>
               )
@@ -157,9 +166,10 @@ export default class Editor extends React.Component{
           cols={12}
           rowHeight={30}
           width={1200}
-          onLayoutChange={(l) => this.updateLayout(l)}
+          onLayoutChange={(l) => this.setState({layout: l})}
           compactType={null}
           preventCollision={true}
+          margin={[1,1]}
         >
           {this.generateDOM()}
         </GridLayout>
