@@ -1,7 +1,7 @@
 // Dependencies
 import React, { Component } from "react";
-import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
-import { Link, Redirect } from "react-router-dom";
+import { Form, Button, Container, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import axios from "axios"; // for AJAX call to PHP files
 import qs from "qs"; // for packaging details collected from the form
 import { v4 as uuidv4 } from "uuid"; // Will generate a uuid from cryptographically-strong random values
@@ -28,13 +28,16 @@ export default class RegisterPage extends Component {
   constructor(props) {
     super(props);
 
+    // creating and setting unique user session id
+    var usid = uuidv4();
+
     this.state = {
       email: "",
       first_name: "",
       last_name: "",
       password: "",
       passwordConfirm: "",
-      usid: ""
+      usid: usid
     };
 
     // Binds React class component methods
@@ -88,74 +91,37 @@ export default class RegisterPage extends Component {
     if (this.state.email === "") {
       // email field is empty
       alert("Email field must be filled out");
-
-      // could also update status here if we wanted to display it on page after
-      this.setState({
-        status: "Email field must be filled out"
-      });
-
       return false;
     }
 
     if (this.state.first_name === "") {
       // first name field is empty
       alert("First name field must be filled out");
-
-      // could also update status here if we wanted to display it on page after
-      this.setState({
-        status: "First name field must be filled out"
-      });
-
       return false;
     }
 
     if (this.state.last_name === "") {
       // last name field is empty
       alert("Last name field must be filled out");
-
-      // could also update status here if we wanted to display it on page after
-      this.setState({
-        status: "Last name field must be filled out"
-      });
-
       return false;
     }
 
     if (this.state.password === "") {
       // last name field is empty
       alert("Password field must be filled out");
-
-      // could also update status here if we wanted to display it on page after
-      this.setState({
-        status: "Password field must be filled out"
-      });
-
       return false;
     }
 
     if (this.state.password !== this.state.passwordConfirm) {
       alert("Password fields must match. Try again");
-
-      // could also update status here if we wanted to display it on page after
-      this.setState({
-        status: "Password fields must match"
-      });
-
       return false;
     }
-
     return true;
   }
 
   // Submits the input details to the PHP script using axios' HTTP POST request
   handleSubmit(event) {
     event.preventDefault();
-
-    // creating and setting unique user session id
-    var usid = uuidv4();
-    this.setState({
-      usid: usid
-    });
 
     if (this.inputsValidated()) {
       // if no inputs are empty upon button click
@@ -174,7 +140,7 @@ export default class RegisterPage extends Component {
           console.log(response);
 
           if (response.data["success"] === true) {
-            auth.setCookie("usid", usid, 7);
+            auth.setCookie("usid", this.state.usid, 7);
             auth.setCookie("user", this.state.email, 7);
 
             window.alert(response.data["message"]);

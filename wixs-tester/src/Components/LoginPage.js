@@ -1,7 +1,7 @@
 // Dependencies
 import React, { Component } from "react";
 import { Form, Button, Container } from "react-bootstrap";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios"; // for AJAX call to PHP files
 import qs from "qs"; // for packaging details collected from the form
 import { v4 as uuidv4 } from "uuid"; // Will generate a uuid from cryptographically-strong random values
@@ -29,10 +29,12 @@ export default class LoginPage extends Component {
   constructor(props) {
     super(props);
 
+    var usid = uuidv4();
+
     this.state = {
       email: "",
       password: "",
-      usid: "" // user session identifier
+      usid: usid // user session identifier
     };
 
     // Binds React class component methods
@@ -81,6 +83,10 @@ export default class LoginPage extends Component {
 
       return false;
     }
+
+    if (this.state.usid === "") {
+      console.log("Session is missing");
+    }
     return true;
   }
 
@@ -93,10 +99,6 @@ export default class LoginPage extends Component {
     event.preventDefault();
 
     // creating and setting unique user session id
-    var usid = uuidv4();
-    this.setState({
-      usid: usid
-    });
 
     if (this.inputsValidated()) {
       // if no inputs are empty upon button click
@@ -113,7 +115,7 @@ export default class LoginPage extends Component {
           console.log(response);
 
           if (response.data["success"] === true) {
-            auth.setCookie("usid", usid, 7);
+            auth.setCookie("usid", this.state.usid, 7);
             auth.setCookie("user", this.state.email, 7);
 
             window.alert("Sign in successful.");

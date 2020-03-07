@@ -1,13 +1,11 @@
 #!/usr/bin/php-cgi
 <?php
 /** 
- * A file for checking whether a user email and password combo exists within the database and logs the user in
- * Connects the registration page to the users table within the database.
+ * A file for checking whether a user email and session_id matches that which are in browser cookies.
  * 
  * -- Additional Notes --
  * - Do not use any upper case for column names or table names within database (will cause error when 
  * binding PDO values)
- * - On password hash:  would prefer to use password_hash() function, but it is only available on > PHP v5.5. Sandcastle uses PHP v5.4.16 so MD5 is used here. 
  */
 header("Access-Control-Allow-Origin: *");
 
@@ -28,13 +26,10 @@ try {
         if (($_SERVER['REQUEST_METHOD'] == 'POST')) {
             // Using empty test instead of isset function
             $email_post = empty($_POST['email']) ? null : $_POST['email']; // set email to form submission
-
-            $password_post = empty($_POST['password']) ? null : $_POST['password']; // set password name to form submission
-
             $sessionID_post = empty($_POST['usid']) ? null : $_POST['usid']; // retrieve session id
 
-            if (validInputs() && accountExists() && updateSession()) {
-                $responseObject['success']=true; // echoing a response that can be used to redirect page after AJAX call
+            if (validInputs() && isAuthenticated()) { // user and session_id match
+                $responseObject['success']=true;
             } // otherwise, error, response message is displayed in alert
             
         } else { // request method is not POST
@@ -45,26 +40,6 @@ try {
     $responseObject['message']=$e->getMessage(); // report error message
 }
 
-function updateSession() {
-    global $pdo;
-    global $responseObject;
-    global $sessionID_post, $email_post;
-
-    $sql_update = "UPDATE users SET session_id = ? WHERE email = ?";
-    $stmt = $pdo->prepare($sql_update);
-
-    // pass and bind values to the statement
-    $stmt->bindValue(1, $sessionID_post, PDO::PARAM_STR); // binding to strings
-    $stmt->bindValue(2, $email_post, PDO::PARAM_STR); // binding to strings
-    
-    if($stmt->execute()) { // The query has executed successfully
-        return true;
-    } else {
-        $responseObject['message']="Error querying users table: update session. ";
-        return false;
-    }
-}
-
 /**
  * First checks if any inputs are missing, then validates and sanitizes certain inputs. 4 Rounds of validation.
  * 
@@ -72,37 +47,24 @@ function updateSession() {
  * criteria are not met.
  * */
 function validInputs() {
-    global $email_post, $password_post, $sessionID_post;
+    global $email_post, $sessionID_post;
     global $responseObject;
 
     // Round 1 -- Are inputs empty
     // does not check template count because field may be null
-    if(empty($email_post) || empty($password_post) || empty($sessionID_post)) {
+    if(empty($email_post) || empty($sessionID_post)) {
         $responseObject['message']="One of more fields are missing. Please complete. ";
         return false; // invalid
     }
 
     // Round 2 -- Trimming inputs of trailing/leading whitespace
     $email_post = trim($email_post);
-    $password_post = trim($password_post);
-
+    $sessionID_post = trim($sessionID_post);
 
     // Round 3 -- Checking input lengths and validity
     // checking email length
     if(strlen($email_post) > 100) {
         $responseObject['message']="Invalid email: length too long. ";
-        return false;
-    }
-
-    // checking password length (max)
-    if(strlen($password_post) > 100) {
-        $responseObject['message']="Invalid password: length too long. ";
-        return false;
-    }
-
-    // checking password length (min)
-    if(strlen($password_post) < 8) {
-        $responseObject['message']="Invalid password: length too short. ";
         return false;
     }
 
@@ -115,9 +77,7 @@ function validInputs() {
     // Round 4 -- Sanitize inputs
     // if no inputs are missing or invalid, they are sanitized.
     $email_post = filter_var($email_post,FILTER_SANITIZE_EMAIL);
-    $password_post = filter_var($password_post,FILTER_SANITIZE_STRING);
-
-    $password_post = md5($password_post); // hashing password for user's security
+    $sessionID_post = filter_var($sessionID_post,FILTER_SANITIZE_STRING);
 
     return true; // tests passed -> valid
 }
@@ -128,13 +88,13 @@ function validInputs() {
  * 
  * @return boolean true if the user already exists, false if not
  */
-function accountExists() {
+function isAuthenticated() {
     global $pdo;
-    global $email_post, $password_post;
+    global $email_post, $sessionID_post;
     global $responseObject;
 
     // prepare statement for insert
-    $sql_select = "SELECT * FROM users WHERE email = ? LIMIT 1";
+    $sql_select = "SELECT * FROM users WHERE email=? LIMIT 1";
     $stmt = $pdo->prepare($sql_select);
 
     // pass and bind values to the statement
@@ -144,13 +104,10 @@ function accountExists() {
         if ($stmt->rowCount() > 0) { // account with username found
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if($password_post == $user['password']) { // the inputted password matches that of the user's account in the database
-
-                // TODO: give user a session id with a update statement
-
+            if($sessionID_post == $user['session_id']) { // the inputted password matches that of the user's account in the database
                 return true;
             } else {
-                $responseObject['message']="Account with email {$email_post} exists, however, password is incorrect. ";
+                $responseObject['message']="Account with email {$email_post} exists, however, session_id doesnt match. ";
             }
         } else {
             $responseObject['message']="User with email {$email_post} does not exist. Please login again or register account. ";
@@ -160,7 +117,6 @@ function accountExists() {
         $responseObject['message']="Error querying users table. ";
     }
 }
-
 
 echo json_encode($responseObject);
 ?>

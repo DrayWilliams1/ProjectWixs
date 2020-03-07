@@ -1,3 +1,10 @@
+// Dependencies
+import axios from "axios"; // for AJAX call to PHP files
+import qs from "qs"; // for packaging details collected from the form
+
+const AUTH_USER_URL =
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/authUser.php";
+
 /**
  * Purpose: A file for checking whether the system user is currently logged and able to access authenticated routes.
  */
@@ -53,13 +60,43 @@ class Auth {
   isAuthenticated() {
     var currentUser = this.getCookie("user");
     var currentSession = this.getCookie("usid");
+    var authenticated = false;
 
     if (currentUser && currentSession) {
-      this.authenticated = true;
+      // if cookie values exist
+      /*const params = {
+        email: currentUser,
+        usid: currentSession
+      };
+
+      axios
+        .post(AUTH_USER_URL, qs.stringify(params))
+        .then(response => {
+          console.log(response);
+
+          if (response.data["success"] === true) {
+            // user is authenticated
+
+            //return (this.authenticated = true);
+            authenticated = true;
+          } else {
+            // user not authenticated
+            //return (this.authenticated = false);
+            authenticated = false;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     } else {
-      this.authenticated = false;
+      // cookie values empty
+      authenticated = false;
     }
-    return this.authenticated;
+    return authenticated;*/
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 export default new Auth();
