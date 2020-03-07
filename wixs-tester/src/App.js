@@ -80,36 +80,38 @@ export default class App extends Component {
         <HRouter basename={process.env.PUBLIC_URL}>
           {/*This places the navbar above every page*/}
           <NavBar currentUser={this.getCurrentUser()} />
-          <Switch>
-            {/* Routes to the home page */}
-            <Route exact path="/" component={HomePage} />
+          <div className="body">
+            <Switch>
+              {/* Routes to the home page */}
+              <Route exact path="/" component={HomePage} />
 
-            {/* Routes to the Editor page (temporary) */}
-            <Route exact path="/editor" component={Editor} />
+              {/* Routes to the Editor page (temporary) */}
+              <Route exact path="/editor" component={Editor} />
 
-            {/* Routes to the about page */}
-            <Route exact path="/about" component={AboutPage} />
+              {/* Routes to the about page */}
+              <Route exact path="/about" component={AboutPage} />
 
-            {/* Routes to the help/tutorial page */}
-            <Route exact path="/help" component={HelpPage} />
+              {/* Routes to the help/tutorial page */}
+              <Route exact path="/help" component={HelpPage} />
 
-            {/* Routes to the user registration page */}
-            <Route exact path="/register" component={RegisterPage} />
+              {/* Routes to the user registration page */}
+              <Route exact path="/register" component={RegisterPage} />
 
-            {/* Routes to the login page */}
-            <Route exact path="/login" component={LoginPage} />
+              {/* Routes to the login page */}
+              <Route exact path="/login" component={LoginPage} />
 
-            {/* Routes to the user dashboard/template select page */}
-            <ProtectedRoute exact path="/dashboard" component={DashboardPage} />
+              {/* Routes to the user dashboard/template select page */}
+              <ProtectedRoute exact path="/dashboard" component={DashboardPage} />
 
-            {/* Routes to the administrator's site info page */}
-            <Route exact path="/admin" component={AdminPage} />
+              {/* Routes to the administrator's site info page */}
+              <Route exact path="/admin" component={AdminPage} />
 
-            {/* Routes to a 404 page. A catch-all for any pages not existing on the server or in the application. */}
-            <Route path="*" component={NullPage} />
-          </Switch>
+              {/* Routes to a 404 page. A catch-all for any pages not existing on the server or in the application. */}
+              <Route path="*" component={NullPage} />
+            </Switch>
+          </div>
           {/* This places the footer at the end of every page */}
-          <Footer />
+          <Footer className="footerContainer" />
         </HRouter>
       </div>
     );

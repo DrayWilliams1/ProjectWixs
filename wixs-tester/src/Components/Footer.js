@@ -16,8 +16,6 @@ function Footer() {
         className="footerContainer"
         variant="dark"
         bg="dark"
-        expand="lg"
-        sticky="bottom"
       >
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
