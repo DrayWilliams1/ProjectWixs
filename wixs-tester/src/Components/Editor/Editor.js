@@ -12,6 +12,7 @@ export default class Editor extends React.Component{
     this.state = {
       gridElements: [],
       layout: [],
+      activeElement: null
     };
 
     this.generateItem = this.generateItem.bind(this);
@@ -45,11 +46,12 @@ export default class Editor extends React.Component{
 
   generateDOM(){
     return(
-      this.state.gridElements.map(element => {
+      this.state.gridElements.map((element, index) => {
         return(
           React.createElement(LEGEND[element.type].type, {
             ...element.props,
-            "data-grid": {x:0, y:0, w:4, h:3, ...LEGEND[element.type].gridOptions}
+            "data-grid": {x:0, y:0, w:4, h:3, ...LEGEND[element.type].gridOptions},
+            onClick: () => this.setState({activeElement: index})
           })
         )
       })

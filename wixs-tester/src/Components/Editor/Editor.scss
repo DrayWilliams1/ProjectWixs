@@ -16,3 +16,13 @@
   width: 1200px;
   margin: 0 auto;
 }
+
+
+.react-grid-item{
+  border: 1px dashed grey;
+  border-radius: 5px;
+}
+
+.react-grid-item-active{
+  //TODO change outline on selected item
+}

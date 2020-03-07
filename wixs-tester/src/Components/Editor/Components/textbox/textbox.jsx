@@ -15,10 +15,14 @@ export class Textbox extends Component {
 }
 
 // legend information
-export const LegendInfo = {
+export const SCHEMA = {
   type: Textbox,
   gridOptions: {minW: 2, minH: 2 },     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
   props: {
-    content: {type: "Object", desc: "This will the the text that is displayed in the box."}   //The type can either be "Object" or "Array" to support all use cases.
+    content: {
+      type: "String",
+      name: "Content",
+      desc: "This will the the text that is displayed in the box."
+    }
   }
 };
