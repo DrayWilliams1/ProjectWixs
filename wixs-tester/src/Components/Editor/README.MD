@@ -21,8 +21,8 @@ this schema is loosely based off [JSON Schema](https://json-schema.org/). Fields
         <parameter_name>: {
             type: *<TYPE>,
             name: *string,
+            value: *<value of type TYPE>
             desc: string,
-            default: string,
         }
       }
     };
@@ -32,6 +32,8 @@ this schema is loosely based off [JSON Schema](https://json-schema.org/). Fields
 `TYPE` can be any of the following primitives, "String", "Int", "Number", "Boolean". In addition to primitives it can
 also be "Array" which will allow the components to support arbitrary numbers of parameters.
 
+**`name` must be unique for each prop parameter**
+
 #### Array
     props: {
         <parameter_name>: {
@@ -39,8 +41,8 @@ also be "Array" which will allow the components to support arbitrary numbers of 
             items: {
                 type: *<TYPE>,
                 name: *string,
+                value: *<value of type TYPE>
                 desc: string,
-                default: string,
             }
         }
       }

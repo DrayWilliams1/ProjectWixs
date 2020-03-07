@@ -9,6 +9,10 @@
 
 .editor-sidebar{
   grid-area: 'sidebar';
+  margin: 5px;
+  border-radius: 10px;
+  padding: 5px;
+  box-shadow: -7px 0px 10px rgba(54, 58, 64, 0.35);
 }
 
 .editor-grid{
@@ -23,6 +27,30 @@
   border-radius: 5px;
 }
 
+.layout-editor{
+  background-color: $accent-1;
+
+}
+
+.component-editor{
+  position: relative;
+  background-color: $accent-2;
+}
+
+.component-editor-close-button{
+  position: absolute;
+  right: 10px;
+  margin: 5px;
+  cursor: pointer;
+  font-weight: bolder;
+  color: dimgrey;
+}
+.component-editor-close-button:hover{
+  color: black;
+}
+
+
 .react-grid-item-active{
-  //TODO change outline on selected item
+  border: 1px dashed green;
+  box-shadow: 3px 3px 10px #343A4044;
 }
