@@ -94,19 +94,17 @@ export default class Editor extends React.Component{
   }
 
   applyChange(){
-    let changes = {...this.state.gridElements[this.state.activeElement].props};
-    for(let [keyOld, valueOld] of Object.entries(this.state.gridElements[this.state.activeElement].props)){
+    let elements = JSON.parse(JSON.stringify(this.state.gridElements));
+    for(let [keyOld, valueOld] of Object.entries(elements[this.state.activeElement].props)){
       if(keyOld !== "key" && keyOld !== "data-grid"){
         for(let [keyNew, valueNew] of Object.entries(this.state.editElement)){
           if(keyOld === keyNew){
-            changes[keyOld].value = valueNew;
+            elements[this.state.activeElement].props[keyOld].value = valueNew;
           }
         }
       }
     }
-    let copy = JSON.parse(JSON.stringify(this.state.gridElements));
-    copy[this.state.activeElement].props = changes;
-    this.setState({gridElements: copy, activeElement: null});
+    this.setState({gridElements: elements, activeElement: null});
   }
 
   componentEditor(){
@@ -115,10 +113,13 @@ export default class Editor extends React.Component{
     const inputType = {
       StringArea: "textarea",
       String: "input",
-      // Int: "TODO",
-      // Number: "TODO",
+      Int: "input",
+      Number: "input",
       // Boolean: "TODO",
     };
+
+    console.log(ELEMENT);
+    console.log(ELEMENT.props["content"].type === "Int" && "1");
     return(
       <div className={'editor-sidebar component-editor'}>
         <p className={'component-editor-close-button'} onClick={() => this.setState({activeElement: null})}>X</p>
@@ -133,14 +134,16 @@ export default class Editor extends React.Component{
                     value={this.state.editElement[key]}
                     onChange={this.handleChange}
                     as={inputType[ELEMENT.props[key].type]}
-                    type={"number"}
+                    type={(ELEMENT.props[key].type === "Int" || ELEMENT.props[key].type === "Number") ? "number" : undefined}
+                    step={ELEMENT.props[key].type === "Int" ? "1" : "any"}
+                    min={0}
                   />
                 </Form.Group>
               )
             }
           })}
+          <Button variant={"outline-light"} type={"submit"}>APPLY</Button>
         </Form>
-        <Button variant={"outline-light"} onClick={this.applyChange}>APPLY</Button>
       </div>
     )
   }
@@ -158,6 +161,7 @@ export default class Editor extends React.Component{
   }
 
   render(){
+    //TODO make this sorta responsive so it works on more screen sizes
     return(
       <div className={'editor-container'}>
         <GridLayout
