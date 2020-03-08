@@ -2,12 +2,12 @@
 The Editor will likely be one fo the more complicated sections for the frontend of this project, as such I will provide
 some instructions here for myself and others.
 
-## Layout Engine
+# Layout Engine
 The Editor.js file is intended to simply control the dragging and dropping of other react components into a nice layout.
 It also allows the user to interface with each components data schema to manipulate page contents. It also handles
 the layout and component serialization and deserialization.
 
-## Components
+# Components
 Each component should have its own folder with at least 2 files in it, a `.jsx` file and the `.scss` companion file. 
 
 ## Data Schema
@@ -48,6 +48,13 @@ also be "Array" which will allow the components to support arbitrary numbers of 
       }
       
 The `props` are what get displayed in the editor window for the user to made edits to.
+
+## Drag and Drop
+if order for the component to interact with the drag and drop interface is must have the following:
+
+ - The root HTML tag must be a DIV
+ - The root tag must apply all props ex: `<div {...this.props}`
+ - The root tag must render children (if you want the resize handle) ex: `{this.props.children}`
 
 ## Styling
 Each component should have its own `.scss` file that it gets styling from. The class names should be very specific to
