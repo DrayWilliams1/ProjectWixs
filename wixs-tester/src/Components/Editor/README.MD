@@ -29,7 +29,7 @@ this schema is loosely based off [JSON Schema](https://json-schema.org/). Fields
     
 `COMPONENT_NAME` should be the name of the component also exported from that file which in turn should be the name of the JSX file.
 
-`TYPE` can be any of the following primitives, "String", "Int", "Number", "Boolean". In addition to primitives it can
+`TYPE` can be any of the following primitives, "String", "StringArea", "Int", "Number", "Boolean". In addition to primitives it can
 also be "Array" which will allow the components to support arbitrary numbers of parameters.
 
 **`name` must be unique for each prop parameter**
