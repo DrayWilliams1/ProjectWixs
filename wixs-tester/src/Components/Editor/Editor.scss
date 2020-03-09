@@ -4,18 +4,18 @@
   overflow-x: auto;
   overflow-y: visible;
   transition: margin-right 0.5s;
-  //vertical scroll fix (https://stackoverflow.com/questions/6421966/css-overflow-x-visible-and-overflow-y-hidden-causing-scrollbar-issue)
+  //vertical overflow fix (https://stackoverflow.com/questions/6421966/css-overflow-x-visible-and-overflow-y-hidden-causing-scrollbar-issue)
   // this is  what is adding the extra space to the bottom of the screen, dont know another way to fix this...
   padding-bottom: 300px;
   margin-bottom: -300px;
 }
 
 .editor-grid{
-  grid-area: 'editor';
   width: 1200px;
   margin: 0 auto;
   //background-color: #2f4858;
   transition: 0.5s;
+  //zoom: 0.5;
 }
 
 .react-grid-item{
@@ -25,7 +25,6 @@
 
 .editor-sidebar{
   border-radius: 10px 0 0 10px;
-  box-shadow: -7px 0px 10px rgba(54, 58, 64, 0.35);
   //slide in from right stuff
   right: 0;
   height: calc(100% - 200px);
@@ -34,7 +33,7 @@
   z-index: 1;
   top: 100px;
   overflow-x: hidden;
-  transition: left 0.5s;
+  transition: left 0.5s, box-shadow 0.5s;
 }
 
 .editor-sidebar::-webkit-scrollbar{

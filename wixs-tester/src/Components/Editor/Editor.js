@@ -132,7 +132,7 @@ export default class Editor extends React.Component{
         className={'editor-sidebar component-editor'}
         style={{
           left: this.state.tabOpen ? 'calc(100% - 300px)' : '100%',
-          boxShadow: this.state.tabOpen ? '-7px 0px 10px rgba(54, 58, 64, 0.35)' : 'none'
+          boxShadow: this.state.tabOpen ? '0 0 20px rgba(54, 58, 64, 0.55)' : 'none'
         }}
       >
         <p className={'component-editor-close-button'} onClick={() => this.setState({activeElement: null})}>X</p>
@@ -168,7 +168,7 @@ export default class Editor extends React.Component{
           className={'editor-sidebar layout-editor'}
           style={{
             left: this.state.tabOpen ? 'calc(100% - 300px)' : '100%',
-            boxShadow: this.state.tabOpen ? '-7px 0px 10px rgba(54, 58, 64, 0.35)' : 'none'
+            boxShadow: this.state.tabOpen ? '0 0 20px rgba(54, 58, 64, 0.55)' : 'none'
           }}
         >
           <h1>Components</h1>
