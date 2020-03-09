@@ -7,12 +7,17 @@ import {Textbox} from "./Components/textbox/textbox";
 
 import {Button, Form,} from "react-bootstrap";
 
+
+//imagse
+import plus from "../assets/icons/plus.svg"
+
 export default class Editor extends React.Component{
 
   constructor(props) {
     super(props);
 
     this.state = {
+      tabOpen: false,
       gridElements: [],
       layout: [],
       activeElement: null,
@@ -28,6 +33,8 @@ export default class Editor extends React.Component{
     this.elementClicked = this.elementClicked.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.applyChange = this.applyChange.bind(this);
+
+    this.slideWidth = '300px';
   }
 
   generateItem(){
@@ -121,7 +128,13 @@ export default class Editor extends React.Component{
     console.log(ELEMENT);
     console.log(ELEMENT.props["content"].type === "Int" && "1");
     return(
-      <div className={'editor-sidebar component-editor'}>
+      <div
+        className={'editor-sidebar component-editor'}
+        style={{
+          left: this.state.tabOpen ? 'calc(100% - 300px)' : '100%',
+          boxShadow: this.state.tabOpen ? '-7px 0px 10px rgba(54, 58, 64, 0.35)' : 'none'
+        }}
+      >
         <p className={'component-editor-close-button'} onClick={() => this.setState({activeElement: null})}>X</p>
         <Form onSubmit={e => {e.preventDefault(); this.applyChange()}} >
           {Object.keys(ELEMENT.props).map((key, index) => {
@@ -150,20 +163,27 @@ export default class Editor extends React.Component{
 
   layoutEditor(){
     return(
-      <div className={'editor-sidebar layout-editor'}>
-        <h1>Components</h1>
-        <p>This is where the components and options will be...</p>
-        <button onClick={this.generateItem}>ADD NEW ELEMENT</button>
-        <button onClick={this.saveGrid}>SAVE LAYOUT</button>
-        <button onClick={this.loadGrid}>LOAD LAYOUT</button>
+      <div>
+        <div
+          className={'editor-sidebar layout-editor'}
+          style={{
+            left: this.state.tabOpen ? 'calc(100% - 300px)' : '100%',
+            boxShadow: this.state.tabOpen ? '-7px 0px 10px rgba(54, 58, 64, 0.35)' : 'none'
+          }}
+        >
+          <h1>Components</h1>
+          <p>This is where the components and options will be...</p>
+          <button onClick={this.generateItem}>ADD NEW ELEMENT</button>
+          <button onClick={this.saveGrid}>SAVE LAYOUT</button>
+          <button onClick={this.loadGrid}>LOAD LAYOUT</button>
+        </div>
       </div>
     )
   }
 
   render(){
-    //TODO make this sorta responsive so it works on more screen sizes
     return(
-      <div className={'editor-container'}>
+      <div className={'editor-container'} style={{marginRight: this.state.tabOpen ? '300px' : 0}}>
         <GridLayout
           className="editor-grid"
           layout={this.state.layout}
@@ -174,9 +194,16 @@ export default class Editor extends React.Component{
           compactType={null}
           preventCollision={true}
           margin={[1,1]}
+
         >
           {this.generateDOM()}
         </GridLayout>
+        <div className={['editor-handle', this.state.activeElement === null ? 'layout-editor-handle' : 'component-editor-handle'].join(' ')} style={{right: this.state.tabOpen ? this.slideWidth : undefined}}>
+          <img
+            src={plus}
+            onClick={() => this.setState(prevState => ({tabOpen: !prevState.tabOpen}))}
+          />
+        </div>
         {this.state.activeElement === null ? this.layoutEditor() : this.componentEditor()}
       </div>
     )

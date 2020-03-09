@@ -1,39 +1,84 @@
 @import '../sass/Colors.scss';
 
 .editor-container{
-  display: grid;
-  grid-template-columns: 1200px auto;
-  grid-template-rows: auto;
-  grid-template-areas: 'editor' 'sidebar';
-}
-
-.editor-sidebar{
-  grid-area: 'sidebar';
-  margin: 5px;
-  border-radius: 10px;
-  padding: 5px;
-  box-shadow: -7px 0px 10px rgba(54, 58, 64, 0.35);
+  overflow-x: auto;
+  overflow-y: visible;
+  transition: margin-right 0.5s;
+  //vertical scroll fix (https://stackoverflow.com/questions/6421966/css-overflow-x-visible-and-overflow-y-hidden-causing-scrollbar-issue)
+  // this is  what is adding the extra space to the bottom of the screen, dont know another way to fix this...
+  padding-bottom: 300px;
+  margin-bottom: -300px;
 }
 
 .editor-grid{
   grid-area: 'editor';
   width: 1200px;
   margin: 0 auto;
+  //background-color: #2f4858;
+  transition: 0.5s;
 }
-
 
 .react-grid-item{
   border: 1px dashed grey;
   border-radius: 5px;
 }
 
+.editor-sidebar{
+  border-radius: 10px 0 0 10px;
+  box-shadow: -7px 0px 10px rgba(54, 58, 64, 0.35);
+  //slide in from right stuff
+  right: 0;
+  height: calc(100% - 200px);
+  position: fixed;
+  width: 300px;
+  z-index: 1;
+  top: 100px;
+  overflow-x: hidden;
+  transition: left 0.5s;
+}
+
+.editor-sidebar::-webkit-scrollbar{
+  width: 20px;
+  background-color: transparent;
+}
+
+.editor-sidebar::-webkit-scrollbar-thumb{
+  box-shadow: inset 0 0 10px 10px #d3d4d7;
+  border: solid 5px transparent;
+  border-radius: 10px;
+}
+
+.editor-sidebar *{
+  margin: 5px;
+}
+
+.editor-handle{
+  width: 40px;
+  height: 40px;
+  border-radius: 10px 0 0 10px;
+  padding: 5px;
+  position: fixed;
+  right: 0;
+  top: 115px;
+  z-index: 2;
+  box-shadow: -7px 0px 10px rgba(54, 58, 64, 0.35);
+  cursor: pointer;
+  transition: right 0.5s;
+}
+
+.layout-editor-handle{
+  background-color: $accent-1;
+}
+
 .layout-editor{
   background-color: $accent-1;
+}
 
+.component-editor-handle{
+  background-color: $accent-2;
 }
 
 .component-editor{
-  position: relative;
   background-color: $accent-2;
 }
 
