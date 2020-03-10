@@ -34,6 +34,7 @@ this schema is loosely based off [JSON Schema](https://json-schema.org/). Fields
  - String
  - StringArea
  - RichText 
+    - initial `value` prop must be `null`
  - Int
  - Number
  - Boolean

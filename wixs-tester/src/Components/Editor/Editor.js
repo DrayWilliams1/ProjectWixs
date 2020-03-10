@@ -2,7 +2,7 @@ import React from "react";
 import './Editor.scss'
 
 import GridLayout from 'react-grid-layout';
-import { LEGEND } from "./EDITOR_CONSTANTS";
+import {LEGEND} from "./EDITOR_CONSTANTS";
 import {Textbox} from "./Components/textbox/textbox";
 
 import {Button, Form,} from "react-bootstrap";
@@ -11,7 +11,7 @@ import {Button, Form,} from "react-bootstrap";
 import plus from "../assets/icons/plus.svg"
 import RichTextEditor from "./RichTextEditor/RichTextEditor";
 
-export default class Editor extends React.Component{
+export default class Editor extends React.Component {
 
   constructor(props) {
     super(props);
@@ -36,41 +36,44 @@ export default class Editor extends React.Component{
     this.slideWidth = '300px';
   }
 
-  generateItem(){
+  generateItem() {
     // let item = {type: "Textbox", props: {content: {value: "hello world "}, key: this.state.gridElements.length + 1}};
     const typeName = "Textbox";
     const typeRef = LEGEND[typeName];
     let key;
     do {
       key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    }while(this.state.gridElements.length !== 0 && this.state.gridElements.filter(e => e.props.key === key).length > 0);
+    } while (this.state.gridElements.length !== 0 && this.state.gridElements.filter(e => e.props.key === key).length > 0);
 
     // it is important that props be added last, when parsing props the form generator will ignore the first two props (key and data-grid)
     const height = this.state.layout.reduce((total, value) => {
-      if(value.y + value.h > total) return(value.y + value.h);
+      if (value.y + value.h > total) return (value.y + value.h);
       return total
     }, 0);
-    let item = {type: typeName, props: {key: key, "data-grid": {x: 0, y: height, ...typeRef.gridOptions}, ...typeRef.props}};
+    let item = {
+      type: typeName,
+      props: {key: key, "data-grid": {x: 0, y: height, ...typeRef.gridOptions}, ...typeRef.props}
+    };
 
     this.setState(prevState => ({gridElements: [...prevState.gridElements, item]}));
   }
 
-  saveGrid(){
+  saveGrid() {
     const store = {gridElements: this.state.gridElements, layout: this.state.layout};
     localStorage.setItem("test-editor-store", JSON.stringify(store));
     console.log("Layout saved");
   }
 
-  loadGrid(){
+  loadGrid() {
     const load = JSON.parse(localStorage.getItem("test-editor-store"));
     this.setState({layout: load.layout, gridElements: load.gridElements});
     console.log("Layout loaded");
   }
 
-  generateDOM(){
-    return(
+  generateDOM() {
+    return (
       this.state.gridElements.map((element, index) => {
-        return(
+        return (
           React.createElement(LEGEND[element.type].type, {
             ...element.props,
             className: this.state.activeElement === index && 'react-grid-item-active',
@@ -82,29 +85,29 @@ export default class Editor extends React.Component{
     )
   }
 
-  elementClicked(index){
+  elementClicked(index) {
     //this.setState({activeElement: index}
     let editFields = {};
-    for (let [key, value] of Object.entries(this.state.gridElements[index].props)){
-      if(key !== "key" && key !== "data-grid"){
+    for (let [key, value] of Object.entries(this.state.gridElements[index].props)) {
+      if (key !== "key" && key !== "data-grid") {
         editFields[key] = value.value;
       }
     }
     this.setState({activeElement: index, editElement: editFields});
   }
 
-  handleChange(e){
+  handleChange(e) {
     const name = e.target.name;
     const value = e.target.value;
     this.setState(prevState => ({editElement: {...prevState.editElement, [name]: value}}));
   }
 
-  applyChange(){
+  applyChange() {
     let elements = JSON.parse(JSON.stringify(this.state.gridElements));
-    for(let [keyOld, valueOld] of Object.entries(elements[this.state.activeElement].props)){
-      if(keyOld !== "key" && keyOld !== "data-grid"){
-        for(let [keyNew, valueNew] of Object.entries(this.state.editElement)){
-          if(keyOld === keyNew){
+    for (let [keyOld, valueOld] of Object.entries(elements[this.state.activeElement].props)) {
+      if (keyOld !== "key" && keyOld !== "data-grid") {
+        for (let [keyNew, valueNew] of Object.entries(this.state.editElement)) {
+          if (keyOld === keyNew) {
             elements[this.state.activeElement].props[keyOld].value = valueNew;
           }
         }
@@ -113,7 +116,7 @@ export default class Editor extends React.Component{
     this.setState({gridElements: elements, activeElement: null});
   }
 
-  componentEditor(){
+  componentEditor() {
     const OBJ_TYPE = LEGEND[this.state.gridElements[this.state.activeElement].type];
     const ELEMENT = this.state.gridElements[this.state.activeElement];
     const inputType = {
@@ -125,7 +128,7 @@ export default class Editor extends React.Component{
     };
 
     console.log(ELEMENT);
-    return(
+    return (
       <div
         className={'editor-sidebar component-editor'}
         style={{
@@ -134,13 +137,16 @@ export default class Editor extends React.Component{
         }}
       >
         <p className={'component-editor-close-button'} onClick={() => this.setState({activeElement: null})}>X</p>
-        <Form onSubmit={e => {e.preventDefault(); this.applyChange()}} className={"layout-editor-form-root"}>
+        <Form onSubmit={e => {
+          e.preventDefault();
+          this.applyChange()
+        }} className={"layout-editor-form-root"}>
           {Object.keys(ELEMENT.props).map((key, index) => {
-            if (index > 1){
+            if (index > 1) {
               //check types and return form fields based on types
               //TEXTAREA, TEXT, INT, NUMBER
-              if(["StringArea", "String", "Int", "Number"].includes(ELEMENT.props[key].type)){
-                return(
+              if (["StringArea", "String", "Int", "Number"].includes(ELEMENT.props[key].type)) {
+                return (
                   <Form.Group key={key + index}>
                     <Form.Label>{ELEMENT.props[key].name}</Form.Label>
                     <Form.Control
@@ -154,12 +160,17 @@ export default class Editor extends React.Component{
                     />
                   </Form.Group>
                 )
-              }else if(ELEMENT.props[key].type === "RichText"){
-                return(
+              } else if (ELEMENT.props[key].type === "RichText") {
+                return (
                   <RichTextEditor
                     key={key + index}
                     initialState={this.state.editElement[key]}
-                    updateState={(e) => this.setState(prevState => ({editElement: {...prevState.editElement, [key]: e}}))}
+                    updateState={(e) => this.setState(prevState => ({
+                      editElement: {
+                        ...prevState.editElement,
+                        [key]: e
+                      }
+                    }))}
                   />
                 )
               }
@@ -172,8 +183,8 @@ export default class Editor extends React.Component{
     )
   }
 
-  layoutEditor(){
-    return(
+  layoutEditor() {
+    return (
       <div>
         <div
           className={'editor-sidebar layout-editor'}
@@ -192,8 +203,8 @@ export default class Editor extends React.Component{
     )
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <div className={'editor-container'} style={{marginRight: this.state.tabOpen ? '300px' : 0}}>
         <GridLayout
           className="editor-grid"
@@ -204,12 +215,14 @@ export default class Editor extends React.Component{
           onLayoutChange={(l) => this.setState({layout: l})}
           compactType={null}
           preventCollision={true}
-          margin={[1,1]}
+          margin={[1, 1]}
 
         >
           {this.generateDOM()}
         </GridLayout>
-        <div className={['editor-handle', this.state.activeElement === null ? 'layout-editor-handle' : 'component-editor-handle'].join(' ')} style={{right: this.state.tabOpen ? this.slideWidth : undefined}}>
+        <div
+          className={['editor-handle', this.state.activeElement === null ? 'layout-editor-handle' : 'component-editor-handle'].join(' ')}
+          style={{right: this.state.tabOpen ? this.slideWidth : undefined}}>
           <img
             src={plus}
             onClick={() => this.setState(prevState => ({tabOpen: !prevState.tabOpen}))}
