@@ -12,17 +12,18 @@ Each component should have its own folder with at least 2 files in it, a `.jsx` 
 
 ## Data Schema
 Each component should export a `SCHEMA` constant that can be interpreted by the layout engine. the structure of
-this schema is loosely based off [JSON Schema](https://json-schema.org/). Fields marked with a `*` are required
+this schema is loosely based off [JSON Schema](https://json-schema.org/). Fields marked with a * are required
 
     export const SCHEMA = {
       type: <COMPONENT_NAME>,
-      gridOptions: { h: *int, w: *int, minW: int, minH: int, maxW: int, maxW: int },
+      gridOptions: { *h: int, *w: int, minW: int, minH: int, maxW: int, maxW: int },
+      *title: "some title to display in the editor",
+      *desc: "A description of the component to display in the editor",
       props: {
         <parameter_name>: {
-            type: *<TYPE>,
-            name: *string,
-            value: *<value of type TYPE>
-            desc: string,
+            *type: <TYPE>,
+            *name: string,
+            *value: <value of type TYPE>
         }
       }
     };
@@ -34,7 +35,7 @@ this schema is loosely based off [JSON Schema](https://json-schema.org/). Fields
  - String
  - StringArea
  - RichText 
-    - initial `value` prop must be `null`
+    - initial `value` prop must be `null`. Use a RichTextDisplay to display the content.
  - Int
  - Number
  - Boolean

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import {Editor as DraftEditor, convertFromRaw, EditorState} from 'draft-js';
 
@@ -19,5 +20,9 @@ class RichTextDisplay extends Component {
     );
   }
 }
+
+RichTextDisplay.propTypes = {
+  content: PropTypes.any.isRequired
+};
 
 export default RichTextDisplay;

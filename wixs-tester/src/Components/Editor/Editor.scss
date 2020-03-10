@@ -86,13 +86,19 @@
 }
 
 .component-editor-close-button {
+  width: 35px;
   position: absolute;
   right: 10px;
+  top: 10px;
   margin: 5px;
   cursor: pointer;
-  font-weight: bolder;
-  color: dimgrey;
   z-index: 10;
+  filter: invert(1);
+}
+
+.layout-editor-component-subtext{
+  font-size: 0.85rem;
+  filter: opacity(0.8);
 }
 
 .component-editor-close-button:hover {

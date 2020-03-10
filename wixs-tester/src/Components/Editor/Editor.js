@@ -9,6 +9,8 @@ import {Button, Form,} from "react-bootstrap";
 
 //icons
 import plus from "../assets/icons/plus.svg"
+import close from "../assets/icons/other/028-cancel-1.svg"
+
 import RichTextEditor from "./RichTextEditor/RichTextEditor";
 
 export default class Editor extends React.Component {
@@ -36,9 +38,8 @@ export default class Editor extends React.Component {
     this.slideWidth = '300px';
   }
 
-  generateItem() {
+  generateItem(typeName) {
     // let item = {type: "Textbox", props: {content: {value: "hello world "}, key: this.state.gridElements.length + 1}};
-    const typeName = "Textbox";
     const typeRef = LEGEND[typeName];
     let key;
     do {
@@ -127,7 +128,6 @@ export default class Editor extends React.Component {
       // Boolean: "TODO",
     };
 
-    console.log(ELEMENT);
     return (
       <div
         className={'editor-sidebar component-editor'}
@@ -136,7 +136,11 @@ export default class Editor extends React.Component {
           boxShadow: this.state.tabOpen ? '0 0 20px rgba(54, 58, 64, 0.55)' : 'none'
         }}
       >
-        <p className={'component-editor-close-button'} onClick={() => this.setState({activeElement: null})}>X</p>
+        <img
+          src={close}
+          className={'component-editor-close-button'}
+          onClick={() => this.setState({activeElement: null})}
+        />
         <Form onSubmit={e => {
           e.preventDefault();
           this.applyChange()
@@ -162,16 +166,19 @@ export default class Editor extends React.Component {
                 )
               } else if (ELEMENT.props[key].type === "RichText") {
                 return (
-                  <RichTextEditor
-                    key={key + index}
-                    initialState={this.state.editElement[key]}
-                    updateState={(e) => this.setState(prevState => ({
-                      editElement: {
-                        ...prevState.editElement,
-                        [key]: e
-                      }
-                    }))}
-                  />
+                  <Form.Group>
+                    <Form.Label>{ELEMENT.props[key].name}</Form.Label>
+                    <RichTextEditor
+                      key={key + index}
+                      content={this.state.editElement[key]}
+                      updateState={(e) => this.setState(prevState => ({
+                        editElement: {
+                          ...prevState.editElement,
+                          [key]: e
+                        }
+                      }))}
+                    />
+                  </Form.Group>
                 )
               }
 
@@ -194,8 +201,14 @@ export default class Editor extends React.Component {
           }}
         >
           <h1>Components</h1>
-          <p>This is where the components and options will be...</p>
-          <button onClick={this.generateItem}>ADD NEW ELEMENT</button>
+          {Object.entries(LEGEND).map(([key, value]) => {
+            return (
+              <div>
+                <Button onClick={() => this.generateItem(key)}>{key}</Button>
+                <p className={'layout-editor-component-subtext'}>{value.desc}</p>
+              </div>
+            )
+          })}
           <button onClick={this.saveGrid}>SAVE LAYOUT</button>
           <button onClick={this.loadGrid}>LOAD LAYOUT</button>
         </div>

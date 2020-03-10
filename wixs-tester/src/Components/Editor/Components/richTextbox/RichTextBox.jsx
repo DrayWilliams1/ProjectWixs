@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
-import "./textbox.scss";
+import RichTextDisplay from "../RichTextDisplay";
 
-export class Textbox extends Component {
-
+export class RichTextBox extends Component {
   render() {
     return (
       <div {...this.props} className={[this.props.className, "textbox-style"].join(' ')}>
         {this.props.children}
-        <p>{this.props.content.value}</p>
+        <RichTextDisplay content={this.props.content.value} />
       </div>
 
     );
@@ -16,15 +15,15 @@ export class Textbox extends Component {
 
 // legend information
 export const SCHEMA = {
-  type: Textbox,
+  type: RichTextBox,
   gridOptions: {h: 2, w: 4, minW: 2, minH: 2},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
-  title: "Plain Text Area",
-  desc: "A simple text component with no styling",
+  title: "Text Area",
+  desc: "A text component that allows for bold, underline, bullet points and more",
   props: {
     content: {
-      type: "StringArea",
+      type: "RichText",
       name: "Content",
-      value: "",
+      value: null,
     }
   }
 };

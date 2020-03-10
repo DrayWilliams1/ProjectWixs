@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from "prop-types";
 
 import {
   Editor as DraftEditor,
@@ -8,13 +9,14 @@ import {
   convertFromRaw
 } from 'draft-js';
 import "./RichTextEditor.scss"
+import RichTextDisplay from "../Components/RichTextDisplay";
 
-export default class RichTextEditor extends Component {
+class RichTextEditor extends Component {
   constructor(props) {
     super(props);
 
-    if (this.props.initialState !== null) {
-      const contentState = convertFromRaw(this.props.initialState);
+    if (this.props.content !== null) {
+      const contentState = convertFromRaw(this.props.content);
       this.state = {editorState: DraftEditorState.createWithContent(contentState)}
     } else {
       this.state = {editorState: DraftEditorState.createEmpty()}
@@ -50,3 +52,9 @@ export default class RichTextEditor extends Component {
     );
   }
 }
+
+RichTextDisplay.propTypes = {
+  content: PropTypes.any.isRequired
+};
+
+export default RichTextEditor;
