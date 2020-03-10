@@ -15,7 +15,10 @@ function HelpPage() {
       <Container>
         <div className="word-content">
           <h1>Help and FAQs</h1>
-          {/* Will give errors in the inspector for certain modifiers, hwoever, nothing is wrong. */}
+          {/* Will give errors in the inspector for certain modifiers, however, nothing is wrong. */}
+          <p>
+            This page offers tutorials and guides for those who require help with formatting and creation of their site.
+          </p>
 
           {/* Video wrapper div allowing for video that maintains aspect ratio and resizes based on device screen size */}
           <div className="videoWrapper">
@@ -29,23 +32,6 @@ function HelpPage() {
             ></iframe>
           </div>
 
-          <h2 className="underline">What is ProjectWix?</h2>
-          <p>
-            ProjectWixs is a Content Management System allowing for a seamless
-            creation of single-page web pages featuring an easy-to-use drag and
-            drop component interface. ProjectWixs aims to provide an intuitive
-            experience for a wide range of users; from complete beginners
-            unfamiliar with any form of web design or HTML, to veteran designers
-            with multiple years of experience. The system will be able to have
-            up to ten user accounts that can create and edit web pages with a
-            range of content typical of any modern day website (such as text,
-            images, and video). Users will be able to create, edit, and delete
-            up to four templates and publish one at any time for live viewing.
-          </p>
-          <h2 className="videoWrapper">Skill levels</h2>
-          <p>
-              We offer 3
-          </p>
         </div>
       </Container>
     </div>
