@@ -11,7 +11,9 @@ import LoginPage from "./components/LoginPage.js";
 import RegisterPage from "./components/RegisterPage.js";
 import DashboardPage from "./components/DashboardPage.js";
 import AdminPage from "./components/AdminPage.js";
+import UploadPage from "./components/UploadPage.js";
 
+// Secure Route (can send multiple different components here)
 import ProtectedRoute from "./components/ProtectedRoute.js";
 
 // CSS/SASS
@@ -101,10 +103,17 @@ export default class App extends Component {
               <Route exact path="/login" component={LoginPage} />
 
               {/* Routes to the user dashboard/template select page */}
-              <ProtectedRoute exact path="/dashboard" component={DashboardPage} />
+              <ProtectedRoute
+                exact
+                path="/dashboard"
+                component={DashboardPage}
+              />
 
               {/* Routes to the administrator's site info page */}
               <Route exact path="/admin" component={AdminPage} />
+
+              {/* Routes to the user file upload page */}
+              <Route exact path="/upload" component={UploadPage} />
 
               {/* Routes to a 404 page. A catch-all for any pages not existing on the server or in the application. */}
               <Route path="*" component={NullPage} />

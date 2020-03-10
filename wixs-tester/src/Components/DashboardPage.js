@@ -1,7 +1,7 @@
 // Dependencies
 import React, { Component } from "react";
-import { Container, Button, Card, CardDeck, CardImg, } from "react-bootstrap";
-import axios from 'axios';
+import { Container, Button, Card, CardDeck, CardImg } from "react-bootstrap";
+import axios from "axios";
 import auth from "/auth.js";
 
 // CSS/SASS
@@ -23,19 +23,19 @@ export default class DashboardPage extends Component {
     this.onClickHandler = this.onClickHandler.bind(this);
   }
   //For holding on to the file uploaded in a state
-  onChangeHandler(event){
+  onChangeHandler(event) {
     event.preventDefault();
-      this.setState({
-        selectedFile: event.target.files[0],
-        loaded: 0
-      });
-    }
+    this.setState({
+      selectedFile: event.target.files[0],
+      loaded: 0
+    });
+  }
 
   //For saving the file to the server
-  onClickHandler(event){
-   const data = new FormData()
-   data.append('file', this.state.selectedFile)
-   axios.post("/", data)//Need PHP Code
+  onClickHandler(event) {
+    const data = new FormData();
+    data.append("file", this.state.selectedFile);
+    axios.post("/", data); //Need PHP Code
   }
 
   render() {
@@ -45,91 +45,95 @@ export default class DashboardPage extends Component {
     var currentUser = auth.getCookie("user");
     let greeting;
 
-    if(isAuthenticated){
-      greeting=(
-        <h1>Welcome <i>{currentUser}</i> to your Dashboard!</h1>
+    if (isAuthenticated) {
+      greeting = (
+        <h1>
+          Welcome <i>{currentUser}</i> to your Dashboard!
+        </h1>
       );
-    }
-    else{
-      <h1>Hello asshole</h1>
+    } else {
+      <h1>Hello asshole</h1>;
     }
     return (
       <div>
         <Container>
-          <div className="word-content">
-            {greeting}
-          </div>
+          <div className="word-content">{greeting}</div>
         </Container>
 
         <Container>
           <div className="template-selection">
-            <a href="#/editor"><h2 className="editor-link" >Your Templates</h2></a>
+            <a href="#/editor">
+              <h2 className="editor-link">Your Templates</h2>
+            </a>
             <CardDeck>
               <Card>
-                <Card.Img variant="top"/>
+                <Card.Img variant="top" />
                 <Card.Body>
                   <Card.Title>Template 1</Card.Title>
-                  <Card.Text>
-                    Placeholder.
-                  </Card.Text>
+                  <Card.Text>Placeholder.</Card.Text>
                 </Card.Body>
                 <Card.Footer>
                   <small className="text-muted">Last updated 3 mins ago</small>
                   <span>&nbsp;&nbsp;</span>
-                  <Button variant="primary" size="sm"> Edit </Button>
+                  <Button variant="primary" size="sm">
+                    {" "}
+                    Edit{" "}
+                  </Button>
                   <span>&nbsp;&nbsp;</span>
-                  <Button variant="danger" size="sm"> Delete </Button>
+                  <Button variant="danger" size="sm">
+                    {" "}
+                    Delete{" "}
+                  </Button>
                 </Card.Footer>
               </Card>
               <Card>
-                <Card.Img variant="top"/>
+                <Card.Img variant="top" />
                 <Card.Body>
                   <Card.Title>Template 2</Card.Title>
-                  <Card.Text>
-                    Placeholder 2.
-                  </Card.Text>
+                  <Card.Text>Placeholder 2.</Card.Text>
                 </Card.Body>
                 <Card.Footer>
                   <small className="text-muted">Last updated 3 mins ago</small>
                   <span>&nbsp;&nbsp;</span>
-                  <Button variant="secondary" size="sm"> Edit </Button>
+                  <Button variant="secondary" size="sm">
+                    {" "}
+                    Edit{" "}
+                  </Button>
                   <span>&nbsp;&nbsp;</span>
-                  <Button variant="danger" size="sm"> Delete </Button>
+                  <Button variant="danger" size="sm">
+                    {" "}
+                    Delete{" "}
+                  </Button>
                 </Card.Footer>
               </Card>
               <Card>
-                <Card.Img variant="top"/>
+                <Card.Img variant="top" />
                 <Card.Body>
                   <Card.Title>Template 3</Card.Title>
                   <Card.Text>
-                    Placeholder 3 with extra text: This is a wider card with supporting text below as a natural lead-in to
-                    additional content. This card has even longer content than the first to
+                    Placeholder 3 with extra text: This is a wider card with
+                    supporting text below as a natural lead-in to additional
+                    content. This card has even longer content than the first to
                     show that equal height action.
                   </Card.Text>
                 </Card.Body>
                 <Card.Footer>
                   <small className="text-muted">Last updated 3 mins ago</small>
                   <span>&nbsp;&nbsp;</span>
-                  <Button variant="dark" size="sm"> Edit </Button>
+                  <Button variant="dark" size="sm">
+                    {" "}
+                    Edit{" "}
+                  </Button>
                   <span>&nbsp;&nbsp;</span>
-                  <Button variant="danger" size="sm"> Delete </Button>
+                  <Button variant="danger" size="sm">
+                    {" "}
+                    Delete{" "}
+                  </Button>
                 </Card.Footer>
               </Card>
             </CardDeck>
           </div>
         </Container>
-
-        
-
-        <Container>
-          <div className="gallery-selection">
-            <h2>Your Gallery</h2>
-            <input type="file" name="file" onChange={this.onChangeHandler}/>
-            <Button variant="success" onClick={this.onClickHandler}>
-              Upload
-            </Button>
-          </div>
-         </Container>
       </div>
     );
   }
