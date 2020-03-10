@@ -6,7 +6,6 @@
   max-width: 1200px;
   display: grid;
   grid-template-rows: 250px auto 50px;
-  grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas:
           '. logo .'
           'content1 content2 content3'
@@ -20,6 +19,11 @@
   grid-area: logo;
   margin: 0 auto;
 }
+
+.text-center{
+  align-content: center;
+}
+
 
 .loginORregister{
   grid-area: login;
