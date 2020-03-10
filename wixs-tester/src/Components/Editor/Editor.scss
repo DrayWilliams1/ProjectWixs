@@ -96,6 +96,10 @@
   filter: invert(1);
 }
 
+.react-resizable-handle{
+  z-index: 999;
+}
+
 .layout-editor-component-subtext{
   font-size: 0.85rem;
   filter: opacity(0.8);

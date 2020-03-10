@@ -9,7 +9,6 @@ export class Textbox extends Component {
         {this.props.children}
         <p>{this.props.content.value}</p>
       </div>
-
     );
   }
 }

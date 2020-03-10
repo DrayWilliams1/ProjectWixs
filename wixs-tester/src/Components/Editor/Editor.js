@@ -203,7 +203,7 @@ export default class Editor extends React.Component {
           <h1>Components</h1>
           {Object.entries(LEGEND).map(([key, value]) => {
             return (
-              <div>
+              <div key={'layout-editor-element-' + key}>
                 <Button onClick={() => this.generateItem(key)}>{key}</Button>
                 <p className={'layout-editor-component-subtext'}>{value.desc}</p>
               </div>

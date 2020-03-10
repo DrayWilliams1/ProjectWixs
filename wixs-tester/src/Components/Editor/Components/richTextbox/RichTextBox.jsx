@@ -4,11 +4,10 @@ import RichTextDisplay from "../RichTextDisplay";
 export class RichTextBox extends Component {
   render() {
     return (
-      <div {...this.props} className={[this.props.className, "textbox-style"].join(' ')}>
+      <div {...this.props} className={[this.props.className].join(' ')}>
         {this.props.children}
         <RichTextDisplay content={this.props.content.value} />
       </div>
-
     );
   }
 }
