@@ -50,6 +50,9 @@ export default class DashboardPage extends Component {
         <h1>Welcome <i>{currentUser}</i> to your Dashboard!</h1>
       );
     }
+    else{
+      <h1>Hello asshole</h1>
+    }
     return (
       <div>
         <Container>
