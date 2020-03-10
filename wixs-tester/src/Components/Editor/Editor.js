@@ -7,9 +7,9 @@ import {Textbox} from "./Components/textbox/textbox";
 
 import {Button, Form,} from "react-bootstrap";
 
-
-//imagse
+//icons
 import plus from "../assets/icons/plus.svg"
+import RichTextEditor from "./RichTextEditor/RichTextEditor";
 
 export default class Editor extends React.Component{
 
@@ -21,7 +21,6 @@ export default class Editor extends React.Component{
       gridElements: [],
       layout: [],
       activeElement: null,
-      editElement: {}
     };
 
     this.generateItem = this.generateItem.bind(this);
@@ -126,7 +125,6 @@ export default class Editor extends React.Component{
     };
 
     console.log(ELEMENT);
-    console.log(ELEMENT.props["content"].type === "Int" && "1");
     return(
       <div
         className={'editor-sidebar component-editor'}
@@ -136,23 +134,36 @@ export default class Editor extends React.Component{
         }}
       >
         <p className={'component-editor-close-button'} onClick={() => this.setState({activeElement: null})}>X</p>
-        <Form onSubmit={e => {e.preventDefault(); this.applyChange()}} >
+        <Form onSubmit={e => {e.preventDefault(); this.applyChange()}} className={"layout-editor-form-root"}>
           {Object.keys(ELEMENT.props).map((key, index) => {
             if (index > 1){
-              return(
-                <Form.Group key={key + index}>
-                  <Form.Label>{ELEMENT.props[key].name}</Form.Label>
-                  <Form.Control
-                    name={key}
-                    value={this.state.editElement[key]}
-                    onChange={this.handleChange}
-                    as={inputType[ELEMENT.props[key].type]}
-                    type={(ELEMENT.props[key].type === "Int" || ELEMENT.props[key].type === "Number") ? "number" : undefined}
-                    step={ELEMENT.props[key].type === "Int" ? "1" : "any"}
-                    min={0}
+              //check types and return form fields based on types
+              //TEXTAREA, TEXT, INT, NUMBER
+              if(["StringArea", "String", "Int", "Number"].includes(ELEMENT.props[key].type)){
+                return(
+                  <Form.Group key={key + index}>
+                    <Form.Label>{ELEMENT.props[key].name}</Form.Label>
+                    <Form.Control
+                      name={key}
+                      value={this.state.editElement[key]}
+                      onChange={this.handleChange}
+                      as={inputType[ELEMENT.props[key].type]}
+                      type={(ELEMENT.props[key].type === "Int" || ELEMENT.props[key].type === "Number") ? "number" : undefined}
+                      step={ELEMENT.props[key].type === "Int" ? "1" : "any"}
+                      min={0}
+                    />
+                  </Form.Group>
+                )
+              }else if(ELEMENT.props[key].type === "RichText"){
+                return(
+                  <RichTextEditor
+                    key={key + index}
+                    initialState={this.state.editElement[key]}
+                    updateState={(e) => this.setState(prevState => ({editElement: {...prevState.editElement, [key]: e}}))}
                   />
-                </Form.Group>
-              )
+                )
+              }
+
             }
           })}
           <Button variant={"outline-light"} type={"submit"}>APPLY</Button>

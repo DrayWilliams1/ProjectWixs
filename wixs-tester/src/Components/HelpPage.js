@@ -29,7 +29,7 @@ function HelpPage() {
             ></iframe>
           </div>
 
-          <h2>How to Use</h2>
+          <h2 className="underline">What is ProjectWix?</h2>
           <p>
             ProjectWixs is a Content Management System allowing for a seamless
             creation of single-page web pages featuring an easy-to-use drag and
@@ -41,6 +41,10 @@ function HelpPage() {
             range of content typical of any modern day website (such as text,
             images, and video). Users will be able to create, edit, and delete
             up to four templates and publish one at any time for live viewing.
+          </p>
+          <h2 className="videoWrapper">Skill levels</h2>
+          <p>
+              We offer 3
           </p>
         </div>
       </Container>
