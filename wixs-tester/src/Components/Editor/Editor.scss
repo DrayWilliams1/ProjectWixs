@@ -47,8 +47,8 @@
   border-radius: 10px;
 }
 
-.editor-sidebar *{
-  margin: 5px;
+.editor-sidebar > *{
+  margin: 10px;
 }
 
 .editor-handle{
@@ -81,6 +81,10 @@
   background-color: $accent-2;
 }
 
+.layout-editor-form-root{
+  margin-top: 35px;
+}
+
 .component-editor-close-button{
   position: absolute;
   right: 10px;
@@ -88,6 +92,7 @@
   cursor: pointer;
   font-weight: bolder;
   color: dimgrey;
+  z-index: 10;
 }
 .component-editor-close-button:hover{
   color: black;
