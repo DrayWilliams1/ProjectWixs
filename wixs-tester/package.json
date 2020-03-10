@@ -26,6 +26,7 @@
     "react-grid-layout": "^0.18.2",
     "react-resizable": "^1.10.1",
     "react-router-dom": "^5.1.2",
+    "reactstrap": "^8.4.1",
     "uuid": "^7.0.2"
   }
 }
