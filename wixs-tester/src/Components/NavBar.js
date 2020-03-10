@@ -85,7 +85,12 @@ class NavBar extends Component {
             Logout
           </Button>
           <Navbar.Text>
-            Signed in as: <span id="userEmail">{this.props.currentUser}</span>
+            Signed in as:{" "}
+            <span>
+              <a id="userEmail" href="#/dashboard">
+                {this.props.currentUser}
+              </a>
+            </span>
           </Navbar.Text>
         </div>
       );
@@ -152,6 +157,14 @@ class NavBar extends Component {
             >
               {/* Will possibly change this to activeClassName when using css file */}
               Help/FAQs
+            </NavLink>
+            <NavLink
+              to="/admin"
+              className="navLink-normal mr-sm-2"
+              activeClassName="navLink-selected"
+            >
+              {/* Will possibly change this to activeClassName when using css file */}
+              Admin Options
             </NavLink>
             <Nav className="ml-auto ">{buttons}</Nav>
           </Navbar.Collapse>

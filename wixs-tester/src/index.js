@@ -4,6 +4,7 @@ import { render } from "react-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import "draft-js/dist/Draft.css"
 
 // Components
 import App from "./App";

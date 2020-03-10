@@ -3,9 +3,9 @@ The Editor will likely be one fo the more complicated sections for the frontend 
 some instructions here for myself and others.
 
 # Layout Engine
-The Editor.js file is intended to simply control the dragging and dropping of other react components into a nice layout.
-It also allows the user to interface with each components data schema to manipulate page contents. It also handles
-the layout and component serialization and deserialization.
+The Editor.js file is intended to control dragging and dropping of react components into a nice layout.
+It also allows the user to interface with each component's data schema to manipulate page contents. Finally, it handles
+the layout and component serialization / deserialization.
 
 # Components
 Each component should have its own folder with at least 2 files in it, a `.jsx` file and the `.scss` companion file. 
@@ -29,8 +29,16 @@ this schema is loosely based off [JSON Schema](https://json-schema.org/). Fields
     
 `COMPONENT_NAME` should be the name of the component also exported from that file which in turn should be the name of the JSX file.
 
-`TYPE` can be any of the following primitives, "String", "StringArea", "Int", "Number", "Boolean". In addition to primitives it can
-also be "Array" which will allow the components to support arbitrary numbers of parameters.
+`TYPE` can be any of the following primitives:
+
+ - String
+ - StringArea
+ - RichText 
+ - Int
+ - Number
+ - Boolean
+
+ In addition to primitives it can also be "Array" which will allow the components to support arbitrary numbers of parameters.
 
 **`name` must be unique for each prop parameter**
 
