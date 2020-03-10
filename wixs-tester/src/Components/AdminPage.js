@@ -1,38 +1,103 @@
 import React, { Component } from "react";
-import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import qs from "qs";
+import axios from 'axios'; //AJAX call to PHP file
+import Table from 'react-bootstrap/Table'
 
+const IS_USER_ADMIN_URL =
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/isAdmin.php"
+
+import "./sass/AdminPage.scss"
 import auth from "/auth.js";
+import { Container } from "react-bootstrap";
 
-// CSS/SASS
-import "./sass/AdminPage.scss";
+export default class AdminPage extends Component{
+    constructor(props){
+      super(props);
+      
+      this.state={
+        users: []
+      }
+      this.displayUsers = this.displayUsers.bind(this);
+    }
 
-/**
- * Purpose: This is a file containing the registration page of the ProjectWixs front-end.
- * It documents basic layout and functionality of the registration page.
- *
- * -- Additional Notes --
- * - Note that this is a React class component and not a functional component. This is so
- *  the component can store and set state. Functional components are basically stateless.
- *
- * - React does not always need colons to finish lines so thats why some lines are missing them
- */
-export default class RegisterPage extends Component {
-  constructor(props) {
-    super(props);
-  }
+    displayUsers(){
 
-  render() {
-    return (
-      <div>
-        <Container>
+    }
+
+    render(){
+      const isAuthenticated = auth.isAuthenticated();
+      var currentUser = auth.getCookie("user");
+      let greeting;
+
+      if(isAuthenticated){
+        greeting=(
+          <h1>Welcome back, <i>{currentUser}</i>.</h1>
+        );
+      }
+      else{
+        <h1>Hello asshole</h1>
+      }
+      return(
+        <div>
+          <Container>
           <div className="word-content">
-            <h1>Admin Page --</h1>
+            {greeting}
           </div>
-        </Container>
-      </div>
-    );
-  }
+          </Container>
+
+          <Container>
+          <h2>ProjectWixs Userbase</h2>
+
+          <Table striped bordered hover variant="dark" reposnive="lg">
+              <thead>
+                <tr>
+                  <th>User ID</th>
+                  <th>E-mail Address</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Password</th>
+                  <th>Admin</th>
+                  <th># of Templates</th>
+                  <th>Session ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                  <td>bingo</td>
+                  <td>false</td>
+                  <td>3</td>
+                  <td>mongo</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Billybob</td>
+                  <td>Thornton</td>
+                  <td>@fat</td>
+                  <td>dmsms</td>
+                  <td>false</td>
+                  <td>2</td>
+                  <td>reeeeee</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>javascriptissuffering@lol.com</td>
+                  <td>Reba</td>
+                  <td>Shoebox</td>
+                  <td>password</td>
+                  <td>false</td>
+                  <td>2</td>
+                  <td>123445</td>
+                </tr>
+              </tbody>
+          </Table>
+          </Container>
+          </div>
+            
+        
+        
+      );
+    }
 }
