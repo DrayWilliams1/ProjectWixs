@@ -85,7 +85,12 @@ class NavBar extends Component {
             Logout
           </Button>
           <Navbar.Text>
-            Signed in as: <span id="userEmail">{this.props.currentUser}</span>
+            Signed in as:{" "}
+            <span>
+              <a id="userEmail" href="#/dashboard">
+                {this.props.currentUser}
+              </a>
+            </span>
           </Navbar.Text>
         </div>
       );
