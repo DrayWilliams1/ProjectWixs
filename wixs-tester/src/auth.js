@@ -60,7 +60,7 @@ class Auth {
   isAuthenticated() {
     var currentUser = this.getCookie("user");
     var currentSession = this.getCookie("usid");
-    var authenticated = false;
+    //var authenticated = false;
 
     if (currentUser && currentSession) {
       // if cookie values exist

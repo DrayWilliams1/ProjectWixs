@@ -24,9 +24,45 @@ export default class UploadPage extends Component {
     };
 
     this.onChange = this.onChange.bind(this);
-    //this.onClickHandler = this.onClickHandler.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.uploadFile = this.uploadFile.bind(this);
+  }
+
+  /**
+   * For saving the file to the server
+   *
+   * @param {*} file the file to be uploaded to the server
+   */
+  async uploadFile(file) {
+    const formData = new FormData();
+
+    var currentUser = auth.getCookie("user");
+    var currentSession = auth.getCookie("usid");
+
+    if (currentUser && currentSession) {
+      // user must be signed in to submit file
+      formData.append("avatar", file); // puts file into form data
+      formData.append("user", currentUser); // puts user name into form data (so that file can be linked to user within database)
+
+      return await axios
+        .post(FILE_UPLOAD_URL, formData, {
+          headers: {
+            "content-type": "multipart/form-data"
+          }
+        })
+        .then(response => {
+          console.log(response);
+          alert(response.data["message"]);
+          window.location.reload(); // reloads page
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      // user is not signed in (based on cookies) -- redirect
+      alert("User must be signed in to upload files. Redirecting... ");
+      window.location.href = "/";
+    }
   }
 
   /**
@@ -36,9 +72,7 @@ export default class UploadPage extends Component {
    */
   async onSubmit(event) {
     event.preventDefault();
-    let res = await this.uploadFile(this.state.selectedFile);
-
-    console.log(res.data);
+    this.uploadFile(this.state.selectedFile);
   }
 
   /**
@@ -50,30 +84,6 @@ export default class UploadPage extends Component {
     this.setState({
       selectedFile: event.target.files[0]
     });
-  }
-
-  /**
-   * For saving the file to the server
-   *
-   * @param {*} file
-   */
-  async uploadFile(file) {
-    const formData = new FormData();
-
-    formData.append("avatar", file);
-
-    return await axios
-      .post(FILE_UPLOAD_URL, formData, {
-        headers: {
-          "content-type": "multipart/form-data"
-        }
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
   }
 
   render() {

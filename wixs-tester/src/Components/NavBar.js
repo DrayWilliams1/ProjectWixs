@@ -1,6 +1,12 @@
 // Dependencies
 import React, { Component } from "react";
-import { Navbar, Nav, Button, ButtonToolbar, ButtonGroup } from "react-bootstrap";
+import {
+  Navbar,
+  Nav,
+  Button,
+  ButtonToolbar,
+  ButtonGroup
+} from "react-bootstrap";
 import { NavLink, withRouter } from "react-router-dom";
 import axios from "axios"; // for AJAX call to PHP files
 import qs from "qs"; // for packaging details collected from the form
@@ -99,14 +105,13 @@ class NavBar extends Component {
       buttons = (
         <div>
           <ButtonToolbar aria-label="Login and logout buttons">
-            <ButtonGroup classname="px-2" aria-label="Login button">
+            <ButtonGroup className="px-2" aria-label="Login button">
               <Button variant="primary" href={"#/login"}>
                 Login
               </Button>
             </ButtonGroup>
-            <p>" "</p>
             {/* <Navbar.Text> </Navbar.Text> */}
-            <ButtonGroup classname="px-2" aria-label="Logout button">
+            <ButtonGroup className="px-2" aria-label="Logout button">
               <Button variant="warning" href={"#/register"}>
                 Register
               </Button>
