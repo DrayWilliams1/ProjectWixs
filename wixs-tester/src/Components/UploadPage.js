@@ -61,7 +61,7 @@ export default class UploadPage extends Component {
     } else {
       // user is not signed in (based on cookies) -- redirect
       alert("User must be signed in to upload files. Redirecting... ");
-      window.location.href = "/";
+      window.location.href = "./";
     }
   }
 
