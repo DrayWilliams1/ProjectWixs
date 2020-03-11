@@ -29,7 +29,7 @@ export default class UploadPage extends Component {
   }
 
   /**
-   * For saving the file to the server
+   * Submits the file to the database after confirming that the user is signed in (authenticated)
    *
    * @param {*} file the file to be uploaded to the server
    */
@@ -61,12 +61,12 @@ export default class UploadPage extends Component {
     } else {
       // user is not signed in (based on cookies) -- redirect
       alert("User must be signed in to upload files. Redirecting... ");
-      window.location.href = "./";
+      window.location.href = "./"; // redirects to project homepage
     }
   }
 
   /**
-   *
+   * Checks if the user has selected a file and submits the file to the database
    *
    * @param {*} event the event that launched the function
    */

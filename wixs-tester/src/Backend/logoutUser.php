@@ -30,7 +30,7 @@ try {
 
             if (validInputs() && accountExists() && updateSession()) {
                 $responseObject['success']=true; // echoing a response that can be used to redirect page after AJAX call
-                $responseObject['message']="{$email_post} has been logged out. Redirecting... ";
+                $responseObject['message']="{$email_post} has been logged out. ";
             } // otherwise, error, response message is displayed in alert
             
         } else { // request method is not POST

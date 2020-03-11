@@ -113,7 +113,7 @@ export default class App extends Component {
               <Route exact path="/admin" component={AdminPage} />
 
               {/* Routes to the user file upload page */}
-              <Route exact path="/upload" component={UploadPage} />
+              <ProtectedRoute exact path="/upload" component={UploadPage} />
 
               {/* Routes to a 404 page. A catch-all for any pages not existing on the server or in the application. */}
               <Route path="*" component={NullPage} />
