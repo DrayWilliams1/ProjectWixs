@@ -22,9 +22,11 @@ export default class UploadPage extends Component {
     this.onChangeHandler = this.onChangeHandler.bind(this);
     this.onClickHandler = this.onClickHandler.bind(this);
   }
+
   //For holding on to the file uploaded in a state
   onChangeHandler(event) {
     event.preventDefault();
+    console.log(event.target.files[0]);
     this.setState({
       selectedFile: event.target.files[0],
       loaded: 0
@@ -35,7 +37,7 @@ export default class UploadPage extends Component {
   onClickHandler(event) {
     const data = new FormData();
     data.append("file", this.state.selectedFile);
-    axios.post("/", data); //Need PHP Code
+    //axios.post("/", data); //Need PHP Code
   }
 
   render() {
@@ -47,10 +49,12 @@ export default class UploadPage extends Component {
         <Container>
           <div className="gallery-selection">
             <h2>Your Gallery</h2>
-            <input type="file" name="file" onChange={this.onChangeHandler} />
-            <Button variant="success" onClick={this.onClickHandler}>
-              Upload
-            </Button>
+            <form>
+              <input type="file" name="file" onChange={this.onChangeHandler} />
+              <Button variant="success" onClick={this.onClickHandler}>
+                Upload
+              </Button>
+            </form>
           </div>
         </Container>
       </div>
