@@ -72,7 +72,13 @@ export default class UploadPage extends Component {
    */
   async onSubmit(event) {
     event.preventDefault();
-    this.uploadFile(this.state.selectedFile);
+    if (this.state.selectedFile) {
+      // if a file is currently selected, then submit
+      this.uploadFile(this.state.selectedFile);
+    } else {
+      // no file selected
+      alert("No file selected. Try again.");
+    }
   }
 
   /**
@@ -89,19 +95,31 @@ export default class UploadPage extends Component {
   render() {
     return (
       <div>
-        <h1>File Upload Page</h1>
-        <h2>Upload your files to the Project Wixs system</h2>
+        <Container>
+          <h1>File Upload</h1>
+          <p>Upload your files to the Project Wixs system</p>
+        </Container>
 
         <Container>
           <div className="gallery-selection">
-            <h2>Your Gallery</h2>
             <form onSubmit={this.onSubmit}>
-              <input type="file" onChange={this.onChange} />
+              <input
+                type="file"
+                onChange={this.onChange}
+                placeholder="Choose an image or video."
+              />
               <Button type="submit" variant="success">
                 Upload
               </Button>
             </form>
           </div>
+        </Container>
+        <Container>
+          <h2>Media Gallery</h2>
+          <p>
+            Below will display all content owned by {auth.getCookie("user")} in
+            the database
+          </p>
         </Container>
       </div>
     );
