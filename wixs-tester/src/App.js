@@ -110,7 +110,7 @@ export default class App extends Component {
               />
 
               {/* Routes to the administrator's site info page */}
-              <Route exact path="/admin" component={AdminPage} />
+              <ProtectedRoute exact path="/admin" component={AdminPage} />
 
               {/* Routes to the user file upload page */}
               <ProtectedRoute exact path="/upload" component={UploadPage} />
