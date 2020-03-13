@@ -16,6 +16,7 @@ $dsn = "pgsql:host=$host;port=$port;dbname=$db;user=$username;password=$password
 $responseObject = array();
 $responseObject['success']=false; // whether the operation executed successfully
 $responseObject['message']=""; // the message from the execution, error or success
+$responseObject['templates'] = null;
 
 $templates = array(); // the array of possible templates to be returned
 
@@ -29,7 +30,7 @@ try {
                // Using empty test instead of isset function
                $email_post = empty($_POST['email']) ? null : $_POST['email']; // set email to form submission
    
-               if (validInputs()) {
+               if (validInputs() && getTemplates()) {
                    $responseObject['success']=true; // echoing a response that can be used to redirect page after AJAX call
                } // otherwise, error, response message is displayed in alert
                
@@ -42,30 +43,29 @@ try {
    }
 
 /**
- * First checks if any inputs are missing, then validates and sanitizes certain inputs. 4 Rounds of validation.
+ * First checks if any inputs are missing, then validates and sanitizes certain inputs.
  * 
  * @return boolean true if no inputs are mssing, and all inputs are valid. Then sanitizes them. False, if any of those
  * criteria are not met.
  * */
 function validInputs() {
-    global $email_post, $password_post, $sessionID_post;
+    global $email_post;
     global $responseObject;
 
-    // Round 1 -- Are inputs empty
+    // Is email empty
     // does not check template count because field may be null
     if(empty($email_post)) {
         $responseObject['message']="One of more fields are missing. Please complete. ";
         return false; // invalid
     }
 
-
-    // checking if valid user email provided
+    // Is email valid (formatted properly)
     if(!filter_var($email_post, FILTER_VALIDATE_EMAIL)){
         $responseObject['message']="Invalid email: formatting.  ";
         return false; // invalid
     }
 
-    // Round 4 -- Sanitize inputs
+    // Sanitize email
     // if no inputs are missing or invalid, they are sanitized.
     $email_post = filter_var($email_post,FILTER_SANITIZE_EMAIL);
 
@@ -79,8 +79,9 @@ function getTemplates() {
     global $pdo;
     global $email_post;
     global $responseObject;
+    global $templates;
 
-    $sql_select = "SELECT * FROM templates WHERE email = ?";
+    $sql_select = "SELECT owner_email, custom_name, file_location, is_active FROM templates WHERE owner_email = ?";
     $stmt = $pdo->prepare($sql_select);
 
     // pass and bind values to the statement
@@ -90,7 +91,9 @@ function getTemplates() {
         // we'll now we have the templates
         if ($stmt->rowCount() > 0) {
 
-            $templates = $stmt->fetchAll();
+            $templates = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $responseObject['templates']=$templates;
+            return true;
 
         } else {
             $responseObject['message']="User with email {$email_post} does not have any templates. ";

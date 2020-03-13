@@ -3,9 +3,13 @@ import React, { Component } from "react";
 import { Container, Button, Card, CardDeck, CardImg } from "react-bootstrap";
 import axios from "axios";
 import auth from "/auth.js";
+import qs from "qs"; // for packaging details collected from the form
 
 // CSS/SASS
 import "./sass/DashboardPage.scss";
+
+const GET_TEMPLATES_URL =
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/templateFetch.php";
 
 /**
  * Purpose: This is a file containing...
@@ -14,41 +18,70 @@ export default class DashboardPage extends Component {
   constructor(props) {
     super(props);
 
+    var currentUser = auth.getCookie("user");
+
     this.state = {
-      email: "",
+      email: currentUser,
       first_name: "",
-      selectedFile: null
+      last_name: "",
+      admin: false // if user is admin, display link to admin page
     };
-    this.onChangeHandler = this.onChangeHandler.bind(this);
-    this.onClickHandler = this.onClickHandler.bind(this);
-  }
-  //For holding on to the file uploaded in a state
-  onChangeHandler(event) {
-    event.preventDefault();
-    this.setState({
-      selectedFile: event.target.files[0],
-      loaded: 0
-    });
+
+    this.getUser = this.getUser.bind(this);
+    this.getTemplates = this.getTemplates.bind(this);
   }
 
-  //For saving the file to the server
-  onClickHandler(event) {
-    const data = new FormData();
-    data.append("file", this.state.selectedFile);
-    axios.post("/", data); //Need PHP Code
+  getUser() {
+    const params = {
+      email: this.state.email
+    };
+  }
+
+  getTemplates() {
+    const params = {
+      email: this.state.email
+    };
+
+    axios
+      .post(GET_TEMPLATES_URL, qs.stringify(params))
+      .then(response => {
+        console.log(response);
+
+        if (response.data["success"] === true) {
+          // do something with the sent data here. Generate the cards below or set data for a routine so they can be created
+        } else {
+          console.log(response.data["message"]);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  componentDidMount() {
+    var currentUser = auth.getCookie("user");
+
+    if (currentUser) {
+      // user is signed in, get user object from database
+      this.setState({
+        email: currentUser
+      });
+
+      this.getUser(currentUser); // get user from database which matches email from cookies
+      this.getTemplates(currentUser); // get templates that belong to currently signed in user
+    }
   }
 
   render() {
     //React.createElement(<Cards2/>);
     //ReactDOM.render(<Cards2/>, document.getElementById("root"));
     const isAuthenticated = auth.isAuthenticated();
-    var currentUser = auth.getCookie("user");
     let greeting;
 
     if (isAuthenticated) {
       greeting = (
         <h1>
-          Welcome <i>{currentUser}</i> to your Dashboard!
+          Welcome <i>{this.state.email}</i> to your Dashboard!
         </h1>
       );
     } else {
