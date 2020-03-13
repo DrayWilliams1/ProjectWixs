@@ -14,7 +14,8 @@ $dsn = "pgsql:host=$host;port=$port;dbname=$db;user=$username;password=$password
 $responseObject = array();
 $upload_dir = 'uploads/';
 $server_url = 'http://cosc.brocku.ca/~c4f00g02/projectWixs';
-$file_location = '';
+$file_location = ''; // for database entry
+$file_name = ''; // for database entry
 
 try {
     // create a PostgreSQL database connection
@@ -45,7 +46,7 @@ try {
  */
 function fileUpload() {
     global $responseObject, $upload_dir, $server_url;
-    global $file_location;
+    global $file_location, $file_name;
     global $email_post;
 
     if($_FILES['avatar']) {
@@ -76,6 +77,7 @@ function fileUpload() {
                 
                   //$file_location = $server_url."/".$upload_name;
                   $file_location = "./".$upload_name;
+                  $file_name = $random_name;
                   return true; // success
 
             } else {
@@ -104,7 +106,7 @@ function insertFile() {
     global $pdo;
     global $responseObject;
     global $email_post;
-    global $file_location;
+    global $file_location, $file_name;
     
     if($_FILES['avatar']) {
         // prepare statement for insert
@@ -113,7 +115,7 @@ function insertFile() {
 
         // pass and bind values to the statement
         $stmt->bindValue(1, $email_post, PDO::PARAM_STR); // binding to strings
-        $stmt->bindValue(2, $_FILES["avatar"]["name"], PDO::PARAM_STR);
+        $stmt->bindValue(2, $file_name, PDO::PARAM_STR);
         $stmt->bindValue(3, $_FILES["avatar"]["size"], PDO::PARAM_INT);
         $stmt->bindValue(4, $file_location, PDO::PARAM_STR);
         $stmt->bindValue(5, $_FILES["avatar"]["type"], PDO::PARAM_STR);
