@@ -59,7 +59,6 @@ function fileUpload() {
                 "error" => true,
                 "message" => "Error uploading the file!"
             );
-            
             return false; // error occurred
 
         } else {
@@ -76,7 +75,7 @@ function fileUpload() {
                   );
                 
                   //$file_location = $server_url."/".$upload_name;
-                  $file_location = "./uploads/".$upload_name;
+                  $file_location = "./".$upload_name;
                   return true; // success
 
             } else {
@@ -87,8 +86,7 @@ function fileUpload() {
                 );
                 return false; // error occurred
             }
-        }    
-    
+        }
     } else {
         $responseObject = array(
             "status" => "error",
@@ -112,12 +110,6 @@ function insertFile() {
         // prepare statement for insert
         $sql_insert = "INSERT INTO content (owner_email, file_name, file_size, file_location, file_type) VALUES (?,?,?,?,?)";
         $stmt = $pdo->prepare($sql_insert);
-
-        echo $email_post;
-        echo $_FILES["avatar"]["name"];
-        echo $_FILES["avatar"]["size"];
-        echo $file_location;
-        echo $_FILES["avatar"]["type"];
 
         // pass and bind values to the statement
         $stmt->bindValue(1, $email_post, PDO::PARAM_STR); // binding to strings
