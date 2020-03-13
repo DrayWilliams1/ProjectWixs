@@ -17,6 +17,8 @@ $responseObject = array();
 $responseObject['success']=false; // whether the operation executed successfully
 $responseObject['message']=""; // the message from the execution, error or success
 
+$templates = array(); // the array of possible templates to be returned
+
 try {
     // create a PostgreSQL database connection
     $pdo = new PDO($dsn);
@@ -85,7 +87,15 @@ function getTemplates() {
     $stmt->bindValue(1, $email_post, PDO::PARAM_STR); // binding to string
 
     if($stmt->execute()) { // The query has executed successfully
-        // we'll know we have the templates
+        // we'll now we have the templates
+        if ($stmt->rowCount() > 0) {
+
+            $templates = $stmt->fetchAll();
+
+        } else {
+            $responseObject['message']="User with email {$email_post} does not have any templates. ";
+            return false;
+        }
 
     } else {
         $responseObject['message']="Error querying users table. ";
