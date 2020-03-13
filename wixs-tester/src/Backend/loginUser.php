@@ -161,6 +161,5 @@ function accountExists() {
     }
 }
 
-
 echo json_encode($responseObject);
 ?>
