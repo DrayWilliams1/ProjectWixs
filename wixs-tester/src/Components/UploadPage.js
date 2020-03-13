@@ -44,6 +44,16 @@ export default class UploadPage extends Component {
       formData.append("avatar", file); // puts file into form data
       formData.append("user", currentUser); // puts user name into form data (so that file can be linked to user within database)
 
+      // Display the values
+      for (var value of formData.values()) {
+        console.log(value);
+      }
+
+      // Display the keys
+      for (var key of formData.keys()) {
+        console.log(key);
+      }
+
       return await axios
         .post(FILE_UPLOAD_URL, formData, {
           headers: {
