@@ -11,7 +11,6 @@ import "./sass/DashboardPage.scss";
 const GET_TEMPLATES_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/templateFetch.php";
 const GET_USER_URL = "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUser.php";
-var templateArray = [3];
 
 /**
  * Purpose: This is a file containing...
@@ -26,12 +25,13 @@ export default class DashboardPage extends Component {
       email: currentUser,
       first_name: "",
       last_name: "",
-      admin: false // if user is admin, display link to admin page
+      admin: false, // if user is admin, display link to admin page
+      templateArray: []
     };
 
     this.getUser = this.getUser.bind(this);
     this.getTemplates = this.getTemplates.bind(this);
-    
+    //this.createCards(templateArray);
   }
 
   /**
@@ -72,9 +72,10 @@ export default class DashboardPage extends Component {
         console.log(response);
         if (response.data["success"] === true) {
           console.log(response);
-          templateArray = response.data['templates'];
-          console.log(templateArray[0]);
-          console.log("first template name: " + templateArray[0].custom_name)
+          this.setState({templateArray: response.data['templates']});
+          console.log(this.state.templateArray[0]);
+          console.log("first template name: " + this.state.templateArray[0].custom_name)
+          return response.data['templates'];
           // TODO: do something with the sent data here. Generate the cards below or set data for a routine so they can be created
         } else {
           console.log(response.data["message"]);
@@ -98,80 +99,157 @@ export default class DashboardPage extends Component {
       });
 
       this.getUser(currentUser); // get user from database which matches email from cookies
-      this.getTemplates(currentUser); // get templates that belong to currently signed in user
+      var tArray = this.getTemplates(currentUser); // get templates that belong to currently signed in user
+      //console.log(tArray[0]);
+      this.createCards(this.state.templateArray);
     }
   }
 
 createCards(templates) {
-  console.log(templates[0].custom_name)
-  return templates.map(this.createCard);
+  //console.log(templates[0].custom_name)
+  var div = document.getElementById("all_cards");
+  templates.map(this.createCard);
 }
 
 createCard(template) {
-  return (
-  <Card key={template}>
-  <Card.Img variant="top" />
-  <Card.Body>
-    {console.log(template.custom_name)}
-    <Card.Title>{template.custom_name}</Card.Title>
-    <Card.Text>Example</Card.Text>
-  </Card.Body>
-  <Card.Footer>
-    <small className="text-muted">Last updated 3 minutes ago.</small>
-    <span>&nbsp;&nbsp;</span>
-    <Button variant="primary" size="sm">
-      {" "}
-      Edit{" "}
-    </Button>
-    <span>&nbsp;&nbsp;</span>
-    <Button variant="danger" size="sm">
-      {" "}
-      Delete{" "}
-    </Button>
-  </Card.Footer>
-</Card>);
+  if (template.is_active) {
+    var div = document.getElementById("all_cards");
+    div.append("hello");
+   // document.getElementById("all_cards").append(
+    
+      <Card border="success" key={template}>
+      <Card.Img variant="top" />
+      <Card.Body>
+        {console.log(template.custom_name)}
+        <Card.Title>{template.custom_name}</Card.Title>
+        <Card.Text>Example</Card.Text>
+      </Card.Body>
+      <Card.Footer>
+        <small className="text-muted">Last updated 3 minutes ago.</small>
+        <span>&nbsp;&nbsp;</span>
+        <Button variant="primary" size="sm">
+          {" "}
+          Edit{" "}
+        </Button>
+        <span>&nbsp;&nbsp;</span>
+        <Button variant="danger" size="sm">
+          {" "}
+          Delete{" "}
+        </Button>
+      </Card.Footer>
+    </Card>
+    //);
+  }
+  else {
+    //document.getElementById("all_cards").append(
+      <Card key={template}>
+      <Card.Img variant="top" />
+      <Card.Body>
+        {console.log(template.custom_name)}
+        <Card.Title>{template.custom_name}</Card.Title>
+        <Card.Text>Example</Card.Text>
+      </Card.Body>
+      <Card.Footer>
+        <small className="text-muted">Last updated 3 minutes ago.</small>
+        <span>&nbsp;&nbsp;</span>
+        <Button variant="primary" size="sm">
+          {" "}
+          Edit{" "}
+        </Button>
+        <span>&nbsp;&nbsp;</span>
+        <Button variant="danger" size="sm">
+          {" "}
+          Delete{" "}
+        </Button>
+      </Card.Footer>
+    </Card>
+    //);
+  } 
 }
 
-  render() {
+dateDifference(oldDate) {
+   var old = new Date(oldDate);
+   var total = "";
+   console.log(old);
 
-    const isAuthenticated = auth.isAuthenticated();
-    let greeting;
+   var today = new Date();
+   var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+   var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+   var dateTime = date+' '+time;
+   console.log(dateTime);
+   
+   var diffMs = (today - old); // milliseconds between now & input time
+   var diffDays = Math.floor(diffMs / 86400000); // days
+   var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+   var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+   if (diffDays == 0 && diffHrs == 0)
+      total = total.concat(diffMins + " mins ago.");
+   else if (diffDays == 0)
+      total = total.concat(diffHrs + " hours, " + diffMins + " mins ago.");
+   else if (diffHrs == 0)
+      total = total.concat(diffDays + " days, " + diffMins + " mins ago.");
+   else
+      total = total.concat(diffDays + " days, " + diffHrs + " hours, " + diffMins + " mins ago.");
 
-    //this.getTemplates();
-    //templates[0] = templateArray[0].custom_name;
-    //templates[1] = templateArray[1].custom_name;
-    //templates[2] = templateArray[2].custom_name;
-    console.log(templateArray[0].custom_name);
-    //console.log(templates[1]);
-    //console.log(templates[2]);
+   return total;
+}
 
-    if (isAuthenticated) {
-      greeting = (
-        <h1>
-          Welcome <i>{this.state.email}</i> to your Dashboard!
-        </h1>
-      );
-    } else {
-      <h1>Hello asshole</h1>;
-    }
-    return (
-      <div>
-        <Container>
-          <div className="word-content">{greeting}</div>
-        </Container>
+render() {
 
-        <Container>
-          <div className="template-selection">
-            <a href="#/editor">
-              <h2 className="editor-link">Your Templates</h2>
-            </a>
-            <CardDeck className="card-deck">
-              {console.log(templateArray[0].custom_name)}
-              {this.createCards(templateArray)}
-            </CardDeck>
-          </div>
-        </Container>
-      </div>
+  const isAuthenticated = auth.isAuthenticated();
+  let greeting;
+  console.log(this.dateDifference("2020-3-13 19:10:25"));
+
+  if (isAuthenticated) {
+    greeting = (
+      <h1>
+        Welcome <i>{this.state.email}</i> to your Dashboard!
+      </h1>
     );
+  } else {
+    <h1>Hello asshole</h1>;
   }
+  return (
+    <div>
+      <Container>
+        <div className="word-content">{greeting}</div>
+      </Container>
+
+      <Container>
+        <div className="template-selection">
+          <a href="#/editor">
+            <h2 className="editor-link">Your Templates</h2>
+          </a>
+          <CardDeck className="card-deck">
+            {
+              this.state.templateArray.map((template,i) =>
+                  <Card key={i}>
+                    <Card.Img variant="top" />
+                    <Card.Body>
+                      <Card.Title>{template.custom_name}</Card.Title>
+                      <Card.Text>Active? {template.is_active.toString()}</Card.Text>
+                    </Card.Body>
+                    <Card.Footer>
+                      <small className="text-muted">Updated {this.dateDifference("2020-03-13 19:10:25")}</small>
+                      <span>&nbsp;&nbsp;</span>
+                      <Button variant="primary" size="sm">
+                        {" "}
+                        Edit{" "}
+                      </Button>
+                      <span>&nbsp;&nbsp;</span>
+                      <Button variant="danger" size="sm">
+                        {" "}
+                        Delete{" "}
+                      </Button>
+                    </Card.Footer>
+                  </Card>
+              )}
+            <div id="all_cards"></div>
+          </CardDeck>
+        </div>
+      </Container>
+    </div>
+  );
+}
+
 }
