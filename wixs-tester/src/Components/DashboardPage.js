@@ -43,7 +43,7 @@ export default class DashboardPage extends Component {
         console.log(response);
 
         if (response.data["success"] === true) {
-          // do something with the sent data here. Generate the cards below or set data for a routine so they can be created
+          // TODO: do something with the sent data here. Can set the first name in state so it can be displayed. Also display a link to the admin page if the user is an admin. This page will eventually be the only one showing links to admin page and editor page so they can be removed from nav bar
         } else {
           console.log(response.data["message"]);
         }
@@ -64,7 +64,7 @@ export default class DashboardPage extends Component {
         console.log(response);
 
         if (response.data["success"] === true) {
-          // do something with the sent data here. Generate the cards below or set data for a routine so they can be created
+          // TODO: do something with the sent data here. Generate the cards below or set data for a routine so they can be created
         } else {
           console.log(response.data["message"]);
         }
