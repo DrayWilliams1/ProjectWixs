@@ -3,12 +3,15 @@ import React, { Component } from "react";
 import { Container, Button } from "react-bootstrap";
 import axios from "axios";
 import auth from "/auth.js";
+import qs from "qs"; // for packaging details collected from the form
 
 // CSS/SASS
 import "./sass/UploadPage.scss";
 
 const FILE_UPLOAD_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/fileUpload.php";
+const GET_MEDIA_URL =
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUserMedia.php";
 const MAX_IMG_SIZE = 5000000; // 5MB maximum photo size
 const MAX_VID_SIZE = 25000000; // 25MB maximum video size
 
@@ -24,9 +27,10 @@ export default class UploadPage extends Component {
   constructor(props) {
     super(props);
 
+    var currentUser = auth.getCookie("user");
+
     this.state = {
-      email: "",
-      first_name: "",
+      email: currentUser,
       selectedFile: null
     };
 
@@ -34,6 +38,7 @@ export default class UploadPage extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.verifyFile = this.verifyFile.bind(this);
     this.uploadFile = this.uploadFile.bind(this);
+    this.getMedia = this.getMedia.bind(this);
   }
 
   /**
@@ -154,6 +159,43 @@ export default class UploadPage extends Component {
     this.setState({
       selectedFile: event.target.files[0]
     });
+  }
+
+  getMedia(email) {
+    const params = {
+      email: email
+    };
+
+    axios
+      .post(GET_MEDIA_URL, qs.stringify(params))
+      .then(response => {
+        console.log(response);
+
+        if (response.data["success"] === true) {
+          // TODO: get content and (based on image format) create image or video html elements then append
+        } else {
+          console.log(response.data["message"]);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  /**
+   * Executes when the component has rendered
+   */
+  componentDidMount() {
+    var currentUser = auth.getCookie("user");
+
+    if (currentUser) {
+      // user is signed in, get user object from database
+      this.setState({
+        email: currentUser
+      });
+
+      this.getMedia(currentUser); // get content that belong to currently signed in user
+    }
   }
 
   render() {
