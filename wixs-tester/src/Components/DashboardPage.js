@@ -10,6 +10,7 @@ import "./sass/DashboardPage.scss";
 
 const GET_TEMPLATES_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/templateFetch.php";
+const GET_USER_URL = "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUser.php";
 
 /**
  * Purpose: This is a file containing...
@@ -35,6 +36,21 @@ export default class DashboardPage extends Component {
     const params = {
       email: this.state.email
     };
+
+    axios
+      .post(GET_USER_URL, qs.stringify(params))
+      .then(response => {
+        console.log(response);
+
+        if (response.data["success"] === true) {
+          // do something with the sent data here. Generate the cards below or set data for a routine so they can be created
+        } else {
+          console.log(response.data["message"]);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   getTemplates() {

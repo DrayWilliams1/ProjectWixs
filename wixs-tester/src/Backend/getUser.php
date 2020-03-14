@@ -1,7 +1,7 @@
 #!/usr/bin/php-cgi
 <?php
 /** 
- * A file for obtaining all templates associated with a user. Identified by the user's email
+ * A file for obtaining a user from the database, matched by their email
  * 
  * -- Additional Notes --
  * - Do not use any upper case for column names or table names within database (will cause error when 
@@ -16,9 +16,9 @@ $dsn = "pgsql:host=$host;port=$port;dbname=$db;user=$username;password=$password
 $responseObject = array();
 $responseObject['success']=false; // whether the operation executed successfully
 $responseObject['message']=""; // the message from the execution, error or success
-$responseObject['templates'] = null;
+$responseObject['user'] = null;
 
-$templates = array(); // the array of possible templates to be returned
+$user = array(); // the array of possible templates to be returned
 
 try {
     // create a PostgreSQL database connection
@@ -30,7 +30,7 @@ try {
                // Using empty test instead of isset function
                $email_post = empty($_POST['email']) ? null : $_POST['email']; // set email to form submission
    
-               if (validInputs() && getTemplates()) {
+               if (validInputs() && getUser()) {
                    $responseObject['success']=true; // echoing a response that can be used to redirect page after AJAX call
                } // otherwise, error, response message is displayed in alert
                
@@ -75,13 +75,13 @@ function validInputs() {
 /**
  * 
  */
-function getTemplates() {
+function getUser() {
     global $pdo;
     global $email_post;
     global $responseObject;
-    global $templates;
+    global $user;
 
-    $sql_select = "SELECT owner_email, custom_name, file_location, is_active FROM templates WHERE owner_email = ?";
+    $sql_select = "SELECT email, first_name, last_name, admin FROM users WHERE email = ?";
     $stmt = $pdo->prepare($sql_select);
 
     // pass and bind values to the statement
@@ -91,12 +91,12 @@ function getTemplates() {
         // we'll now we have the templates
         if ($stmt->rowCount() > 0) {
 
-            $templates = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $responseObject['templates']=$templates;
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $responseObject['user']=$user;
             return true;
 
         } else {
-            $responseObject['message']="User with email {$email_post} does not have any templates. ";
+            $responseObject['message']="User with email {$email_post} does not exist in database. ";
             return false;
         }
 
