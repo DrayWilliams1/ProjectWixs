@@ -16,9 +16,9 @@ $dsn = "pgsql:host=$host;port=$port;dbname=$db;user=$username;password=$password
 $responseObject = array();
 $responseObject['success']=false; // whether the operation executed successfully
 $responseObject['message']=""; // the message from the execution, error or success
-$responseObject['templates'] = null;
+$responseObject['content'] = null;
 
-$templates = array(); // the array of possible templates to be returned
+$content = array(); // the array of possible templates to be returned
 
 try {
     // create a PostgreSQL database connection
@@ -30,7 +30,7 @@ try {
                // Using empty test instead of isset function
                $email_post = empty($_POST['email']) ? null : $_POST['email']; // set email to form submission
    
-               if (validInputs() && getTemplates()) {
+               if (validInputs() && getContent()) {
                    $responseObject['success']=true; // echoing a response that can be used to redirect page after AJAX call
                } // otherwise, error, response message is displayed in alert
                
@@ -73,17 +73,17 @@ function validInputs() {
 }
 
 /**
- * Queries the database for the templates
+ * Queries the database for user's content
  * 
- * @return boolean true if the templates were obtained, false if the user has no templates
+ * @return boolean true if the content was obtained, false if the user does not have any uploaded content
  */
-function getTemplates() {
+function getContent() {
     global $pdo;
     global $email_post;
     global $responseObject;
-    global $templates;
+    global $content;
 
-    $sql_select = "SELECT owner_email, custom_name, file_location, is_active FROM templates WHERE owner_email = ?";
+    $sql_select = "SELECT * FROM content WHERE owner_email = ?";
     $stmt = $pdo->prepare($sql_select);
 
     // pass and bind values to the statement
@@ -94,16 +94,16 @@ function getTemplates() {
         if ($stmt->rowCount() > 0) {
 
             $templates = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $responseObject['templates']=$templates;
+            $responseObject['content']=$templates;
             return true;
 
         } else {
-            $responseObject['message']="User with email {$email_post} does not have any templates. ";
+            $responseObject['message']="User with email {$email_post} does not have any content. ";
             return false;
         }
 
     } else {
-        $responseObject['message']="Error querying templates table. ";
+        $responseObject['message']="Error querying content table. ";
     }
 }
 

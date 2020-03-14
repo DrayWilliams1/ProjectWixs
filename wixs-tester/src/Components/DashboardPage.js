@@ -34,6 +34,9 @@ export default class DashboardPage extends Component {
     
   }
 
+  /**
+   * Obtains the user details from the database
+   */
   getUser() {
     const params = {
       email: this.state.email
@@ -55,6 +58,9 @@ export default class DashboardPage extends Component {
       });
   }
 
+  /**
+   * Obtains the user's templates from the database
+   */
   getTemplates() {
     const params = {
       email: this.state.email
@@ -79,6 +85,9 @@ export default class DashboardPage extends Component {
       });
   }
 
+  /**
+   * Executes when the component has rendered
+   */
   componentDidMount() {
     var currentUser = auth.getCookie("user");
 

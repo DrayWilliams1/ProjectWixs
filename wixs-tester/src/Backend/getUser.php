@@ -73,7 +73,7 @@ function validInputs() {
 }
 
 /**
- * 
+ * Queries the database for the user
  */
 function getUser() {
     global $pdo;
