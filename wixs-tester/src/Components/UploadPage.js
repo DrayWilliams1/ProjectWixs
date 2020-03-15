@@ -30,6 +30,7 @@ export default class UploadPage extends Component {
     var currentUser = auth.getCookie("user");
 
     this.state = {
+      contentArray: [],
       email: currentUser,
       selectedFile: null
     };
@@ -161,9 +162,14 @@ export default class UploadPage extends Component {
     });
   }
 
-  getMedia(email) {
+  /**
+   * Returns the media associated with the signed in user. For view in the media gallery
+   *
+   * @param {*} email the email linking the user to the content in the database
+   */
+  getMedia() {
     const params = {
-      email: email
+      email: this.state.email
     };
 
     axios
@@ -172,7 +178,9 @@ export default class UploadPage extends Component {
         console.log(response);
 
         if (response.data["success"] === true) {
-          // TODO: get content and (based on image format) create image or video html elements then append
+          this.setState({
+            contentArray: response.data["content"]
+          });
         } else {
           console.log(response.data["message"]);
         }
@@ -186,16 +194,7 @@ export default class UploadPage extends Component {
    * Executes when the component has rendered
    */
   componentDidMount() {
-    var currentUser = auth.getCookie("user");
-
-    if (currentUser) {
-      // user is signed in, get user object from database
-      this.setState({
-        email: currentUser
-      });
-
-      this.getMedia(currentUser); // get content that belong to currently signed in user
-    }
+    this.getMedia(); // get content that belong to currently signed in user
   }
 
   render() {

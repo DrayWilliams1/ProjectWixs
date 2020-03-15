@@ -41,21 +41,19 @@ try {
        $responseObject['message']=$e->getMessage(); // report error message
    }
 
-
+/**
+ * Returns all the users contained within the database
+ */
 function getUsers() {
     global $pdo;
-    global $email_post;
     global $responseObject;
     global $users;
 
     $sql_select = "SELECT user_id, email, first_name, last_name, admin, template_count FROM users";
     $stmt = $pdo->prepare($sql_select);
 
-
-
     if($stmt->execute()) { // The query has executed successfully
-        // we'll now we have the templates
-        if ($stmt->rowCount() > 0) {
+        if ($stmt->rowCount() > 0) { // users exist
 
             $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $responseObject['users']=$users;
@@ -65,7 +63,6 @@ function getUsers() {
             $responseObject['message']="No users exist. ";
             return false;
         }
-
     } else {
         $responseObject['message']="Error querying users table. ";
     }

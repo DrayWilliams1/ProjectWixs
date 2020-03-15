@@ -31,6 +31,7 @@ export default class DashboardPage extends Component {
 
     this.getUser = this.getUser.bind(this);
     this.getTemplates = this.getTemplates.bind(this);
+    this.dateDifference = this.dateDifference.bind(this);
   }
 
   /**
@@ -86,17 +87,8 @@ export default class DashboardPage extends Component {
    * Executes when the component has rendered
    */
   componentDidMount() {
-    var currentUser = auth.getCookie("user");
-
-    if (currentUser) {
-      // user is signed in, get user object from database
-      this.setState({
-        email: currentUser
-      });
-
-      this.getUser(); // get user from database which matches email from cookies
-      this.getTemplates(); // get templates that belong to currently signed in user
-    }
+    this.getUser(); // get user from database which matches email from cookies
+    this.getTemplates(); // get templates that belong to currently signed in user
   }
 
   /**
@@ -107,7 +99,7 @@ export default class DashboardPage extends Component {
   dateDifference(oldDate) {
     var old = new Date(oldDate);
     var total = "";
-    console.log(old);
+    //console.log(old);
 
     var today = new Date();
     var date =
@@ -119,12 +111,13 @@ export default class DashboardPage extends Component {
     var time =
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + " " + time;
-    console.log(dateTime);
+    //console.log(dateTime);
 
     var diffMs = today - old; // milliseconds between now & input time
     var diffDays = Math.floor(diffMs / 86400000); // days
     var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
     var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+
     if (diffDays == 0 && diffHrs == 0)
       total = total.concat(diffMins + " mins ago.");
     else if (diffDays == 0)
@@ -150,8 +143,9 @@ export default class DashboardPage extends Component {
         </h1>
       );
     } else {
-      <h1>Hello asshole</h1>;
+      greeting = <h1>Hello asshole</h1>;
     }
+
     return (
       <div>
         <Container>
