@@ -5,6 +5,8 @@ import axios from "axios";
 import auth from "/auth.js";
 import qs from "qs"; // for packaging details collected from the form
 
+import MediaComponent from "./MediaComponent.js";
+
 // CSS/SASS
 import "./sass/UploadPage.scss";
 
@@ -231,6 +233,10 @@ export default class UploadPage extends Component {
             Below will display all content owned by {auth.getCookie("user")} in
             the database
           </p>
+
+          {this.state.contentArray.map((content, i) => (
+            <MediaComponent key={i} content={content} />
+          ))}
         </Container>
       </div>
     );

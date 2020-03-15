@@ -76,7 +76,7 @@ function fileUpload() {
                   );
                 
                   //$file_location = $server_url."/".$upload_name;
-                  $file_location = "./".$upload_name;
+                  $file_location = $server_url."/".$upload_name;
                   $file_name = $random_name;
                   return true; // success
 

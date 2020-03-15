@@ -1,2 +1,7 @@
 /* This file allows for the SASS styling of the NavBar. Major benefit of using SASS is the ability to have colour variables like the ones listed (and being used) below. Refer to ProjectWixs style Guide for colour codes, typography, and other styling. */
 @import "Colors";
+
+.image-content {
+  width: 300px;
+  height: auto;
+}
