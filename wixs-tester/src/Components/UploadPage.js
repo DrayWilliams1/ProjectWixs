@@ -14,8 +14,8 @@ const FILE_UPLOAD_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/fileUpload.php";
 const GET_MEDIA_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUserMedia.php";
-const MAX_IMG_SIZE = 5000000; // 5MB maximum photo size
-const MAX_VID_SIZE = 25000000; // 25MB maximum video size
+const MAX_IMG_SIZE = 10000000; // 10MB maximum photo size
+//const MAX_VID_SIZE = 25000000; // 25MB maximum video size
 
 /**
  * Purpose: This is a file containing upload page of the Project Wixs system.
@@ -60,7 +60,7 @@ export default class UploadPage extends Component {
     //console.log(baseType);
     //console.log(ext);
 
-    if (ext !== "png" && ext !== "jpg" && ext !== "jpeg" && ext !== "mp4") {
+    if (ext !== "png" && ext !== "jpg" && ext !== "jpeg") {
       // file is not of acceptable format
       alert("File must be of acceptable type (extension)");
       return false; // invalid file
@@ -68,15 +68,15 @@ export default class UploadPage extends Component {
 
     if (baseType === "image" && size > MAX_IMG_SIZE) {
       // image is too large
-      alert("Image must be under 5MB");
+      alert("Image must be under 10MB");
       return false; // invalid file
     }
 
-    if (baseType === "video" && size > MAX_VID_SIZE) {
+    /*if (baseType === "video" && size > MAX_VID_SIZE) {
       // video is too large
       alert("Video must be under 25MB");
       return false; // invalid file
-    }
+    }*/
 
     return true; // passed tests, therefore valid
   }
@@ -213,7 +213,7 @@ export default class UploadPage extends Component {
               <input
                 type="file"
                 onChange={this.onChange}
-                accept="image/jpg,image/jpeg,image/png,video/mp4"
+                accept="image/jpg,image/jpeg,image/png"
               />
               <Button type="submit" variant="success">
                 Upload
@@ -221,9 +221,7 @@ export default class UploadPage extends Component {
             </form>
             <p>
               Accepted files: Images (<strong>Type:</strong> <em>.jpg, .png</em>
-              ) (<strong>Size:</strong> &lt; 5MB) || Videos (
-              <strong>Type:</strong> <em>.mp4</em>) (<strong>Size:</strong> &lt;
-              25MB)
+              ) (<strong>Size:</strong> &lt; 10MB)
             </p>
           </div>
         </Container>
