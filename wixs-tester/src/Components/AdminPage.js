@@ -11,6 +11,7 @@ const GET_ALL_USERS_URL =
 import "./sass/AdminPage.scss";
 import auth from "/auth.js";
 import { Container } from "react-bootstrap";
+import CustomTableRow from "./CustomTableRow.js";
 
 export default class AdminPage extends Component {
   constructor(props) {
@@ -58,6 +59,7 @@ export default class AdminPage extends Component {
           this.setState({
             users: response.data["users"]
           });
+
           // TODO: get users from response.data['users'] and set the users variable in state to it.
           // Then use the .map function in render to produce the same table you did before but with the real data
           // Reference cameron's DashboardPage to see how to dynamically create the data
@@ -102,6 +104,7 @@ export default class AdminPage extends Component {
     } else {
       greeting = <h1>Hello asshole</h1>;
     }
+    
     return (
       <div>
         <Container>
@@ -110,53 +113,23 @@ export default class AdminPage extends Component {
 
         <Container>
           <h2>ProjectWixs Userbase</h2>
-
-          <Table striped bordered hover variant="dark" reposnive="lg">
-            <thead>
+          <Table>
+          <thead>
               <tr>
                 <th>User ID</th>
                 <th>E-mail Address</th>
                 <th>First Name</th>
                 <th>Last Name</th>
-                <th>Password</th>
                 <th>Admin</th>
                 <th># of Templates</th>
-                <th>Session ID</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>bingo</td>
-                <td>false</td>
-                <td>3</td>
-                <td>mongo</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Billybob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>dmsms</td>
-                <td>false</td>
-                <td>2</td>
-                <td>reeeeee</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>javascriptissuffering@lol.com</td>
-                <td>Reba</td>
-                <td>Shoebox</td>
-                <td>password</td>
-                <td>false</td>
-                <td>2</td>
-                <td>123445</td>
-              </tr>
+              {this.state.users.map((user, i) => (<CustomTableRow user={user} key={i} />))}
             </tbody>
+          
           </Table>
+          
         </Container>
       </div>
     );
