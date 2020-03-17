@@ -6,17 +6,11 @@ import { Container, Button, Card, CardDeck, CardImg } from "react-bootstrap";
 import "./sass/CustomCard.scss";
 
 /**
- * Purpose: This is a file displaying a photo or video element depending on the props sent to it
+ * Purpose: This is a file displaying a card element to represent a template on the dashboard page
  */
 export default class CustomCard extends Component {
   constructor(props) {
     super(props);
-
-    //const pkey = props.content["key"];
-    //console.log("pkey: " + this.props.key);
-    //console.log("template: " + this.props.template);
-    //const ptemplate = props.content["template"];
-    //const ptype = template.is_active;
 
     this.state = {
         template: this.props.template,
@@ -27,26 +21,14 @@ export default class CustomCard extends Component {
   }
 
   /**
-   * Returns the...
+   * Returns the difference between a specified date/time and the current date/time in a human-friendly form.
    *
-   * @param {*} oldDate
+   * @param {*} oldDate The specified date/time to be compared with the current date/time.
    */
   dateDifference(oldDate) {
     var old = new Date(oldDate);
     var total = "";
-    //console.log(old);
-
     var today = new Date();
-    var date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
-    var time =
-      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var dateTime = date + " " + time;
-    //console.log(dateTime);
 
     var diffMs = today - old; // milliseconds between now & input time
     var diffDays = Math.floor(diffMs / 86400000); // days
@@ -74,14 +56,12 @@ export default class CustomCard extends Component {
                 return (
                 <Card border="success">
                   <Card.Body>
-                    <Card.Title>{this.state.template.custom_name}</Card.Title>
-                    <Card.Text>Active template</Card.Text>
-                  </Card.Body>
-                  <Card.Footer>
-                    <small className="text-muted">
-                      Updated {this.dateDifference(this.state.template.last_modified)}
-                    </small>
+                    <Card.Title>{this.state.template.custom_name}
                     <span>&nbsp;&nbsp;</span>
+                    <small className="text-muted">  (Active Template) </small>
+                    </Card.Title>
+                    <Card.Text>
+                    
                     <Button variant="primary" size="sm">
                       {" "}
                       Edit{" "}
@@ -91,6 +71,13 @@ export default class CustomCard extends Component {
                       {" "}
                       Delete{" "}
                     </Button>
+                    </Card.Text>
+                  </Card.Body>
+                  <Card.Footer>
+                    <small className="text-muted">
+                      Last updated {this.dateDifference(this.state.template.last_modified)}
+                    </small>
+                    <span>&nbsp;&nbsp;</span>
                   </Card.Footer>
                 </Card>
                 );
@@ -99,21 +86,21 @@ export default class CustomCard extends Component {
                 <Card>
                 <Card.Body>
                   <Card.Title>{this.state.template.custom_name}</Card.Title>
+                  <Card.Text> 
+                    <Button variant="primary" size="sm">
+                      {" "}
+                      Edit{" "}
+                    </Button>
+                    <span>&nbsp;&nbsp;</span>
+                    <Button variant="danger" size="sm">
+                      {" "}
+                      Delete{" "}
+                    </Button></Card.Text>
                 </Card.Body>
                 <Card.Footer>
                   <small className="text-muted">
-                    Updated {this.dateDifference(this.state.template.last_modified)}
+                    Last updated {this.dateDifference(this.state.template.last_modified)}
                   </small>
-                  <span>&nbsp;&nbsp;</span>
-                  <Button variant="primary" size="sm">
-                    {" "}
-                    Edit{" "}
-                  </Button>
-                  <span>&nbsp;&nbsp;</span>
-                  <Button variant="danger" size="sm">
-                    {" "}
-                    Delete{" "}
-                  </Button>
                 </Card.Footer>
               </Card>
             )}

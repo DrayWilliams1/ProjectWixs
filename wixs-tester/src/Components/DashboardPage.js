@@ -4,17 +4,17 @@ import { Container, Button, Card, CardDeck, CardImg } from "react-bootstrap";
 import axios from "axios";
 import auth from "/auth.js";
 import qs from "qs"; // for packaging details collected from the form
+import CustomCard from "./CustomCard";
 
 // CSS/SASS
 import "./sass/DashboardPage.scss";
-import CustomCard from "./CustomCard";
 
 const GET_TEMPLATES_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/templateFetch.php";
 const GET_USER_URL = "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUser.php";
 
 /**
- * Purpose: This is a file containing...
+ * Purpose: This is a file containing the functionality required to support the dashboard page (/#/dashboard)
  */
 export default class DashboardPage extends Component {
   constructor(props) {
@@ -46,9 +46,12 @@ export default class DashboardPage extends Component {
     axios
       .post(GET_USER_URL, qs.stringify(params))
       .then(response => {
-        console.log(response);
+        console.log(response.data.user.first_name);
 
         if (response.data["success"] === true) {
+          this.setState({
+              first_name: response.data.user.first_name
+          });
           // TODO: do something with the sent data here. Can set the first name in state so it can be displayed. Also display a link to the admin page if the user is an admin. This page will eventually be the only one showing links to admin page and editor page so they can be removed from nav bar
         } else {
           console.log(response.data["message"]);
@@ -94,7 +97,6 @@ export default class DashboardPage extends Component {
   }
 
 
-
   render() {
     const isAuthenticated = auth.isAuthenticated();
     let greeting;
@@ -102,7 +104,7 @@ export default class DashboardPage extends Component {
     if (isAuthenticated) {
       greeting = (
         <h1>
-          Welcome <i>{this.state.email}</i> to your Dashboard!
+          Welcome <i>{this.state.first_name}</i> to your Dashboard!
         </h1>
       );
     } else {
