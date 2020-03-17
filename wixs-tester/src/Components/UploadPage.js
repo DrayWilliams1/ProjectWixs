@@ -5,7 +5,7 @@ import axios from "axios";
 import auth from "/auth.js";
 import qs from "qs"; // for packaging details collected from the form
 
-import MediaComponent from "./MediaComponent.js";
+import CustomMedia from "./CustomMedia.js";
 
 // CSS/SASS
 import "./sass/UploadPage.scss";
@@ -217,7 +217,7 @@ export default class UploadPage extends Component {
 
           <CardDeck>
           {this.state.contentArray.map((content, i) => (
-            <MediaComponent key={i} content={content} listNum={i+1}/>
+            <CustomMedia key={i} content={content} listNum={i+1}/>
           ))}
           </CardDeck>
         </Container>

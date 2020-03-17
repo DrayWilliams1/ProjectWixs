@@ -12,11 +12,6 @@ export default class CustomCard extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-        template: this.props.template,
-        type: this.props.template.is_active
-    }
-
     this.dateDifference = this.dateDifference.bind(this);
   }
 
@@ -51,12 +46,12 @@ export default class CustomCard extends Component {
 
 
   render() {
-            if (this.state.type)
+            if (this.props.template['is_active'])
             {
                 return (
                 <Card border="success">
                   <Card.Body>
-                    <Card.Title>{this.state.template.custom_name}
+                    <Card.Title>{this.props.template['custom_name']}
                     <span>&nbsp;&nbsp;</span>
                     <small className="text-muted">  (Active Template) </small>
                     </Card.Title>
@@ -75,7 +70,7 @@ export default class CustomCard extends Component {
                   </Card.Body>
                   <Card.Footer>
                     <small className="text-muted">
-                      Last updated {this.dateDifference(this.state.template.last_modified)}
+                      Last updated {this.dateDifference(this.props.template['last_modified'])}
                     </small>
                     <span>&nbsp;&nbsp;</span>
                   </Card.Footer>
@@ -85,7 +80,7 @@ export default class CustomCard extends Component {
                 return (
                 <Card>
                 <Card.Body>
-                  <Card.Title>{this.state.template.custom_name}</Card.Title>
+                  <Card.Title>{this.props.template['custom_name']}</Card.Title>
                   <Card.Text> 
                     <Button variant="primary" size="sm">
                       {" "}
@@ -99,7 +94,7 @@ export default class CustomCard extends Component {
                 </Card.Body>
                 <Card.Footer>
                   <small className="text-muted">
-                    Last updated {this.dateDifference(this.state.template.last_modified)}
+                    Last updated {this.dateDifference(this.props.template['last_modified'])}
                   </small>
                 </Card.Footer>
               </Card>
