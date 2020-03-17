@@ -14,7 +14,7 @@ Each component should have its own folder with at least 2 files in it, a `.jsx` 
  - [ ] Bootstrap card (title, body, footer)
  - [ ] Image block (using outside image source ie imgur etc)
  - [ ] Image block with text overlay (outside image source)
- 
+ - [ ] Raw HTML element
 ### Components Icebox
 These are some components that we should create but I (Nathan) need to add more editor functionality before
 they can be added.
