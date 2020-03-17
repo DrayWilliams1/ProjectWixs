@@ -1,4 +1,4 @@
-# ProjectWixs
+# Project Wixs: CMS Capstone Project
 
 ## Purpose
 
