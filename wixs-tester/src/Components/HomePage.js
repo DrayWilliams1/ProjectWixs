@@ -1,7 +1,7 @@
 // Dependencies
 import React from "react";
 import { Button, Card } from "react-bootstrap";
-import  Carousel from "react-bootstrap/Carousel";
+import Carousel from "react-bootstrap/Carousel";
 
 // Assets
 import logo from "./assets/logo-v6.png";
@@ -20,8 +20,12 @@ function HomePage() {
   return (
     <div>
       <div className={"homePageGrid"}>
-        <img src={logo} className={"homeLogo"} style={{gridArea:'. logo .'}} />
-        
+        <img
+          src={logo}
+          className={"homeLogo"}
+          style={{ gridArea: ". logo ." }}
+        />
+
         {/*CARDS*/}
         <Card
           style={{ gridArea: "content1", margin: "15px" }}
@@ -69,24 +73,25 @@ function HomePage() {
             </Card.Text>
           </Card.Body>
         </Card>
-
-        </div>
-
-        <h2 className={"goMessage"}style={{ gridArea: ". goMsg .", margin: "15px" }}
-          border={"info"}
-          className="text-center">Get started today!</h2>
-        <div className={"loginORregister"}>
-          <Button variant="primary" href="#/login">
-            Login
-          </Button>
-          <p>Or</p>
-          <Button variant="warning" href="#/register">
-            Register
-          </Button>
-        </div>
-
-        
       </div>
+      <h2
+        className={"goMessage"}
+        style={{ gridArea: ". goMsg .", margin: "15px" }}
+        border={"info"}
+        className="text-center"
+      >
+        Get started today!
+      </h2>
+      <div className={"loginORregister"}>
+        <Button variant="primary" href="#/login">
+          Login
+        </Button>
+        <p>Or</p>
+        <Button variant="warning" href="#/register">
+          Register
+        </Button>
+      </div>
+    </div>
   );
 }
 

@@ -1,5 +1,5 @@
 # Editor Conventions
-The Editor will likely be one fo the more complicated sections for the frontend of this project, as such I will provide
+The Editor will likely be one of the more complicated sections for the frontend of this project, as such I will provide
 some instructions here for myself and others.
 
 # Layout Engine
@@ -9,6 +9,19 @@ the layout and component serialization / deserialization.
 
 # Components
 Each component should have its own folder with at least 2 files in it, a `.jsx` file and the `.scss` companion file. 
+
+### Component Backlog
+ - [ ] Bootstrap card (title, body, footer)
+ - [ ] Image block (using outside image source ie imgur etc)
+ - [ ] Image block with text overlay (outside image source)
+ - [ ] Raw HTML element
+### Components Icebox
+These are some components that we should create but I (Nathan) need to add more editor functionality before
+they can be added.
+
+ - [ ] Image block (needs support for parsing user images)
+ - [ ] Nav-Bar (needs support for multiple pages and links, variable length props [])
+
 
 ## Data Schema
 Each component should export a `SCHEMA` constant that can be interpreted by the layout engine. the structure of
@@ -57,10 +70,10 @@ this schema is loosely based off [JSON Schema](https://json-schema.org/). Fields
         }
       }
       
-The `props` are what get displayed in the editor window for the user to made edits to.
+The `props` are what get displayed in the editor window for the user to make edits to.
 
 ## Drag and Drop
-if order for the component to interact with the drag and drop interface is must have the following:
+if order for the component to interact with the drag and drop interface it must have the following:
 
  - The root HTML tag must be a DIV
  - The root tag must apply all props ex: `<div {...this.props}`

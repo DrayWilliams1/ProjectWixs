@@ -32,5 +32,8 @@
     "reactstrap": "^8.4.1",
     "uuid": "^7.0.2",
     "prop-types": "latest"
-  }
+  },
+  "browserslist": [
+    "since 2017-06"
+  ]
 }

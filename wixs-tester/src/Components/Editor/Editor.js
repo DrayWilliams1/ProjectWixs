@@ -126,6 +126,7 @@ export default class Editor extends React.Component {
       Int: "input",
       Number: "input",
       // Boolean: "TODO",
+      // Select: TODO,
     };
 
     return (
@@ -166,10 +167,9 @@ export default class Editor extends React.Component {
                 )
               } else if (ELEMENT.props[key].type === "RichText") {
                 return (
-                  <Form.Group>
+                  <Form.Group key={key + index}>
                     <Form.Label>{ELEMENT.props[key].name}</Form.Label>
                     <RichTextEditor
-                      key={key + index}
                       content={this.state.editElement[key]}
                       updateState={(e) => this.setState(prevState => ({
                         editElement: {

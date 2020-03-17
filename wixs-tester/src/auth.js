@@ -4,6 +4,8 @@ import qs from "qs"; // for packaging details collected from the form
 
 const AUTH_USER_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/authUser.php";
+const CHECK_IS_ADMIN = 
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/isAdmin.php";
 
 /**
  * Purpose: A file for checking whether the system user is currently logged and able to access authenticated routes.
@@ -11,6 +13,7 @@ const AUTH_USER_URL =
 class Auth {
   constructor() {
     this.authenticated = false;
+    this.admin = false;
   }
 
   /**
@@ -60,7 +63,7 @@ class Auth {
   isAuthenticated() {
     var currentUser = this.getCookie("user");
     var currentSession = this.getCookie("usid");
-    var authenticated = false;
+    //var authenticated = false;
 
     if (currentUser && currentSession) {
       // if cookie values exist
@@ -98,5 +101,45 @@ class Auth {
       return false;
     }
   }
+
+
+  /**
+   * Returns whether the currently signed in user has administrator permissions
+   * 
+   * @return boolean true if the user is an admin, false if not
+   */
+  /*isAdmin(){
+    var currentUser = this.getCookie("user");
+
+    if(currentUser) {
+      const params = {
+        email: currentUser
+      }
+
+      axios
+        .post(CHECK_IS_ADMIN, qs.stringify(params))
+        .then(response => {
+          console.log(response);
+
+          if (response.data["success"] === true) { // script success
+            if (response.data["isAdmin"] === true) { // user is an admin
+              console.log(response.data["isAdmin"]);
+              //return (this.admin = true);
+              return true;
+            } else { // user is not an admin
+              //return (this.admin = false);
+              return false;
+            }
+          } else { // script failure
+            console.log(response.data["message"]);
+            return false
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          return false
+        });
+    }
+  }*/
 }
 export default new Auth();

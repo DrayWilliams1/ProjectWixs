@@ -1,6 +1,12 @@
 // Dependencies
 import React, { Component } from "react";
-import { Navbar, Nav, Button, ButtonToolbar, ButtonGroup } from "react-bootstrap";
+import {
+  Navbar,
+  Nav,
+  Button,
+  ButtonToolbar,
+  ButtonGroup
+} from "react-bootstrap";
 import { NavLink, withRouter } from "react-router-dom";
 import axios from "axios"; // for AJAX call to PHP files
 import qs from "qs"; // for packaging details collected from the form
@@ -15,6 +21,8 @@ import "./sass/NavBar.scss";
 
 const LOGOUT_USER_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/logoutUser.php";
+  const CHECK_IS_ADMIN = 
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/isAdmin.php";
 
 /**
  * Purpose: This is a file containing the shared navigation bar of the website
@@ -28,7 +36,16 @@ class NavBar extends Component {
   constructor(props) {
     super(props);
 
+    //const isAuthenticated = auth.isAuthenticated();
+    //const isAdmin = auth.isAdmin();
+
+    this.state = {
+      isAuthenticated: false,
+      isAdmin: false
+    };
+
     this.logoutUser = this.logoutUser.bind(this);
+    this.isAdmin = this.isAdmin.bind(this);
   }
 
   /**
@@ -73,15 +90,96 @@ class NavBar extends Component {
     }
   }
 
-  render() {
+
+  /**
+   * Returns whether the currently signed in user has administrator permissions
+   * 
+   * @return boolean true if the user is an admin, false if not
+   */
+  isAdmin(){
+    var currentUser = auth.getCookie("user");
+
+    if(currentUser) {
+      const params = {
+        email: currentUser
+      }
+
+      axios
+        .post(CHECK_IS_ADMIN, qs.stringify(params))
+        .then(response => {
+          console.log(response);
+
+          if (response.data["success"] === true) { // script success
+            if (response.data["isAdmin"] === true) { // user is an admin
+              this.setState({
+                isAdmin: true
+              });
+            } else { // user is not an admin
+              this.setState({
+                isAdmin: false
+              });
+            }
+          } else { // script failure
+            console.log(response.data["message"]);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+    }
+  }
+
+  componentDidMount() {
     const isAuthenticated = auth.isAuthenticated();
+    //const isAdmin = auth.isAdmin();
+    
+    if(isAuthenticated) {
+      this.setState({
+        isAuthenticated: true
+      });
+    }
+
+    this.isAdmin();
+    /*this.setState({
+      isAdmin: true
+    });*/
+
+    /*if(this.isAdmin()) {
+      this.setState({
+        isAdmin: true
+      });
+    }*/
+  }
+
+  render() {
     let buttons;
 
-    if (isAuthenticated) {
+    if (this.state.isAuthenticated) {
+      if(this.state.isAdmin){
+        buttons = (
+          <div>
+            <Navbar.Text>
+              <span style={{padding: '50px'}}><a href="#/admin">Admin Options</a></span>
+            </Navbar.Text>
+            <Button id="logout-button" variant="secondary" onClick={this.logoutUser} size="sm">
+              Logout
+            </Button>
+            <Navbar.Text>
+              Signed in as:{" "}
+              <span>
+                <a id="userEmail" href="#/dashboard">
+                  {this.props.currentUser}
+                </a>
+              </span>
+            </Navbar.Text>
+          </div>
+        );
+      }else{
       // display logout button
       buttons = (
         <div>
-          <Button variant="secondary" onClick={this.logoutUser} size="sm">
+          <Button id="logout-button" variant="secondary" onClick={this.logoutUser} size="sm">
             Logout
           </Button>
           <Navbar.Text>
@@ -94,19 +192,19 @@ class NavBar extends Component {
           </Navbar.Text>
         </div>
       );
+      }
     } else {
       // display login and register buttons
       buttons = (
         <div>
           <ButtonToolbar aria-label="Login and logout buttons">
-            <ButtonGroup classname="px-2" aria-label="Login button">
+            <ButtonGroup className="px-2" aria-label="Login button">
               <Button variant="primary" href={"#/login"}>
                 Login
               </Button>
             </ButtonGroup>
-            <p>" "</p>
             {/* <Navbar.Text> </Navbar.Text> */}
-            <ButtonGroup classname="px-2" aria-label="Logout button">
+            <ButtonGroup className="px-2" aria-label="Logout button">
               <Button variant="warning" href={"#/register"}>
                 Register
               </Button>
@@ -114,6 +212,7 @@ class NavBar extends Component {
           </ButtonToolbar>
         </div>
       );
+      
     }
 
     return (
@@ -163,14 +262,15 @@ class NavBar extends Component {
               {/* Will possibly change this to activeClassName when using css file */}
               Help/FAQs
             </NavLink>
+            {/*
             <NavLink
               to="/admin"
               className="navLink-normal mr-sm-2"
               activeClassName="navLink-selected"
             >
-              {/* Will possibly change this to activeClassName when using css file */}
+               Will possibly change this to activeClassName when using css file
               Admin Options
-            </NavLink>
+            </NavLink> */}
             <NavLink
               to="/upload"
               className="navLink-normal mr-sm-2"

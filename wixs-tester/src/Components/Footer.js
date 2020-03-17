@@ -12,20 +12,12 @@ import "./sass/Footer.scss";
 function Footer() {
   return (
     <div>
-      <Navbar
-        className="footerContainer"
-        variant="dark"
-        bg="dark"
-      >
+      <Navbar className="footerContainer" variant="dark" bg="dark">
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Navbar.Text>©2020 Project Wixs</Navbar.Text>
           <Navbar.Collapse className="justify-content-end">
-            <Button
-              className="ButtonSecondary "
-              href="#/help"
-              variant="secondary"
-            >
+            <Button className="ButtonSecondary " href="#/help" variant="info">
               Need help?
             </Button>
           </Navbar.Collapse>
