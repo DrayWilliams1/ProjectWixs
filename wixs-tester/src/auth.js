@@ -4,6 +4,8 @@ import qs from "qs"; // for packaging details collected from the form
 
 const AUTH_USER_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/authUser.php";
+const CHECK_IS_ADMIN = 
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/isAdmin.php";
 
 /**
  * Purpose: A file for checking whether the system user is currently logged and able to access authenticated routes.
@@ -11,6 +13,7 @@ const AUTH_USER_URL =
 class Auth {
   constructor() {
     this.authenticated = false;
+    this.admin = false;
   }
 
   /**
@@ -96,6 +99,14 @@ class Auth {
       return true;
     } else {
       return false;
+    }
+  }
+  isAdmin(){
+    if(this.isAuthenticated){//only procede if the user is authenticated 
+      //TO DO: axios calls to check if the logged in user is an admin
+      //if(user is admin)
+      return (this.admin = true);
+      //else return(this.admin = false);
     }
   }
 }

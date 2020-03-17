@@ -18,19 +18,29 @@ export default class CustomTableRow extends Component {
 
     this.state = {
         user: this.props.user,
+        admin: this.props.user.admin
     }
 
   }
   render() {
+      let isAdmin;
+      if(this.state.user.admin){
+          isAdmin = (<th style={{ color: 'green'}}>YES</th>);
+          console.log("user is admin");
+      }
+      else{
+          isAdmin = (<th> </th>);
+          console.log("user is not admin");
+        }
     return (
         <tr>
         <th>{this.state.user.user_id}</th>
         <th>{this.state.user.email}</th>
         <th>{this.state.user.first_name}</th>
         <th>{this.state.user.last_name}</th>
-        <th>{this.state.user.admin}</th>
+        {isAdmin}
         <th>{this.state.user.template_count}</th>
-        <th><Button variant='outline-warning' size='sm'>Edit</Button></th>
+        <th><Button variant='outline-warning' size='sm'>Toggle Admin</Button></th>
         <th><Button variant='outline-danger' size='sm'>Delete</Button></th>
         </tr>
     )}

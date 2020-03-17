@@ -81,9 +81,30 @@ class NavBar extends Component {
 
   render() {
     const isAuthenticated = auth.isAuthenticated();
+    const isAdmin = auth.isAdmin();
     let buttons;
 
     if (isAuthenticated) {
+      if(isAdmin){
+        buttons = (
+          <div>
+            <Navbar.Text>
+              <span style={{padding: '50px'}}><a href="#/admin">Admin Options</a></span>
+            </Navbar.Text>
+            <Button id="logout-button" variant="secondary" onClick={this.logoutUser} size="sm">
+              Logout
+            </Button>
+            <Navbar.Text>
+              Signed in as:{" "}
+              <span>
+                <a id="userEmail" href="#/dashboard">
+                  {this.props.currentUser}
+                </a>
+              </span>
+            </Navbar.Text>
+          </div>
+        );
+      }else{
       // display logout button
       buttons = (
         <div>
@@ -100,6 +121,7 @@ class NavBar extends Component {
           </Navbar.Text>
         </div>
       );
+      }
     } else {
       // display login and register buttons
       buttons = (
@@ -119,6 +141,7 @@ class NavBar extends Component {
           </ButtonToolbar>
         </div>
       );
+      
     }
 
     return (
@@ -168,14 +191,15 @@ class NavBar extends Component {
               {/* Will possibly change this to activeClassName when using css file */}
               Help/FAQs
             </NavLink>
+            {/*
             <NavLink
               to="/admin"
               className="navLink-normal mr-sm-2"
               activeClassName="navLink-selected"
             >
-              {/* Will possibly change this to activeClassName when using css file */}
+               Will possibly change this to activeClassName when using css file
               Admin Options
-            </NavLink>
+            </NavLink> */}
             <NavLink
               to="/upload"
               className="navLink-normal mr-sm-2"
