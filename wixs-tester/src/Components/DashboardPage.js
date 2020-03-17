@@ -46,13 +46,12 @@ export default class DashboardPage extends Component {
     axios
       .post(GET_USER_URL, qs.stringify(params))
       .then(response => {
-        console.log(response.data.user.first_name);
+        console.log(response.data);
 
         if (response.data["success"] === true) {
           this.setState({
               first_name: response.data.user.first_name
           });
-          // TODO: do something with the sent data here. Can set the first name in state so it can be displayed. Also display a link to the admin page if the user is an admin. This page will eventually be the only one showing links to admin page and editor page so they can be removed from nav bar
         } else {
           console.log(response.data["message"]);
         }
@@ -96,7 +95,6 @@ export default class DashboardPage extends Component {
     this.render();
   }
 
-
   render() {
     const isAuthenticated = auth.isAuthenticated();
     let greeting;
@@ -104,7 +102,7 @@ export default class DashboardPage extends Component {
     if (isAuthenticated) {
       greeting = (
         <h1>
-          Welcome <i>{this.state.first_name}</i> to your Dashboard!
+          Welcome to your Dashboard <i>{this.state.first_name}</i>!
         </h1>
       );
     } else {
