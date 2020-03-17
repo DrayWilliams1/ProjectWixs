@@ -1,5 +1,5 @@
 # Editor Conventions
-The Editor will likely be one fo the more complicated sections for the frontend of this project, as such I will provide
+The Editor will likely be one of the more complicated sections for the frontend of this project, as such I will provide
 some instructions here for myself and others.
 
 # Layout Engine
@@ -57,10 +57,10 @@ this schema is loosely based off [JSON Schema](https://json-schema.org/). Fields
         }
       }
       
-The `props` are what get displayed in the editor window for the user to made edits to.
+The `props` are what get displayed in the editor window for the user to make edits to.
 
 ## Drag and Drop
-if order for the component to interact with the drag and drop interface is must have the following:
+if order for the component to interact with the drag and drop interface it must have the following:
 
  - The root HTML tag must be a DIV
  - The root tag must apply all props ex: `<div {...this.props}`
