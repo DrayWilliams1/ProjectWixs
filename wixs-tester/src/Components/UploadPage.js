@@ -1,6 +1,6 @@
 // Dependencies
 import React, { Component } from "react";
-import { Container, Button } from "react-bootstrap";
+import { Container, Button, CardDeck } from "react-bootstrap";
 import axios from "axios";
 import auth from "/auth.js";
 import qs from "qs"; // for packaging details collected from the form
@@ -113,23 +113,6 @@ export default class UploadPage extends Component {
             console.log(error);
           });
       }
-
-      //else {
-      //window.location.reload();
-      // document.getElementById('your_input_id').value= null; // may use this instead of page reload
-      //}
-
-      /*
-      // Display the values
-      for (var value of formData.values()) {
-        console.log(value);
-      }
-
-      // Display the keys
-      for (var key of formData.keys()) {
-        console.log(key);
-      }
-      */
     } else {
       // user is not signed in (based on cookies) -- redirect
       alert("User must be signed in to upload files. Redirecting... ");
@@ -232,9 +215,11 @@ export default class UploadPage extends Component {
             the database
           </p>
 
+          <CardDeck>
           {this.state.contentArray.map((content, i) => (
-            <MediaComponent key={i} content={content} />
+            <MediaComponent key={i} content={content} listNum={i+1}/>
           ))}
+          </CardDeck>
         </Container>
       </div>
     );
