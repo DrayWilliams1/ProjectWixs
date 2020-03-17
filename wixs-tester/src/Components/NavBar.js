@@ -87,7 +87,7 @@ class NavBar extends Component {
       // display logout button
       buttons = (
         <div>
-          <Button variant="secondary" onClick={this.logoutUser} size="sm">
+          <Button id="logout-button" variant="secondary" onClick={this.logoutUser} size="sm">
             Logout
           </Button>
           <Navbar.Text>
