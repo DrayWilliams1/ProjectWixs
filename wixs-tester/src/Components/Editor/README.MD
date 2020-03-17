@@ -10,6 +10,19 @@ the layout and component serialization / deserialization.
 # Components
 Each component should have its own folder with at least 2 files in it, a `.jsx` file and the `.scss` companion file. 
 
+### Component Backlog
+ - [ ] Bootstrap card (title, body, footer)
+ - [ ] Image block (using outside image source ie imgur etc)
+ - [ ] Image block with text overlay (outside image source)
+ - [ ] Raw HTML element
+### Components Icebox
+These are some components that we should create but I (Nathan) need to add more editor functionality before
+they can be added.
+
+ - [ ] Image block (needs support for parsing user images)
+ - [ ] Nav-Bar (needs support for multiple pages and links, variable length props [])
+
+
 ## Data Schema
 Each component should export a `SCHEMA` constant that can be interpreted by the layout engine. the structure of
 this schema is loosely based off [JSON Schema](https://json-schema.org/). Fields marked with a * are required
