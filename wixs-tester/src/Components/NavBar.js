@@ -21,6 +21,8 @@ import "./sass/NavBar.scss";
 
 const LOGOUT_USER_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/logoutUser.php";
+  const CHECK_IS_ADMIN = 
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/isAdmin.php";
 
 /**
  * Purpose: This is a file containing the shared navigation bar of the website
@@ -34,7 +36,16 @@ class NavBar extends Component {
   constructor(props) {
     super(props);
 
+    //const isAuthenticated = auth.isAuthenticated();
+    //const isAdmin = auth.isAdmin();
+
+    this.state = {
+      isAuthenticated: false,
+      isAdmin: false
+    };
+
     this.logoutUser = this.logoutUser.bind(this);
+    this.isAdmin = this.isAdmin.bind(this);
   }
 
   /**
@@ -79,13 +90,73 @@ class NavBar extends Component {
     }
   }
 
-  render() {
+
+  /**
+   * Returns whether the currently signed in user has administrator permissions
+   * 
+   * @return boolean true if the user is an admin, false if not
+   */
+  isAdmin(){
+    var currentUser = auth.getCookie("user");
+
+    if(currentUser) {
+      const params = {
+        email: currentUser
+      }
+
+      axios
+        .post(CHECK_IS_ADMIN, qs.stringify(params))
+        .then(response => {
+          console.log(response);
+
+          if (response.data["success"] === true) { // script success
+            if (response.data["isAdmin"] === true) { // user is an admin
+              this.setState({
+                isAdmin: true
+              });
+            } else { // user is not an admin
+              this.setState({
+                isAdmin: false
+              });
+            }
+          } else { // script failure
+            console.log(response.data["message"]);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+    }
+  }
+
+  componentDidMount() {
     const isAuthenticated = auth.isAuthenticated();
-    const isAdmin = auth.isAdmin();
+    //const isAdmin = auth.isAdmin();
+    
+    if(isAuthenticated) {
+      this.setState({
+        isAuthenticated: true
+      });
+    }
+
+    this.isAdmin();
+    /*this.setState({
+      isAdmin: true
+    });*/
+
+    /*if(this.isAdmin()) {
+      this.setState({
+        isAdmin: true
+      });
+    }*/
+  }
+
+  render() {
     let buttons;
 
-    if (isAuthenticated) {
-      if(isAdmin){
+    if (this.state.isAuthenticated) {
+      if(this.state.isAdmin){
         buttons = (
           <div>
             <Navbar.Text>

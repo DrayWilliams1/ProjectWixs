@@ -101,13 +101,45 @@ class Auth {
       return false;
     }
   }
-  isAdmin(){
-    if(this.isAuthenticated){//only procede if the user is authenticated 
-      //TO DO: axios calls to check if the logged in user is an admin
-      //if(user is admin)
-      return (this.admin = true);
-      //else return(this.admin = false);
+
+
+  /**
+   * Returns whether the currently signed in user has administrator permissions
+   * 
+   * @return boolean true if the user is an admin, false if not
+   */
+  /*isAdmin(){
+    var currentUser = this.getCookie("user");
+
+    if(currentUser) {
+      const params = {
+        email: currentUser
+      }
+
+      axios
+        .post(CHECK_IS_ADMIN, qs.stringify(params))
+        .then(response => {
+          console.log(response);
+
+          if (response.data["success"] === true) { // script success
+            if (response.data["isAdmin"] === true) { // user is an admin
+              console.log(response.data["isAdmin"]);
+              //return (this.admin = true);
+              return true;
+            } else { // user is not an admin
+              //return (this.admin = false);
+              return false;
+            }
+          } else { // script failure
+            console.log(response.data["message"]);
+            return false
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          return false
+        });
     }
-  }
+  }*/
 }
 export default new Auth();
