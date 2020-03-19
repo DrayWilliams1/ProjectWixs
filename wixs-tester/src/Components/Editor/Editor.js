@@ -237,6 +237,7 @@ export default class Editor extends React.Component {
           className={['editor-handle', this.state.activeElement === null ? 'layout-editor-handle' : 'component-editor-handle'].join(' ')}
           style={{right: this.state.tabOpen ? this.slideWidth : undefined}}>
           <img
+            style={{transform: this.state.tabOpen ? 'rotate(45deg)' : undefined}}
             src={plus}
             onClick={() => this.setState(prevState => ({tabOpen: !prevState.tabOpen}))}
           />

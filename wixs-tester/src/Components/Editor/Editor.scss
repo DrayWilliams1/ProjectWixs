@@ -62,7 +62,11 @@
   z-index: 2;
   box-shadow: -7px 0px 10px rgba(54, 58, 64, 0.35);
   cursor: pointer;
-  transition: right 0.5s;
+  transition: 0.5s;
+}
+
+.editor-handle img{
+  transition: 0.5s;
 }
 
 .layout-editor-handle {
