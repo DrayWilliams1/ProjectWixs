@@ -167,7 +167,7 @@ export default class Editor extends React.Component {
 
   formGeneration(schema, key, index = undefined) {
     // console.log(schema);
-    console.log(this.state.editElement);
+    // console.log(this.state.editElement);
     // console.log(index);
     const inputType = {
       StringArea: "textarea",

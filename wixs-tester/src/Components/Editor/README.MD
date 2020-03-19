@@ -102,9 +102,10 @@ Requires either good knowledge of React, extensive CSS implementations or both.
 
 # Future Editor Features
 
-|Feature                        | Difficulty        | Assigned to       | Status        |
-|-------------------------------|-------------------|-------------------|---------------|
-|Variable length props          |hard               |Nathan             |in progress    |
-|Rich text editor UI controls   |hard               |none               |pending        |
-|Image prop type                |medium             |Nathan             |pending        |
-|Delete components              |medium             |none               |pending        |
+|Feature                        | Difficulty        | Assigned to       | Status            |
+|-------------------------------|-------------------|-------------------|-------------------|
+|Variable length props          |hard               |Nathan             |:heavy_check_mark: |
+|OBJECT prop type               |hard               |Nathan             |in progress        |
+|Rich text editor UI controls   |hard               |none               |pending            |
+|Image prop type                |medium             |Nathan             |pending            |
+|Delete components              |medium             |none               |pending            |
