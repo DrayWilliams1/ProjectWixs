@@ -11,10 +11,23 @@ the layout and component serialization / deserialization.
 Each component should have its own folder with at least 2 files in it, a `.jsx` file and the `.scss` companion file. 
 
 ### Component Backlog
+ <!-- red - #f03c15
+ yellow - #ffff00 
+ green - #c5f015 -->
+#### ![#c5f015](https://placehold.it/15/c5f015/000000?text=+) Easy
+
+ - [✓] Simple textboxes
  - [ ] Bootstrap card (title, body, footer)
+ - [ ] Tables
+
+#### ![#ffff00](https://placehold.it/15/ffff00/000000?text=+) Medium
+ - [ ] Raw HTML element
+
+#### ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Hard
+ - [ ] Forms
  - [ ] Image block (using outside image source ie imgur etc)
  - [ ] Image block with text overlay (outside image source)
- - [ ] Raw HTML element
+
 ### Components Icebox
 These are some components that we should create but I (Nathan) need to add more editor functionality before
 they can be added.
