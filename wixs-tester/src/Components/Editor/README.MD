@@ -48,12 +48,13 @@ this schema is loosely based off [JSON Schema](https://json-schema.org/). Fields
     props: {
         <parameter_name>: {
             type: "Array",
-            items: {
+            schema: {
                 type: *<TYPE>,
                 name: *string,
                 value: *<value of type TYPE>
                 desc: string,
-            }
+            },
+            value: []
         }
       }
       
@@ -106,3 +107,4 @@ Requires either good knowledge of React, extensive CSS implementations or both.
 |Variable length props          |hard               |Nathan             |in progress    |
 |Rich text editor UI controls   |hard               |none               |pending        |
 |Image prop type                |medium             |Nathan             |pending        |
+|Delete components              |medium             |none               |pending        |

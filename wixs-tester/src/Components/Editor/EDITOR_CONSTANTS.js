@@ -3,6 +3,7 @@ import {SCHEMA as RichTexboxSchema} from "./Components/richTextbox/RichTextBox";
 import {SCHEMA as ContentWithHeaderSchema} from "./Components/ContentWithHeader/ContentWithHeader";
 import {SCHEMA as StandardButtonSchema} from "./Components/StandardButton/StandardButton";
 import {SCHEMA as RawHTMLBoxSchema} from "./Components/RawHTMLBox/RawHTMLBox";
+import {SCHEMA as TableSchema} from "./Components/Table/EditorTable";
 
 
 export const LEGEND = {
@@ -10,5 +11,6 @@ export const LEGEND = {
   RichTextbox: RichTexboxSchema,
   ContentWithHeader: ContentWithHeaderSchema,
   StandardButton: StandardButtonSchema,
-  RawHTMLBox: RawHTMLBoxSchema
+  RawHTMLBox: RawHTMLBoxSchema,
+  Table: TableSchema
 };

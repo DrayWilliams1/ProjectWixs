@@ -4,6 +4,7 @@ import "./textbox.scss";
 export class Textbox extends Component {
 
   render() {
+    // console.log(this.props.content);
     return (
       <div {...this.props} className={[this.props.className, "textbox-style"].join(' ')}>
         {this.props.children}
