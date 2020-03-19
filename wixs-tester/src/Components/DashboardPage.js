@@ -10,7 +10,7 @@ import CustomCard from "./CustomCard";
 import "./sass/DashboardPage.scss";
 
 const GET_TEMPLATES_URL =
-  "http://cosc.brocku.ca/~c4f00g02/projectWixs/templateFetch.php";
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/getTemplates.php";
 const GET_USER_URL = "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUser.php";
 
 /**
