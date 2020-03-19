@@ -97,6 +97,7 @@ Requires either good knowledge of React, extensive CSS implementations or both.
 |Image                          |easy               |none               |not yet supported  |
 |Image with Text Overlay        |medium             |none               |not yet supported  |
 |Nav-Bar                        |hard               |none               |not yet supported  |
+|Table                          |easy               |Nathan             |not yet supported  |
 
 # Future Editor Features
 
