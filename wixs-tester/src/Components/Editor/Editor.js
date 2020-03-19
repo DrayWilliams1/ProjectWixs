@@ -12,6 +12,7 @@ import plus from "../assets/icons/plus.svg"
 import close from "../assets/icons/other/028-cancel-1.svg"
 
 import RichTextEditor from "./RichTextEditor/RichTextEditor";
+import {forEach} from "react-bootstrap/cjs/ElementChildren";
 
 export default class Editor extends React.Component {
 
@@ -102,16 +103,21 @@ export default class Editor extends React.Component {
   handleChange(e, index = undefined) {
     const name = e.target.name;
     const value = e.target.value;
-    if(index === undefined){
+    if (index === undefined) {
       this.setState(prevState => ({editElement: {...prevState.editElement, [name]: value}}));
-    }else{
+    } else {
       let editCopy = JSON.parse(JSON.stringify(this.state.editElement));
-      editCopy[name][index] = value;
+      let temp = editCopy[name];
+      for (let i = 0; i < index.length - 1; i++){
+        temp = temp[index[i]]
+      }
+      temp[index[index.length - 1]] = value;
+      // editCopy[name][index] = value;
       this.setState({editElement: editCopy});
     }
   }
 
-  resizePropArray(e, schema){
+  resizePropArray(e, schema, index) {
     const defaultValue = schema.schema.value;
     const name = e.target.name;
     const value = e.target.value;
@@ -120,7 +126,16 @@ export default class Editor extends React.Component {
     for (let i = 0; i < value; i++) {
       newArray.push(defaultValue);
     }
-    editCopy[name] = newArray;
+    if (index === undefined) {
+      editCopy[name] = newArray;
+    } else {
+      let temp = editCopy[name];
+      for (let i = 0; i < index.length - 1; i++){
+        temp = temp[index[i]]
+      }
+      temp[index[index.length - 1]] = newArray;
+      // editCopy[name][index] = newArray;
+    }
     this.setState({editElement: editCopy});
   }
 
@@ -138,9 +153,22 @@ export default class Editor extends React.Component {
     this.setState({gridElements: elements, activeElement: null});
   }
 
-  formGeneration(schema, key, index = undefined){
-    console.log(schema);
-    // console.log(this.state.editElement);
+  recursiveAccess(obj, route){
+    let temp = obj;
+    for (let i = 0; i < route.length; i++){
+      temp = temp[route[i]]
+    }
+    // console.log(route);
+    // console.log(obj);
+    // console.log(temp);
+
+    return temp;
+  }
+
+  formGeneration(schema, key, index = undefined) {
+    // console.log(schema);
+    console.log(this.state.editElement);
+    // console.log(index);
     const inputType = {
       StringArea: "textarea",
       String: "input",
@@ -152,11 +180,11 @@ export default class Editor extends React.Component {
 
     if (["StringArea", "String", "Int", "Number"].includes(schema.type)) {
       return (
-        <Form.Group key={key+index}>
+        <Form.Group key={key + index}>
           {index === undefined && <Form.Label>{schema.name}</Form.Label>}
           <Form.Control
             name={key}
-            value={index === undefined ? this.state.editElement[key] : this.state.editElement[key][index]}
+            value={index === undefined ? this.state.editElement[key] : this.recursiveAccess(this.state.editElement[key], index)}
             onChange={index === undefined ? this.handleChange : (e) => this.handleChange(e, index)}
             as={inputType[schema.type]}
             type={(schema.type === "Int" || schema.type === "Number") ? "number" : undefined}
@@ -167,7 +195,7 @@ export default class Editor extends React.Component {
       )
     } else if (schema.type === "RichText") {
       return (
-        <Form.Group key={key+index}>
+        <Form.Group key={key + index}>
           {index === undefined && <Form.Label>{schema.name}</Form.Label>}
           <RichTextEditor
             content={index === undefined ? this.state.editElement[key] : this.state.editElement[key][index]}
@@ -180,26 +208,36 @@ export default class Editor extends React.Component {
           />
         </Form.Group>
       )
-    }else if (schema.type === "Array"){
-      return(
-        <Form.Group key={key+index}>
+    } else if (schema.type === "Array") {
+      return (
+        <Form.Group key={key + index}>
           <h1>{schema.name}</h1>
           <p>size</p>
           <Form.Control
             name={key}
-            value={this.state.editElement[key].length}
-            onChange={(e) => this.resizePropArray(e, schema)}
+            value={index === undefined ? this.state.editElement[key].length : this.state.editElement[key][index].length}
+            onChange={(e) => this.resizePropArray(e, schema, index)}
             type={"Number"}
             step={"1"}
-            min={0}
+            min={schema.min}
+            max={schema.max}
             size={'sm'}
             style={{marginBottom: '5px'}}
           />
-          {this.state.editElement[key].map((item, index) => {
-            return(
-              this.formGeneration(schema.schema, key, index)
-            )
-          })}
+          {
+            index === undefined ?
+              this.state.editElement[key].map((item, i) => {
+                return (
+                  this.formGeneration(schema.schema, key, [i])
+                )
+              })
+              :
+              this.recursiveAccess(this.state.editElement[key], index).map((item, i) => {
+                return (
+                  this.formGeneration(schema.schema, key, [...index, i])
+                )
+              })
+          }
           {/*{this.formGeneration(schema.schema, key, 0)}*/}
         </Form.Group>
       )
@@ -231,7 +269,7 @@ export default class Editor extends React.Component {
             if (index > 1) {
               //check types and return form fields based on types
               //TEXTAREA, TEXT, INT, NUMBER
-              return(this.formGeneration(ELEMENT.props[key], key))
+              return (this.formGeneration(ELEMENT.props[key], key))
 
             }
           })}

@@ -6,9 +6,9 @@ export class EditorTable extends Component {
     return (
       <div {...this.props} className={[this.props.className].join(' ')}>
         {this.props.children}
-        {this.props.content.value.map(item => {
-          return(<p>item</p>)
-        })}
+        {/*{this.props.content.value.map(item => {*/}
+        {/*  return(<p>{item}</p>)*/}
+        {/*})}*/}
       </div>
     );
   }
@@ -17,20 +17,28 @@ export class EditorTable extends Component {
 // legend information
 export const SCHEMA = {
   type: EditorTable,
-  gridOptions: {h: 2, w: 4, minW: 2, minH: 2},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
+  gridOptions: {h: 5, w: 5, minW: 4, minH: 4},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
   title: "Text Area",
   desc: "Tables of all sizes",
   props: {
     content: {
       type: "Array",
-      name: "Array 1",
+      min: 1,
+      max: 5,
+      name: "Columns",
       schema: {
-        type: "String",
-        name: "test array",
-        value: "default value",
-        desc: "this is a description"
+        type: "Array",
+        min: 1,
+        max: 5,
+        name: "Data",
+        schema: {
+          type: "String",
+          name: "column data",
+          value: ""
+        },
+        value: [""]
       },
-      value: []
+      value: [[""]]
     }
   }
 };
