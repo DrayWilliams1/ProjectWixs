@@ -28,7 +28,7 @@ try {
        if($pdo) { // connected successfully
            if (($_SERVER['REQUEST_METHOD'] == 'POST')) {
                // Using empty test instead of isset function
-			   $file_post = empty($_POST['file_name']) ? null : $_POST['file_name']; 
+			   $file_post = empty($_POST['content_id']) ? null : $_POST['content_id']; 
                if ( deleteContent()) {
                    $responseObject['success']=true; // echoing a response that can be used to redirect page after AJAX call
                } // otherwise, error, response message is displayed in alert
@@ -57,7 +57,7 @@ function deleteContent() {
     global $responseObject;
     global $template;
 
-    $sql_delete = "Delete FROM content WHERE file_name = ?";
+    $sql_delete = "Delete FROM content WHERE content_id = ?";
     $stmt = $pdo->prepare($sql_delete);
 
     // pass and bind values to the statement
@@ -76,7 +76,7 @@ function deleteContent() {
         }
 
     } else {
-        $responseObject['message']="Error querying users table. ";
+        $responseObject['message']="Error querying content table. ";
     }
 }
 

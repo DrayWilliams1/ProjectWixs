@@ -28,7 +28,7 @@ try {
        if($pdo) { // connected successfully
            if (($_SERVER['REQUEST_METHOD'] == 'POST')) {
                // Using empty test instead of isset function
-			   $template_post = empty($_POST['custom_name']) ? null : $_POST['custom_name']; 
+			   $template_post = empty($_POST['template_id']) ? null : $_POST['template_id']; 
                if ( deleteTemplate()) {
                    $responseObject['success']=true; // echoing a response that can be used to redirect page after AJAX call
                } // otherwise, error, response message is displayed in alert
@@ -57,7 +57,7 @@ function deleteTemplate() {
     global $responseObject;
     global $template;
 
-    $sql_delete = "Delete FROM templates WHERE custom_name = ?";
+    $sql_delete = "Delete FROM templates WHERE template_id = ?";
     $stmt = $pdo->prepare($sql_delete);
 
     // pass and bind values to the statement
@@ -76,7 +76,7 @@ function deleteTemplate() {
         }
 
     } else {
-        $responseObject['message']="Error querying users table. ";
+        $responseObject['message']="Error querying template table. ";
     }
 }
 
