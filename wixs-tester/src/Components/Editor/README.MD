@@ -16,7 +16,7 @@ Each component should have its own folder with at least 2 files in it, a `.jsx` 
  green - #c5f015 -->
 #### ![#c5f015](https://placehold.it/15/c5f015/000000?text=+) Easy
 
- - [✓] Simple textboxes
+ [✓] Simple textboxes
  - [ ] Bootstrap card (title, body, footer)
  - [ ] Tables
 
