@@ -83,7 +83,7 @@ function getTemplates() {
     global $responseObject;
     global $templates;
 
-    $sql_select = "SELECT owner_email, custom_name, file_location, is_active, last_modified FROM templates WHERE owner_email = ?";
+    $sql_select = "SELECT * FROM templates WHERE owner_email = ?";
     $stmt = $pdo->prepare($sql_select);
 
     // pass and bind values to the statement
