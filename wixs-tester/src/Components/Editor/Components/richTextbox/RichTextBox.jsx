@@ -16,7 +16,8 @@ export class RichTextBox extends Component {
 export const SCHEMA = {
   type: RichTextBox,
   gridOptions: {h: 2, w: 4, minW: 2, minH: 2},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
-  title: "Text Area",
+  title: "Rich Text Area",
+  iconName: "plus.svg",
   desc: "A text component that allows for bold, underline, bullet points and more",
   props: {
     content: {

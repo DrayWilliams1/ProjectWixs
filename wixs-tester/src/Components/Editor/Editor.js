@@ -5,7 +5,7 @@ import GridLayout from 'react-grid-layout';
 import {LEGEND} from "./EDITOR_CONSTANTS";
 import {Textbox} from "./Components/textbox/textbox";
 
-import {Button, Form,} from "react-bootstrap";
+import {Button, Form, Card, Container} from "react-bootstrap";
 
 //icons
 import plus from "../assets/icons/plus.svg"
@@ -34,8 +34,22 @@ export default class Editor extends React.Component {
     this.elementClicked = this.elementClicked.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.applyChange = this.applyChange.bind(this);
+    this.getIcon = this.getIcon.bind(this);
 
     this.slideWidth = '300px';
+  }
+
+  getIcon(iconName) {
+    switch(iconName){
+      case 'Textbox':
+        return require('../assets/icons/simpleText-Icon.png');
+      case 'RichTextbox':
+        return require('../assets/icons/other/011-lines.svg');
+      case 'ContentWithHeader':
+        return require('../assets/icons/other/047-table.svg');
+      case 'Button':
+        return require('../assets/icons/other/093-right-arrow-2.svg');
+    }
   }
 
   generateItem(typeName) {
@@ -189,7 +203,6 @@ export default class Editor extends React.Component {
       </div>
     )
   }
-
   layoutEditor() {
     return (
       <div>
@@ -201,16 +214,35 @@ export default class Editor extends React.Component {
           }}
         >
           <h1>Components</h1>
+          <Container className="editor-sidebar-grid">
+          <div className="row">
           {Object.entries(LEGEND).map(([key, value]) => {
             return (
-              <div key={'layout-editor-element-' + key}>
-                <Button onClick={() => this.generateItem(key)}>{key}</Button>
-                <p className={'layout-editor-component-subtext'}>{value.desc}</p>
-              </div>
+            <div key={'layout-editor-element-' + key} className="col-sm-6">       
+              <Card
+              bg="light"
+              style={{ height: "120px", width: "120px", cursor:"pointer"}}
+              className="text-center"
+              align="center"
+              tag="a" 
+              title={value.desc}
+              onClick={() => this.generateItem(key)}
+              >     
+              <Card.Body>
+                <Card.Img variant="top" src={this.getIcon(key)} className="card-images"/>
+                <Card.Text>
+                  {value.title}
+                </Card.Text>
+              </Card.Body>
+              </Card>
+            </div>
             )
           })}
+          
           <button onClick={this.saveGrid}>SAVE LAYOUT</button>
           <button onClick={this.loadGrid}>LOAD LAYOUT</button>
+          </div>
+          </Container>
         </div>
       </div>
     )
