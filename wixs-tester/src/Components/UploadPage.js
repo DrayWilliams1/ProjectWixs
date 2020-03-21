@@ -72,12 +72,6 @@ export default class UploadPage extends Component {
       return false; // invalid file
     }
 
-    /*if (baseType === "video" && size > MAX_VID_SIZE) {
-      // video is too large
-      alert("Video must be under 25MB");
-      return false; // invalid file
-    }*/
-
     return true; // passed tests, therefore valid
   }
 
@@ -216,9 +210,9 @@ export default class UploadPage extends Component {
           </p>
 
           <CardDeck>
-          {this.state.contentArray.map((content, i) => (
-            <CustomMedia key={i} content={content} listNum={i+1}/>
-          ))}
+            {this.state.contentArray.map((content, i) => (
+              <CustomMedia key={i} content={content} listNum={i + 1} />
+            ))}
           </CardDeck>
         </Container>
       </div>

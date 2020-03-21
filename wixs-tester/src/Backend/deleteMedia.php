@@ -67,11 +67,11 @@ function deleteContent() {
         // we'll now we have the templates
         if ($stmt->rowCount() > 0) {
 			
-			$responseObject['message']="File deleted from database";
+			$responseObject['message']="File with id {$file_post} has been deleted from database";
             return true;
 
         } else {
-            $responseObject['message']="File with name {$file_post} does not exist in database. ";
+            $responseObject['message']="File with id {$file_post} does not exist in database. ";
             return false;
         }
 

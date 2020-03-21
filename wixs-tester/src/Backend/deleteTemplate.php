@@ -67,11 +67,11 @@ function deleteTemplate() {
         // we'll now we have the templates
         if ($stmt->rowCount() > 0) {
 			
-			$responseObject['message']="Template deleted from database";
+			$responseObject['message']="Template with id {$template_post} has been deleted from database. ";
             return true;
 
         } else {
-            $responseObject['message']="Template with name {$template_post} does not exist in database. ";
+            $responseObject['message']="Template with id {$template_post} does not exist in database. ";
             return false;
         }
 

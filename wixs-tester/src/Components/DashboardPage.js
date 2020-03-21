@@ -32,7 +32,6 @@ export default class DashboardPage extends Component {
 
     this.getUser = this.getUser.bind(this);
     this.getTemplates = this.getTemplates.bind(this);
-    
   }
 
   /**
@@ -50,7 +49,7 @@ export default class DashboardPage extends Component {
 
         if (response.data["success"] === true) {
           this.setState({
-              first_name: response.data.user.first_name
+            first_name: response.data.user.first_name
           });
         } else {
           console.log(response.data["message"]);
@@ -102,7 +101,7 @@ export default class DashboardPage extends Component {
     if (isAuthenticated) {
       greeting = (
         <h1>
-          Welcome to your Dashboard <i>{this.state.first_name}</i>!
+          Welcome to your Dashboard <strong>{this.state.first_name}</strong>
         </h1>
       );
     } else {

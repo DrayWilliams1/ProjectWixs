@@ -67,7 +67,7 @@ function deleteUser() {
         // we'll now we have the templates
         if ($stmt->rowCount() > 0) {
 			
-			$responseObject['message']="User Deleted";
+			$responseObject['message']="{$email_post} has been deleted. ";
             return true;
 
         } else {

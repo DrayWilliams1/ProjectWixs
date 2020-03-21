@@ -16,9 +16,8 @@ $dsn = "pgsql:host=$host;port=$port;dbname=$db;user=$username;password=$password
 $responseObject = array();
 $responseObject['success']=false; // whether the operation executed successfully
 $responseObject['message']=""; // the message from the execution, error or success
-$responseObject['user'] = null;
 
-$user = array(); // the array of possible templates to be returned
+//$user = array(); // the array of possible templates to be returned
 
 try {
     // create a PostgreSQL database connection
@@ -28,7 +27,9 @@ try {
        if($pdo) { // connected successfully
            if (($_SERVER['REQUEST_METHOD'] == 'POST')) {
                // Using empty test instead of isset function
-			   $email_post = empty($_POST['email']) ? null : $_POST['email']; 
+               $email_post = empty($_POST['email']) ? null : $_POST['email']; 
+               $setAdmin_post = empty($_POST['setAdmin']) ? null : $_POST['setAdmin']; 
+
                if ( setUserAdmin()) {
                    $responseObject['success']=true; // echoing a response that can be used to redirect page after AJAX call
                } // otherwise, error, response message is displayed in alert
@@ -53,33 +54,37 @@ try {
  */
 function setUserAdmin() {
     global $pdo;
-    global $email_post;
+    global $email_post, $setAdmin_post;
     global $responseObject;
-    global $user;
 
-    $sql_delete = "update users set admin = true where email =?";
-    $stmt = $pdo->prepare($sql_delete);
+    $sql_admin = "update users set admin = ? where email = ?";
+    $stmt = $pdo->prepare($sql_admin);
 
     // pass and bind values to the statement
-    $stmt->bindValue(1, $email_post, PDO::PARAM_STR); // binding to string
+    $stmt->bindValue(1, $setAdmin_post, PDO::PARAM_BOOL); // binding to string
+    $stmt->bindValue(2, $email_post, PDO::PARAM_STR); // binding to string
 
 	if($stmt->execute()) { // The query has executed successfully
         // we'll now we have the templates
         if ($stmt->rowCount() > 0) {
-			
-			$responseObject['message']="User set to admin";
+            
+            if($setAdmin_post == 'true') { // set admin
+                $responseObject['message']="{$email_post} has been given admin permissions";
+            }
+
+            if($setAdmin_post == 'false') { // set admin
+                $responseObject['message']="{$email_post} has lost admin permissions";
+            }
             return true;
 
         } else {
             $responseObject['message']="User with email {$email_post} does not exist in database. ";
             return false;
         }
-
     } else {
         $responseObject['message']="Error querying users table. ";
     }
 }
-
 
 echo json_encode($responseObject);
 ?>
