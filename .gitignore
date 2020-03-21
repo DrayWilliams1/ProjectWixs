@@ -4,5 +4,7 @@ node_modules/
 wixs-tester/dist/
 dist/
 
-# Ignore mac DS_Store files
+# Ignore mac DS_Store files and other misc
 .DS_Store
+.vscode
+npm-debug.log*

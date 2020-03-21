@@ -12,6 +12,7 @@ import plus from "../assets/icons/plus.svg"
 import close from "../assets/icons/other/028-cancel-1.svg"
 
 import RichTextEditor from "./RichTextEditor/RichTextEditor";
+import {forEach} from "react-bootstrap/cjs/ElementChildren";
 
 export default class Editor extends React.Component {
 
@@ -30,9 +31,11 @@ export default class Editor extends React.Component {
     this.saveGrid = this.saveGrid.bind(this);
     this.loadGrid = this.loadGrid.bind(this);
     this.componentEditor = this.componentEditor.bind(this);
+    this.formGeneration = this.formGeneration.bind(this);
     this.layoutEditor = this.layoutEditor.bind(this);
     this.elementClicked = this.elementClicked.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.resizePropArray = this.resizePropArray.bind(this);
     this.applyChange = this.applyChange.bind(this);
     this.getIcon = this.getIcon.bind(this);
 
@@ -111,10 +114,43 @@ export default class Editor extends React.Component {
     this.setState({activeElement: index, editElement: editFields});
   }
 
-  handleChange(e) {
+  handleChange(e, index = undefined) {
     const name = e.target.name;
     const value = e.target.value;
-    this.setState(prevState => ({editElement: {...prevState.editElement, [name]: value}}));
+    if (index === undefined) {
+      this.setState(prevState => ({editElement: {...prevState.editElement, [name]: value}}));
+    } else {
+      let editCopy = JSON.parse(JSON.stringify(this.state.editElement));
+      let temp = editCopy[name];
+      for (let i = 0; i < index.length - 1; i++){
+        temp = temp[index[i]]
+      }
+      temp[index[index.length - 1]] = value;
+      // editCopy[name][index] = value;
+      this.setState({editElement: editCopy});
+    }
+  }
+
+  resizePropArray(e, schema, index) {
+    const defaultValue = schema.schema.value;
+    const name = e.target.name;
+    const value = e.target.value;
+    let editCopy = JSON.parse(JSON.stringify(this.state.editElement));
+    let newArray = [];
+    for (let i = 0; i < value; i++) {
+      newArray.push(defaultValue);
+    }
+    if (index === undefined) {
+      editCopy[name] = newArray;
+    } else {
+      let temp = editCopy[name];
+      for (let i = 0; i < index.length - 1; i++){
+        temp = temp[index[i]]
+      }
+      temp[index[index.length - 1]] = newArray;
+      // editCopy[name][index] = newArray;
+    }
+    this.setState({editElement: editCopy});
   }
 
   applyChange() {
@@ -131,9 +167,22 @@ export default class Editor extends React.Component {
     this.setState({gridElements: elements, activeElement: null});
   }
 
-  componentEditor() {
-    const OBJ_TYPE = LEGEND[this.state.gridElements[this.state.activeElement].type];
-    const ELEMENT = this.state.gridElements[this.state.activeElement];
+  recursiveAccess(obj, route){
+    let temp = obj;
+    for (let i = 0; i < route.length; i++){
+      temp = temp[route[i]]
+    }
+    // console.log(route);
+    // console.log(obj);
+    // console.log(temp);
+
+    return temp;
+  }
+
+  formGeneration(schema, key, index = undefined) {
+    // console.log(schema);
+    // console.log(this.state.editElement);
+    // console.log(index);
     const inputType = {
       StringArea: "textarea",
       String: "input",
@@ -142,6 +191,76 @@ export default class Editor extends React.Component {
       // Boolean: "TODO",
       // Select: TODO,
     };
+
+    if (["StringArea", "String", "Int", "Number"].includes(schema.type)) {
+      return (
+        <Form.Group key={key + index}>
+          {index === undefined && <Form.Label>{schema.name}</Form.Label>}
+          <Form.Control
+            name={key}
+            value={index === undefined ? this.state.editElement[key] : this.recursiveAccess(this.state.editElement[key], index)}
+            onChange={index === undefined ? this.handleChange : (e) => this.handleChange(e, index)}
+            as={inputType[schema.type]}
+            type={(schema.type === "Int" || schema.type === "Number") ? "number" : undefined}
+            step={schema.type === "Int" ? "1" : "any"}
+            min={0}
+          />
+        </Form.Group>
+      )
+    } else if (schema.type === "RichText") {
+      return (
+        <Form.Group key={key + index}>
+          {index === undefined && <Form.Label>{schema.name}</Form.Label>}
+          <RichTextEditor
+            content={index === undefined ? this.state.editElement[key] : this.state.editElement[key][index]}
+            updateState={(e) => this.setState(prevState => ({
+              editElement: {
+                ...prevState.editElement,
+                [key]: e
+              }
+            }))}
+          />
+        </Form.Group>
+      )
+    } else if (schema.type === "Array") {
+      return (
+        <Form.Group key={key + index}>
+          <h1>{schema.name}</h1>
+          <p>size</p>
+          <Form.Control
+            name={key}
+            value={index === undefined ? this.state.editElement[key].length : this.state.editElement[key][index].length}
+            onChange={(e) => this.resizePropArray(e, schema, index)}
+            type={"Number"}
+            step={"1"}
+            min={schema.min}
+            max={schema.max}
+            size={'sm'}
+            style={{marginBottom: '5px'}}
+          />
+          {
+            index === undefined ?
+              this.state.editElement[key].map((item, i) => {
+                return (
+                  this.formGeneration(schema.schema, key, [i])
+                )
+              })
+              :
+              this.recursiveAccess(this.state.editElement[key], index).map((item, i) => {
+                return (
+                  this.formGeneration(schema.schema, key, [...index, i])
+                )
+              })
+          }
+          {/*{this.formGeneration(schema.schema, key, 0)}*/}
+        </Form.Group>
+      )
+    }
+  }
+
+  componentEditor() {
+    const OBJ_TYPE = LEGEND[this.state.gridElements[this.state.activeElement].type];
+    const ELEMENT = this.state.gridElements[this.state.activeElement];
 
     return (
       <div
@@ -164,37 +283,7 @@ export default class Editor extends React.Component {
             if (index > 1) {
               //check types and return form fields based on types
               //TEXTAREA, TEXT, INT, NUMBER
-              if (["StringArea", "String", "Int", "Number"].includes(ELEMENT.props[key].type)) {
-                return (
-                  <Form.Group key={key + index}>
-                    <Form.Label>{ELEMENT.props[key].name}</Form.Label>
-                    <Form.Control
-                      name={key}
-                      value={this.state.editElement[key]}
-                      onChange={this.handleChange}
-                      as={inputType[ELEMENT.props[key].type]}
-                      type={(ELEMENT.props[key].type === "Int" || ELEMENT.props[key].type === "Number") ? "number" : undefined}
-                      step={ELEMENT.props[key].type === "Int" ? "1" : "any"}
-                      min={0}
-                    />
-                  </Form.Group>
-                )
-              } else if (ELEMENT.props[key].type === "RichText") {
-                return (
-                  <Form.Group key={key + index}>
-                    <Form.Label>{ELEMENT.props[key].name}</Form.Label>
-                    <RichTextEditor
-                      content={this.state.editElement[key]}
-                      updateState={(e) => this.setState(prevState => ({
-                        editElement: {
-                          ...prevState.editElement,
-                          [key]: e
-                        }
-                      }))}
-                    />
-                  </Form.Group>
-                )
-              }
+              return (this.formGeneration(ELEMENT.props[key], key))
 
             }
           })}
@@ -269,6 +358,7 @@ export default class Editor extends React.Component {
           className={['editor-handle', this.state.activeElement === null ? 'layout-editor-handle' : 'component-editor-handle'].join(' ')}
           style={{right: this.state.tabOpen ? this.slideWidth : undefined}}>
           <img
+            style={{transform: this.state.tabOpen ? 'rotate(45deg)' : undefined}}
             src={plus}
             onClick={() => this.setState(prevState => ({tabOpen: !prevState.tabOpen}))}
           />

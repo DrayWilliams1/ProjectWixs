@@ -10,7 +10,7 @@ import CustomCard from "./CustomCard";
 import "./sass/DashboardPage.scss";
 
 const GET_TEMPLATES_URL =
-  "http://cosc.brocku.ca/~c4f00g02/projectWixs/templateFetch.php";
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/getTemplates.php";
 const GET_USER_URL = "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUser.php";
 
 /**
@@ -32,7 +32,6 @@ export default class DashboardPage extends Component {
 
     this.getUser = this.getUser.bind(this);
     this.getTemplates = this.getTemplates.bind(this);
-    
   }
 
   /**
@@ -50,7 +49,7 @@ export default class DashboardPage extends Component {
 
         if (response.data["success"] === true) {
           this.setState({
-              first_name: response.data.user.first_name
+            first_name: response.data.user.first_name
           });
         } else {
           console.log(response.data["message"]);
@@ -102,7 +101,7 @@ export default class DashboardPage extends Component {
     if (isAuthenticated) {
       greeting = (
         <h1>
-          Welcome to your Dashboard <i>{this.state.first_name}</i>!
+          Welcome to your Dashboard <strong>{this.state.first_name}</strong>
         </h1>
       );
     } else {

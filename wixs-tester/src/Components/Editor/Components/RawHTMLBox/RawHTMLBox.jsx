@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
-import "./button.scss";
+import "./RawHTMLBox.scss";
 
-export class Button extends Component {
+export class RawHTMLBox extends Component {
 
   render() {
     return (
-      <div {...this.props} className={[this.props.className, "button-style"].join(' ')}>
+      <div {...this.props} className={[this.props.className, "rawHTMLBox-style"].join(' ')}>
         {this.props.children}
-        <p>{this.props.content.value}</p>
+        <body>
+            {this.props.content.value}
+        </body>
       </div>
     );
   }
@@ -15,15 +17,15 @@ export class Button extends Component {
 
 // legend information
 export const SCHEMA = {
-  type: Button,
+  type: RawHTMLBox,
   gridOptions: {h: 2, w: 2, minW: 2, minH: 2},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
-  title: "Button",
-  desc: "A simple button",
+  title: "HTML box",
+  desc: "A box to allow for raw html code",
   props: {
     content: {
       type: "StringArea",
       name: "Content",
-      value: "Click me!",
+      value: "Code goes here",
     }
   }
 };

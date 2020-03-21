@@ -69,6 +69,10 @@
   transition: right 0.5s;
 }
 
+.editor-handle img{
+  transition: 0.5s;
+}
+
 .layout-editor-handle {
   background-color: $accent-1;
 }
