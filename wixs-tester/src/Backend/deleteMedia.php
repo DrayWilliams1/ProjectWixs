@@ -29,7 +29,7 @@ try {
            if (($_SERVER['REQUEST_METHOD'] == 'POST')) {
                // Using empty test instead of isset function
 			   $file_post = empty($_POST['content_id']) ? null : $_POST['content_id']; 
-               if ( deleteContent()) {
+               if ( deleteContentDB()) {
                    $responseObject['success']=true; // echoing a response that can be used to redirect page after AJAX call
                } // otherwise, error, response message is displayed in alert
                
@@ -42,16 +42,9 @@ try {
    }
 
 /**
- * First checks if any inputs are missing, then validates and sanitizes certain inputs.
- * 
- * @return boolean true if no inputs are mssing, and all inputs are valid. Then sanitizes them. False, if any of those
- * criteria are not met.
- * */
-
-/**
- * Queries the database for the user
+ * Deletes the content from the postgres database
  */
-function deleteContent() {
+function deleteContentDB() {
     global $pdo;
     global $file_post;
     global $responseObject;
