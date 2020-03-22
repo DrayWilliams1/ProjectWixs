@@ -109,7 +109,7 @@ export default class AdminPage extends Component {
     return (
       <div>
         <Container>
-          <div className="word-content">Admin Options</div>
+          <h1>Admin Options</h1>
         </Container>
 
         <Container>

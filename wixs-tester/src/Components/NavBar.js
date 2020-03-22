@@ -269,24 +269,15 @@ class NavBar extends Component {
             </NavLink>
             <NavLink
               to="/help"
-              className="navLink-normal mr-sm-2"
+              className="navLink-normal"
               activeClassName="navLink-selected"
             >
               {/* Will possibly change this to activeClassName when using css file */}
               Help/FAQs
             </NavLink>
-            {/*
-            <NavLink
-              to="/admin"
-              className="navLink-normal mr-sm-2"
-              activeClassName="navLink-selected"
-            >
-               Will possibly change this to activeClassName when using css file
-              Admin Options
-            </NavLink> */}
             <NavLink
               to="/upload"
-              className="navLink-normal mr-sm-2"
+              className="navLink-normal"
               activeClassName="navLink-selected"
             >
               {/* Will possibly change this to activeClassName when using css file */}
