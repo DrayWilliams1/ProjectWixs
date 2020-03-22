@@ -4,6 +4,7 @@ import { Container, Button, Card, CardDeck, CardImg } from "react-bootstrap";
 
 // CSS/SASS
 import "./sass/CustomCard.scss";
+const DEL_TEMPLATE_URL = "http://cosc.brocku.ca/~c4f00g02/projectWixs/deleteTemplate.php";
 
 /**
  * Purpose: This is a file displaying a card element to represent a template on the dashboard page
@@ -44,6 +45,36 @@ export default class CustomCard extends Component {
     return total;
   }
 
+  toEditor() {
+    window.location.href="#/editor";
+}
+
+    /**
+   * Deletes a specified user template from the database
+   */
+  delTemplate() {
+    const params = {
+      temp_id: this.props.template["template_id"]
+    };
+
+    axios
+      .post(DEL_TEMPLATE_URL, qs.stringify(params))
+      .then(response => {
+        console.log(response);
+        if (response.data["success"] === true) {
+          console.log("template deleted.");
+          this.setState({
+            templateArray: response.data["templates"]
+          });
+        } else {
+          console.log(response.data["message"]);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
 
   render() {
             if (this.props.template['is_active'])
@@ -57,12 +88,12 @@ export default class CustomCard extends Component {
                     </Card.Title>
                     <Card.Text>
                     
-                    <Button variant="primary" size="sm">
+                    <Button variant="primary" size="sm" onClick="toEditor()">
                       {" "}
                       Edit{" "}
                     </Button>
                     <span>&nbsp;&nbsp;</span>
-                    <Button variant="danger" size="sm">
+                    <Button variant="danger" size="sm" onClick="delTemplate()">
                       {" "}
                       Delete{" "}
                     </Button>
@@ -87,7 +118,7 @@ export default class CustomCard extends Component {
                       Edit{" "}
                     </Button>
                     <span>&nbsp;&nbsp;</span>
-                    <Button variant="danger" size="sm">
+                    <Button variant="danger" size="sm" onClick="delTemplate()">
                       {" "}
                       Delete{" "}
                     </Button></Card.Text>

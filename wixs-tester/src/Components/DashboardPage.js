@@ -116,9 +116,7 @@ export default class DashboardPage extends Component {
 
         <Container>
           <div className="template-selection">
-            <a href="#/editor">
-              <h2 className="editor-link">Your Templates</h2>
-            </a>
+              <h2> Your Templates</h2>
             <CardDeck className="card-deck">
               {this.state.templateArray.map((template, i) => (
                 <CustomCard template={template} key={i} />
