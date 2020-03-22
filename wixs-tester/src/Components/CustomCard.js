@@ -125,7 +125,7 @@ export default class CustomCard extends Component {
           </Card.Body>
           <Card.Footer>
             <small className="text-muted">
-              Last updated
+              Last updated{" "}
               {this.dateDifference(this.props.template["last_modified"])}
             </small>
           </Card.Footer>
