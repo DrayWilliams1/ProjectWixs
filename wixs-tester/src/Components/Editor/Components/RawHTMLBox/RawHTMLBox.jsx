@@ -7,9 +7,7 @@ export class RawHTMLBox extends Component {
     return (
       <div {...this.props} className={[this.props.className, "rawHTMLBox-style"].join(' ')}>
         {this.props.children}
-        <body>
-            {this.props.content.value}
-        </body>
+        <div dangerouslySetInnerHTML={{ __html: this.props.content.value }} />
       </div>
     );
   }
