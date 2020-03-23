@@ -36,7 +36,7 @@ export class EditorTable extends Component {
 export const SCHEMA = {
   type: EditorTable,
   gridOptions: {h: 5, w: 5, minW: 4, minH: 4},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
-  title: "Text Area",
+  title: "Table",
   desc: "Tables of all sizes",
   props: {
     content: {
