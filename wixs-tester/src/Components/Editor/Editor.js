@@ -3,16 +3,14 @@ import './Editor.scss'
 
 import GridLayout from 'react-grid-layout';
 import {LEGEND} from "./EDITOR_CONSTANTS";
-import {Textbox} from "./Components/textbox/textbox";
+import ComponentStyleBar from "./ComponentStyleBar";
 
 import {Button, Form, Card, Container} from "react-bootstrap";
+import RichTextEditor from "./RichTextEditor/RichTextEditor";
 
 //icons
 import plus from "../assets/icons/plus.svg"
 import close from "../assets/icons/other/028-cancel-1.svg"
-
-import RichTextEditor from "./RichTextEditor/RichTextEditor";
-import {forEach} from "react-bootstrap/cjs/ElementChildren";
 
 export default class Editor extends React.Component {
 
@@ -84,6 +82,7 @@ export default class Editor extends React.Component {
 
   loadGrid() {
     const load = JSON.parse(localStorage.getItem("test-editor-store"));
+    console.log(load);
     this.setState({layout: load.layout, gridElements: load.gridElements});
     console.log("Layout loaded");
   }
@@ -180,7 +179,7 @@ export default class Editor extends React.Component {
   }
 
   formGeneration(schema, key, index = undefined) {
-    // console.log(schema);
+    console.log(key);
     // console.log(this.state.editElement);
     // console.log(index);
     const inputType = {
@@ -209,7 +208,7 @@ export default class Editor extends React.Component {
       )
     } else if (schema.type === "RichText") {
       return (
-        <Form.Group key={key + index}>
+        <Form.Group >
           {index === undefined && <Form.Label>{schema.name}</Form.Label>}
           <RichTextEditor
             content={index === undefined ? this.state.editElement[key] : this.state.editElement[key][index]}
@@ -224,7 +223,7 @@ export default class Editor extends React.Component {
       )
     } else if (schema.type === "Array") {
       return (
-        <Form.Group key={key + index}>
+        <Form.Group >
           <h1>{schema.name}</h1>
           <p>size</p>
           <Form.Control

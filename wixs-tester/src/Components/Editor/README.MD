@@ -67,9 +67,18 @@ if order for the component to interact with the drag and drop interface it must 
  - The root tag must apply all props ex: `<div {...this.props}`
  - The root tag must render children (if you want the resize handle) ex: `{this.props.children}`
 
-## Styling
+# Styling
 Each component should have its own `.scss` file that it gets styling from. The class names should be very specific to
 avoid any cross styling conflicts. Something like '<component_name>-main-background' should be good.
+
+## Dynamic Styling
+A website builder wouldn't be complete without th eability for the users to edit the styling of components to some degree.
+There will be a popover menu that displays when an element is selected which will be able to edit the following style elements:
+
+ - Font size
+ - color
+ - background color
+ 
 
 # Component Index
 In order for the layout engine to be aware of all the avalable components they must each be added to the `EDITOR_CONSTANTS.js`
@@ -105,6 +114,7 @@ Requires either good knowledge of React, extensive CSS implementations or both.
 |Feature                        | Difficulty        | Assigned to       | Status            |
 |-------------------------------|-------------------|-------------------|-------------------|
 |Variable length props          |hard               |Nathan             |:heavy_check_mark: |
+|Component Styling options      |hard               |Nathan             |in progress        |
 |OBJECT prop type               |hard               |Nathan             |in progress        |
 |Rich text editor UI controls   |hard               |none               |pending            |
 |Image prop type                |medium             |Nathan             |pending            |
