@@ -25,6 +25,7 @@ export default class Editor extends React.Component {
       gridElements: [],
       layout: [],
       activeElement: null,
+      editStyle: null
     };
 
     this.generateItem = this.generateItem.bind(this);
@@ -73,7 +74,8 @@ export default class Editor extends React.Component {
     }, 0);
     let item = {
       type: typeName,
-      props: {key: key, "data-grid": {x: 0, y: height, ...typeRef.gridOptions}, ...typeRef.props}
+      props: {key: key, "data-grid": {x: 0, y: height, ...typeRef.gridOptions}, ...typeRef.props},
+      style: {fontSize: "1em", fontColor: "#000", backgroundColor: "#fff"}
     };
 
     this.setState(prevState => ({gridElements: [...prevState.gridElements, item]}));
@@ -99,6 +101,7 @@ export default class Editor extends React.Component {
           React.createElement(LEGEND[element.type].type, {
             ...element.props,
             className: this.state.activeElement === index && 'react-grid-item-active',
+            style: element.style,
             // "data-grid": {x:0, y:0, w:4, h:3, ...LEGEND[element.type].gridOptions},
             onClick: () => this.elementClicked(index)
           })
@@ -109,13 +112,14 @@ export default class Editor extends React.Component {
 
   elementClicked(index) {
     //this.setState({activeElement: index}
+    const style = this.state.gridElements[index].style;
     let editFields = {};
     for (let [key, value] of Object.entries(this.state.gridElements[index].props)) {
       if (key !== "key" && key !== "data-grid") {
         editFields[key] = value.value;
       }
     }
-    this.setState({activeElement: index, editElement: editFields, activeTab: "component"});
+    this.setState({activeElement: index, editElement: editFields, editStyle: style});
   }
 
   handleChange(e, index = undefined) {
@@ -184,7 +188,6 @@ export default class Editor extends React.Component {
   }
 
   formGeneration(schema, key, index = undefined) {
-    console.log(key);
     // console.log(this.state.editElement);
     // console.log(index);
     const inputType = {
@@ -331,6 +334,8 @@ export default class Editor extends React.Component {
     return(
       <div>
         <h1>style editing will go here</h1>
+        <h2>Font Size</h2>
+
       </div>
     )
   }
@@ -352,7 +357,6 @@ export default class Editor extends React.Component {
   }
 
   render() {
-    console.log(this.state.activeElement);
     return (
       <div className={'editor-container'} style={{marginRight: this.state.tabOpen ? '300px' : 0}}>
         <GridLayout
@@ -365,7 +369,6 @@ export default class Editor extends React.Component {
           compactType={null}
           preventCollision={true}
           margin={[1, 1]}
-
         >
           {this.generateDOM()}
         </GridLayout>
