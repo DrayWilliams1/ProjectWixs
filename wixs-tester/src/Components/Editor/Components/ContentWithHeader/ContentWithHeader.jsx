@@ -9,7 +9,9 @@ export class ContentWithHeader extends Component {
       <div {...this.props} className={[this.props.className].join(' ')}>
         {this.props.children}
         <h1 className={'content-with-header-header'}>{this.props.header.value}</h1>
-        <RichTextDisplay content={this.props.content.value} />
+        <div>
+          <RichTextDisplay content={this.props.content.value} />
+        </div>
       </div>
     );
   }

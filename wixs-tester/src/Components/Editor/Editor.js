@@ -9,8 +9,10 @@ import {Button, Form, Card, Container} from "react-bootstrap";
 import RichTextEditor from "./RichTextEditor/RichTextEditor";
 
 //icons
-import plus from "../assets/icons/plus.svg"
-import close from "../assets/icons/other/028-cancel-1.svg"
+import plus from "../assets/icons/plus.svg";
+import close from "../assets/icons/other/028-cancel-1.svg";
+import pencil from "../assets/icons/other/edit.svg";
+import canvas from "../assets/icons/other2/113-canvas.svg";
 
 export default class Editor extends React.Component {
 
@@ -19,6 +21,7 @@ export default class Editor extends React.Component {
 
     this.state = {
       tabOpen: false,
+      activeTab: null,
       gridElements: [],
       layout: [],
       activeElement: null,
@@ -31,11 +34,13 @@ export default class Editor extends React.Component {
     this.componentEditor = this.componentEditor.bind(this);
     this.formGeneration = this.formGeneration.bind(this);
     this.layoutEditor = this.layoutEditor.bind(this);
+    this.styleEditor = this.styleEditor.bind(this);
     this.elementClicked = this.elementClicked.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.resizePropArray = this.resizePropArray.bind(this);
     this.applyChange = this.applyChange.bind(this);
     this.getIcon = this.getIcon.bind(this);
+    this.tabHandler = this.tabHandler.bind(this);
 
     this.slideWidth = '300px';
   }
@@ -110,7 +115,7 @@ export default class Editor extends React.Component {
         editFields[key] = value.value;
       }
     }
-    this.setState({activeElement: index, editElement: editFields});
+    this.setState({activeElement: index, editElement: editFields, activeTab: "component"});
   }
 
   handleChange(e, index = undefined) {
@@ -163,7 +168,7 @@ export default class Editor extends React.Component {
         }
       }
     }
-    this.setState({gridElements: elements, activeElement: null});
+    this.setState({gridElements: elements});
   }
 
   recursiveAccess(obj, route){
@@ -224,7 +229,7 @@ export default class Editor extends React.Component {
     } else if (schema.type === "Array") {
       return (
         <Form.Group >
-          <h1>{schema.name}</h1>
+          <h2>{schema.name}</h2>
           <p>size</p>
           <Form.Control
             name={key}
@@ -258,22 +263,15 @@ export default class Editor extends React.Component {
   }
 
   componentEditor() {
-    const OBJ_TYPE = LEGEND[this.state.gridElements[this.state.activeElement].type];
     const ELEMENT = this.state.gridElements[this.state.activeElement];
-
     return (
-      <div
-        className={'editor-sidebar component-editor'}
-        style={{
-          left: this.state.tabOpen ? 'calc(100% - 300px)' : '100%',
-          boxShadow: this.state.tabOpen ? '0 0 20px rgba(54, 58, 64, 0.55)' : 'none'
-        }}
-      >
+      <div>
         <img
           src={close}
           className={'component-editor-close-button'}
-          onClick={() => this.setState({activeElement: null})}
+          onClick={() => this.setState({activeElement: null, activeTab: "layout"})}
         />
+        <h1>Edit Data</h1>
         <Form onSubmit={e => {
           e.preventDefault();
           this.applyChange()
@@ -291,52 +289,70 @@ export default class Editor extends React.Component {
       </div>
     )
   }
+
   layoutEditor() {
     return (
       <div>
-        <div
-          className={'editor-sidebar layout-editor'}
-          style={{
-            left: this.state.tabOpen ? 'calc(100% - 300px)' : '100%',
-            boxShadow: this.state.tabOpen ? '0 0 20px rgba(54, 58, 64, 0.55)' : 'none'
-          }}
-        >
-          <h1>Components</h1>
-          <Container className="editor-sidebar-grid">
-          <div className="row">
-          {Object.entries(LEGEND).map(([key, value]) => {
-            return (
-            <div key={'layout-editor-element-' + key} className="col-sm-6">       
-              <Card
-              bg="light"
-              style={{ height: "120px", width: "120px", cursor:"pointer"}}
-              className="text-center"
-              align="center"
-              tag="a" 
-              title={value.desc}
-              onClick={() => this.generateItem(key)}
-              >     
-              <Card.Body>
-                <Card.Img variant="top" src={this.getIcon(key)} className="card-images"/>
-                <Card.Text>
-                  {value.title}
-                </Card.Text>
-              </Card.Body>
-              </Card>
-            </div>
-            )
-          })}
-          
-          <button onClick={this.saveGrid}>SAVE LAYOUT</button>
-          <button onClick={this.loadGrid}>LOAD LAYOUT</button>
+        <h1>Components</h1>
+        <Container className="editor-sidebar-grid">
+        <div className="row">
+        {Object.entries(LEGEND).map(([key, value]) => {
+          return (
+          <div key={'layout-editor-element-' + key} className="col-sm-6">
+            <Card
+            bg="light"
+            style={{ height: "120px", width: "120px", cursor:"pointer"}}
+            className="text-center"
+            align="center"
+            tag="a"
+            title={value.desc}
+            onClick={() => this.generateItem(key)}
+            >
+            <Card.Body>
+              <Card.Img variant="top" src={this.getIcon(key)} className="card-images"/>
+              <Card.Text>
+                {value.title}
+              </Card.Text>
+            </Card.Body>
+            </Card>
           </div>
-          </Container>
+          )
+        })}
+
+        <button onClick={this.saveGrid}>SAVE LAYOUT</button>
+        <button onClick={this.loadGrid}>LOAD LAYOUT</button>
         </div>
+        </Container>
       </div>
     )
   }
 
+  styleEditor(){
+    return(
+      <div>
+        <h1>style editing will go here</h1>
+      </div>
+    )
+  }
+
+  tabHandler(name){
+
+    // if the tabs are open, check if clicking same tab then close, otherwise open clicked tab
+
+    //if tabs are closed open tabs and set to clicked
+    if(this.state.tabOpen){
+      if(this.state.activeTab === name){
+        this.setState({tabOpen: false});
+      }else{
+        this.setState({activeTab: name})
+      }
+    }else{
+      this.setState({tabOpen: true, activeTab: name});
+    }
+  }
+
   render() {
+    console.log(this.state.activeElement);
     return (
       <div className={'editor-container'} style={{marginRight: this.state.tabOpen ? '300px' : 0}}>
         <GridLayout
@@ -353,16 +369,48 @@ export default class Editor extends React.Component {
         >
           {this.generateDOM()}
         </GridLayout>
-        <div
-          className={['editor-handle', this.state.activeElement === null ? 'layout-editor-handle' : 'component-editor-handle'].join(' ')}
-          style={{right: this.state.tabOpen ? this.slideWidth : undefined}}>
-          <img
-            style={{transform: this.state.tabOpen ? 'rotate(45deg)' : undefined}}
-            src={plus}
-            onClick={() => this.setState(prevState => ({tabOpen: !prevState.tabOpen}))}
-          />
+        <div className={"editor-handles-container"} style={{right: this.state.tabOpen ? this.slideWidth : undefined}}>
+          <div className={"editor-handle editor-handle-layout"}>
+            <img
+              style={{transform: this.state.tabOpen ? 'rotate(45deg)' : undefined}}
+              src={plus}
+              onClick={() => this.tabHandler("layout")}
+            />
+          </div>
+          {this.state.activeElement !== null &&
+          <div className={"editor-handle editor-handle-component"}>
+            <img
+              src={pencil}
+              onClick={() => this.tabHandler("component")}
+            />
+          </div>}
+          {this.state.activeElement !== null &&
+          <div className={"editor-handle editor-handle-style"}>
+            <img
+              src={canvas}
+              onClick={() => this.tabHandler("style")}
+            />
+          </div>
+          }
+
         </div>
-        {this.state.activeElement === null ? this.layoutEditor() : this.componentEditor()}
+
+        <div
+          className={[
+            'editor-sidebar',
+            this.state.activeTab === "layout" && "editor-sidebar-layout",
+            this.state.activeTab === "component" && "editor-sidebar-component",
+            this.state.activeTab === "style" && "editor-sidebar-style",
+          ].join(" ")}
+          style={{
+            left: this.state.tabOpen ? 'calc(100% - 300px)' : '100%',
+            boxShadow: this.state.tabOpen ? '0 0 20px rgba(54, 58, 64, 0.55)' : 'none'
+          }}
+        >
+          {this.state.activeTab === "layout" && this.layoutEditor()}
+          {this.state.activeTab === "component" && this.componentEditor()}
+          {this.state.activeTab === "style" && this.styleEditor()}
+        </div>
       </div>
     )
   }

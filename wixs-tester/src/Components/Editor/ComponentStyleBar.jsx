@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Form} from "react-bootstrap";
 import "./ComponentStyleBar.scss";
+import { SketchPicker } from 'react-color';
 
 class ComponentStyleBar extends Component {
   render() {
@@ -23,6 +23,7 @@ class ComponentStyleBar extends Component {
         <div className={"editorComponentStyleBarFontSize"}>
           <img src={require("../assets/icons/other/FontDown.png")} />
         </div>
+        {/*<SketchPicker/>*/}
       </div>
     );
   }
