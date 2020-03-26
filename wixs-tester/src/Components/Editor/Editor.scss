@@ -105,10 +105,6 @@
   background-color: $accent-3;
 }
 
-.layout-editor-form-root {
-  margin-top: 35px;
-}
-
 .component-editor-close-button {
   width: 35px;
   position: absolute;
@@ -135,6 +131,18 @@
 
 .component-editor-close-button:hover {
   color: black;
+}
+
+.editor-style-font-icon{
+  height: 30px;
+  background-color: white;
+  display: inline-block;
+  margin: 0;
+  border: 1px solid white;
+}
+.editor-style-font-icon:hover{
+  filter: brightness(0.8);
+  cursor: pointer;
 }
 
 

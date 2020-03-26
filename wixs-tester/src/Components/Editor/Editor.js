@@ -7,12 +7,15 @@ import ComponentStyleBar from "./ComponentStyleBar";
 
 import {Button, Form, Card, Container} from "react-bootstrap";
 import RichTextEditor from "./RichTextEditor/RichTextEditor";
+import {ChromePicker} from 'react-color';
 
 //icons
 import plus from "../assets/icons/plus.svg";
 import close from "../assets/icons/other/028-cancel-1.svg";
 import pencil from "../assets/icons/other/edit.svg";
 import canvas from "../assets/icons/other2/113-canvas.svg";
+import fontUp from "../assets/icons/other/FontUp.png";
+import fontDown from "../assets/icons/other/FontDown.png";
 
 export default class Editor extends React.Component {
 
@@ -38,6 +41,7 @@ export default class Editor extends React.Component {
     this.styleEditor = this.styleEditor.bind(this);
     this.elementClicked = this.elementClicked.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.applyStyle = this.applyStyle.bind(this);
     this.resizePropArray = this.resizePropArray.bind(this);
     this.applyChange = this.applyChange.bind(this);
     this.getIcon = this.getIcon.bind(this);
@@ -47,7 +51,7 @@ export default class Editor extends React.Component {
   }
 
   getIcon(iconName) {
-    switch(iconName){
+    switch (iconName) {
       case 'Textbox':
         return require('../assets/icons/simpleText-Icon.png');
       case 'RichTextbox':
@@ -75,7 +79,7 @@ export default class Editor extends React.Component {
     let item = {
       type: typeName,
       props: {key: key, "data-grid": {x: 0, y: height, ...typeRef.gridOptions}, ...typeRef.props},
-      style: {fontSize: "1em", fontColor: "#000", backgroundColor: "#fff"}
+      style: {fontSize: "1em", color: "#000", backgroundColor: "#FFFFFF00"}
     };
 
     this.setState(prevState => ({gridElements: [...prevState.gridElements, item]}));
@@ -90,7 +94,7 @@ export default class Editor extends React.Component {
   loadGrid() {
     const load = JSON.parse(localStorage.getItem("test-editor-store"));
     console.log(load);
-    this.setState({layout: load.layout, gridElements: load.gridElements});
+    this.setState({layout: load.layout, gridElements: load.gridElements, activeElement: null});
     console.log("Layout loaded");
   }
 
@@ -101,7 +105,7 @@ export default class Editor extends React.Component {
           React.createElement(LEGEND[element.type].type, {
             ...element.props,
             className: this.state.activeElement === index && 'react-grid-item-active',
-            style: element.style,
+            style: this.state.activeElement === index ? this.state.editStyle : element.style,
             // "data-grid": {x:0, y:0, w:4, h:3, ...LEGEND[element.type].gridOptions},
             onClick: () => this.elementClicked(index)
           })
@@ -111,7 +115,9 @@ export default class Editor extends React.Component {
   }
 
   elementClicked(index) {
-    //this.setState({activeElement: index}
+    // check if the element is already selected, in this case skip everything
+    if (this.state.activeElement === index) return;
+    // Otherwise continue with changing all the various active elements to reflect the selected component
     const style = this.state.gridElements[index].style;
     let editFields = {};
     for (let [key, value] of Object.entries(this.state.gridElements[index].props)) {
@@ -130,7 +136,7 @@ export default class Editor extends React.Component {
     } else {
       let editCopy = JSON.parse(JSON.stringify(this.state.editElement));
       let temp = editCopy[name];
-      for (let i = 0; i < index.length - 1; i++){
+      for (let i = 0; i < index.length - 1; i++) {
         temp = temp[index[i]]
       }
       temp[index[index.length - 1]] = value;
@@ -152,7 +158,7 @@ export default class Editor extends React.Component {
       editCopy[name] = newArray;
     } else {
       let temp = editCopy[name];
-      for (let i = 0; i < index.length - 1; i++){
+      for (let i = 0; i < index.length - 1; i++) {
         temp = temp[index[i]]
       }
       temp[index[index.length - 1]] = newArray;
@@ -175,21 +181,23 @@ export default class Editor extends React.Component {
     this.setState({gridElements: elements});
   }
 
-  recursiveAccess(obj, route){
+  applyStyle() {
+    let elements = JSON.parse(JSON.stringify(this.state.gridElements));
+    elements[this.state.activeElement].style = this.state.editStyle;
+    this.setState({gridElements: elements});
+
+  }
+
+  recursiveAccess(obj, route) {
     let temp = obj;
-    for (let i = 0; i < route.length; i++){
+    for (let i = 0; i < route.length; i++) {
       temp = temp[route[i]]
     }
-    // console.log(route);
-    // console.log(obj);
-    // console.log(temp);
 
     return temp;
   }
 
   formGeneration(schema, key, index = undefined) {
-    // console.log(this.state.editElement);
-    // console.log(index);
     const inputType = {
       StringArea: "textarea",
       String: "input",
@@ -216,7 +224,7 @@ export default class Editor extends React.Component {
       )
     } else if (schema.type === "RichText") {
       return (
-        <Form.Group >
+        <Form.Group>
           {index === undefined && <Form.Label>{schema.name}</Form.Label>}
           <RichTextEditor
             content={index === undefined ? this.state.editElement[key] : this.state.editElement[key][index]}
@@ -231,7 +239,7 @@ export default class Editor extends React.Component {
       )
     } else if (schema.type === "Array") {
       return (
-        <Form.Group >
+        <Form.Group>
           <h2>{schema.name}</h2>
           <p>size</p>
           <Form.Control
@@ -265,6 +273,43 @@ export default class Editor extends React.Component {
     }
   }
 
+  layoutEditor() {
+    return (
+      <div>
+        <h1>Components</h1>
+        <Container className="editor-sidebar-grid">
+          <div className="row">
+            {Object.entries(LEGEND).map(([key, value]) => {
+              return (
+                <div key={'layout-editor-element-' + key} className="col-sm-6">
+                  <Card
+                    bg="light"
+                    style={{height: "120px", width: "120px", cursor: "pointer"}}
+                    className="text-center"
+                    align="center"
+                    tag="a"
+                    title={value.desc}
+                    onClick={() => this.generateItem(key)}
+                  >
+                    <Card.Body>
+                      <Card.Img variant="top" src={this.getIcon(key)} className="card-images"/>
+                      <Card.Text>
+                        {value.title}
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </div>
+              )
+            })}
+
+            <button onClick={this.saveGrid}>SAVE LAYOUT</button>
+            <button onClick={this.loadGrid}>LOAD LAYOUT</button>
+          </div>
+        </Container>
+      </div>
+    )
+  }
+
   componentEditor() {
     const ELEMENT = this.state.gridElements[this.state.activeElement];
     return (
@@ -274,7 +319,8 @@ export default class Editor extends React.Component {
           className={'component-editor-close-button'}
           onClick={() => this.setState({activeElement: null, activeTab: "layout"})}
         />
-        <h1>Edit Data</h1>
+        <h2 style={{fontStyle: "italic", textAlign: "center", marginRight: "55px"}}>Edit the contents of your
+          component</h2>
         <Form onSubmit={e => {
           e.preventDefault();
           this.applyChange()
@@ -284,7 +330,6 @@ export default class Editor extends React.Component {
               //check types and return form fields based on types
               //TEXTAREA, TEXT, INT, NUMBER
               return (this.formGeneration(ELEMENT.props[key], key))
-
             }
           })}
           <Button variant={"outline-light"} type={"submit"}>APPLY</Button>
@@ -293,65 +338,61 @@ export default class Editor extends React.Component {
     )
   }
 
-  layoutEditor() {
+  styleEditor() {
     return (
       <div>
-        <h1>Components</h1>
-        <Container className="editor-sidebar-grid">
-        <div className="row">
-        {Object.entries(LEGEND).map(([key, value]) => {
-          return (
-          <div key={'layout-editor-element-' + key} className="col-sm-6">
-            <Card
-            bg="light"
-            style={{ height: "120px", width: "120px", cursor:"pointer"}}
-            className="text-center"
-            align="center"
-            tag="a"
-            title={value.desc}
-            onClick={() => this.generateItem(key)}
-            >
-            <Card.Body>
-              <Card.Img variant="top" src={this.getIcon(key)} className="card-images"/>
-              <Card.Text>
-                {value.title}
-              </Card.Text>
-            </Card.Body>
-            </Card>
-          </div>
-          )
-        })}
-
-        <button onClick={this.saveGrid}>SAVE LAYOUT</button>
-        <button onClick={this.loadGrid}>LOAD LAYOUT</button>
-        </div>
-        </Container>
-      </div>
-    )
-  }
-
-  styleEditor(){
-    return(
-      <div>
-        <h1>style editing will go here</h1>
+        <h2 style={{fontStyle: "italic", textAlign: "center"}}>Edit the look and feel of your component</h2>
         <h2>Font Size</h2>
-
+        <img
+          src={fontUp}
+          className={"editor-style-font-icon"}
+          onClick={() => {
+            let size = parseFloat(this.state.editStyle.fontSize);
+            size += 0.1;
+            this.setState(prevState => ({editStyle: {...prevState.editStyle, fontSize: size + "em"}}))
+          }}
+        />
+        <img
+          src={fontDown}
+          className={"editor-style-font-icon"}
+          onClick={() => {
+            let size = parseFloat(this.state.editStyle.fontSize);
+            size = Math.max(0.1, size - 0.1);
+            this.setState(prevState => ({editStyle: {...prevState.editStyle, fontSize: size + "em"}}))
+          }}
+        />
+        <span
+          className={"editor-style-font-icon"}
+          style={{padding: '0 5px'}}
+          onClick={() => this.setState(prevState => ({editStyle: {...prevState.editStyle, fontSize: "1em"}}))}
+        >RESET </span>
+        <h2>Font Color</h2>
+        <ChromePicker
+          color={this.state.editStyle.color}
+          onChange={(c) => this.setState(prevState => ({editStyle: {...prevState.editStyle, color: c.hex}}))}
+        />
+        <h2>Background Color</h2>
+        <ChromePicker
+          color={this.state.editStyle.backgroundColor}
+          onChange={(c) => this.setState(prevState => ({editStyle: {...prevState.editStyle, backgroundColor: c.hex}}))}
+        />
+        <Button variant={"outline-dark"} style={{marginTop: "15px"}} onClick={this.applyStyle}>APPLY</Button>
+        <h2>Sample output</h2>
+        <p
+          style={this.state.editStyle}
+        >Sample Text</p>
       </div>
     )
   }
 
-  tabHandler(name){
-
-    // if the tabs are open, check if clicking same tab then close, otherwise open clicked tab
-
-    //if tabs are closed open tabs and set to clicked
-    if(this.state.tabOpen){
-      if(this.state.activeTab === name){
+  tabHandler(name) {
+    if (this.state.tabOpen) {       // if the tabs are open, check if clicking same tab then close, otherwise open clicked tab
+      if (this.state.activeTab === name) {
         this.setState({tabOpen: false});
-      }else{
+      } else {
         this.setState({activeTab: name})
       }
-    }else{
+    } else {                        //if tabs are closed open tabs and set to clicked
       this.setState({tabOpen: true, activeTab: name});
     }
   }
