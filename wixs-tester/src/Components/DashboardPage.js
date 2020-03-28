@@ -1,6 +1,6 @@
 // Dependencies
 import React, { Component } from "react";
-import { Container, Button, Card, CardDeck, CardImg } from "react-bootstrap";
+import { Container, CardDeck } from "react-bootstrap";
 import axios from "axios";
 import auth from "/auth.js";
 import qs from "qs"; // for packaging details collected from the form
@@ -9,8 +9,9 @@ import CustomCard from "./CustomCard";
 // CSS/SASS
 import "./sass/DashboardPage.scss";
 
+// Axios URLs
 const GET_TEMPLATES_URL =
-  "http://cosc.brocku.ca/~c4f00g02/projectWixs/getTemplates.php";
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/getAllUserTemplates.php";
 const GET_USER_URL = "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUser.php";
 
 /**
@@ -116,7 +117,7 @@ export default class DashboardPage extends Component {
 
         <Container>
           <div className="template-selection">
-              <h2> Your Templates</h2>
+            <h2> Your Templates</h2>
             <CardDeck className="card-deck">
               {this.state.templateArray.map((template, i) => (
                 <CustomCard template={template} key={i} />
