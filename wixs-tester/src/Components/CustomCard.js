@@ -39,12 +39,12 @@ export default class CustomCard extends Component {
     if (diffDays == 0 && diffHrs == 0)
       total = total.concat(diffMins + " mins ago.");
     else if (diffDays == 0)
-      total = total.concat(diffHrs + " hours, " + diffMins + " mins ago.");
+      total = total.concat(diffHrs + " hours ago.");
     else if (diffHrs == 0)
-      total = total.concat(diffDays + " days, " + diffMins + " mins ago.");
+      total = total.concat(diffDays + " days ago.");
     else
       total = total.concat(
-        diffDays + " days, " + diffHrs + " hours, " + diffMins + " mins ago."
+        diffDays + " days ago."
       );
 
     return total;
