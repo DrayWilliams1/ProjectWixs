@@ -38,14 +38,9 @@ export default class CustomCard extends Component {
 
     if (diffDays == 0 && diffHrs == 0)
       total = total.concat(diffMins + " mins ago.");
-    else if (diffDays == 0)
-      total = total.concat(diffHrs + " hours ago.");
-    else if (diffHrs == 0)
-      total = total.concat(diffDays + " days ago.");
-    else
-      total = total.concat(
-        diffDays + " days ago."
-      );
+    else if (diffDays == 0) total = total.concat(diffHrs + " hours ago.");
+    else if (diffHrs == 0) total = total.concat(diffDays + " days ago.");
+    else total = total.concat(diffDays + " days ago.");
 
     return total;
   }
@@ -54,7 +49,16 @@ export default class CustomCard extends Component {
    * Directs to the template editor page while including the template to be loaded and edited
    */
   toEditor() {
-    window.location.href = "#/editor";
+    if (this.props.template["template_id"]) {
+      // the template has an associated id
+      var templateURL = "#/editor?template_id=".concat(
+        this.props.template["template_id"]
+      );
+      window.location.href = templateURL;
+    } else {
+      alert("Error: Template is missing an identifier");
+    }
+
     // TODO: will eventually include the template_id in the url so it can be retrieved by the editor page. Can append it -- will discuss
   }
 

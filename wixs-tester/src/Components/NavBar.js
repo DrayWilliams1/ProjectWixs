@@ -155,17 +155,47 @@ class NavBar extends Component {
   }
 
   render() {
-    let buttons;
+    let menu;
 
     if (this.state.isAuthenticated) {
       if (this.state.isAdmin) {
-        buttons = (
+        menu = (
           <div>
-            <Navbar.Text>
-              <span id="admin-option">
-                <a href="#/admin">Admin Options</a>
-              </span>
-            </Navbar.Text>
+            <NavLink
+              to="/dashboard"
+              className="navLink-normal"
+              activeClassName="navLink-selected"
+            >
+              Dashboard
+            </NavLink>
+
+            <NavLink
+              to="/editor"
+              className="navLink-normal"
+              activeClassName="navLink-selected"
+            >
+              {/* Will possibly change this to activeClassName when using css file */}
+              Editor
+            </NavLink>
+
+            <NavLink
+              to="/upload"
+              className="navLink-normal"
+              activeClassName="navLink-selected"
+            >
+              {/* Will possibly change this to activeClassName when using css file */}
+              Upload
+            </NavLink>
+
+            <NavLink
+              to="/admin"
+              id="admin-link"
+              className="navLink-normal"
+              activeClassName="navLink-selected"
+            >
+              Admin Options
+            </NavLink>
+
             <Button
               id="logout-button"
               variant="secondary"
@@ -186,8 +216,35 @@ class NavBar extends Component {
         );
       } else {
         // display logout button
-        buttons = (
+        menu = (
           <div>
+            <NavLink
+              to="/dashboard"
+              className="navLink-normal"
+              activeClassName="navLink-selected"
+            >
+              Dashboard
+            </NavLink>
+
+            <NavLink
+              to="/editor"
+              className="navLink-normal"
+              activeClassName="navLink-selected"
+            >
+              {/* Will possibly change this to activeClassName when using css file */}
+              Editor
+            </NavLink>
+
+            <NavLink
+              to="/upload"
+              id="upload-link"
+              className="navLink-normal"
+              activeClassName="navLink-selected"
+            >
+              {/* Will possibly change this to activeClassName when using css file */}
+              Upload
+            </NavLink>
+
             <Button
               id="logout-button"
               variant="secondary"
@@ -209,7 +266,7 @@ class NavBar extends Component {
       }
     } else {
       // display login and register buttons
-      buttons = (
+      menu = (
         <div>
           <ButtonToolbar aria-label="Login and logout buttons">
             <ButtonGroup className="px-2" aria-label="Login button">
@@ -244,22 +301,6 @@ class NavBar extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <NavLink
-              to="/dashboard"
-              className="navLink-normal"
-              activeClassName="navLink-selected"
-            >
-              {/* Will possibly change this to activeClassName when using css file */}
-              Dashboard
-            </NavLink>
-            <NavLink
-              to="/editor"
-              className="navLink-normal"
-              activeClassName="navLink-selected"
-            >
-              {/* Will possibly change this to activeClassName when using css file */}
-              Editor
-            </NavLink>
-            <NavLink
               to="/about"
               className="navLink-normal"
               activeClassName="navLink-selected"
@@ -267,6 +308,7 @@ class NavBar extends Component {
               {/* Will possibly change this to activeClassName when using css file */}
               About Us
             </NavLink>
+
             <NavLink
               to="/help"
               className="navLink-normal"
@@ -275,15 +317,8 @@ class NavBar extends Component {
               {/* Will possibly change this to activeClassName when using css file */}
               Help/FAQs
             </NavLink>
-            <NavLink
-              to="/upload"
-              className="navLink-normal"
-              activeClassName="navLink-selected"
-            >
-              {/* Will possibly change this to activeClassName when using css file */}
-              Upload
-            </NavLink>
-            <Nav className="ml-auto ">{buttons}</Nav>
+
+            <Nav className="ml-auto ">{menu}</Nav>
           </Navbar.Collapse>
         </Navbar>
       </div>

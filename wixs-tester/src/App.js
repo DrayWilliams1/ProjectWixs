@@ -87,9 +87,6 @@ export default class App extends Component {
               {/* Routes to the home page */}
               <Route exact path="/" component={HomePage} />
 
-              {/* Routes to the Editor page (temporary) */}
-              <Route exact path="/editor" component={Editor} />
-
               {/* Routes to the about page */}
               <Route exact path="/about" component={AboutPage} />
 
@@ -108,6 +105,9 @@ export default class App extends Component {
                 path="/dashboard"
                 component={DashboardPage}
               />
+
+              {/* Routes to the template editor page */}
+              <ProtectedRoute exact path="/editor" component={Editor} />
 
               {/* Routes to the administrator's site info page */}
               <ProtectedRoute exact path="/admin" component={AdminPage} />
