@@ -50,70 +50,7 @@ export default class Editor extends React.Component {
     this.slideWidth = '300px';
   }
 
-  getIcon(iconName) {
-    switch (iconName) {
-      case 'Textbox':
-        return require('../assets/icons/simpleText-Icon.png');
-      case 'RichTextbox':
-        return require('../assets/icons/other/011-lines.svg');
-      case 'ContentWithHeader':
-        return require('../assets/icons/other/047-table.svg');
-      case 'Button':
-        return require('../assets/icons/other/093-right-arrow-2.svg');
-    }
-  }
-
-  generateItem(typeName) {
-    // let item = {type: "Textbox", props: {content: {value: "hello world "}, key: this.state.gridElements.length + 1}};
-    const typeRef = LEGEND[typeName];
-    let key;
-    do {
-      key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    } while (this.state.gridElements.length !== 0 && this.state.gridElements.filter(e => e.props.key === key).length > 0);
-
-    // it is important that props be added last, when parsing props the form generator will ignore the first two props (key and data-grid)
-    const height = this.state.layout.reduce((total, value) => {
-      if (value.y + value.h > total) return (value.y + value.h);
-      return total
-    }, 0);
-    let item = {
-      type: typeName,
-      props: {key: key, "data-grid": {x: 0, y: height, ...typeRef.gridOptions}, ...typeRef.props},
-      style: {fontSize: "1em", color: "#000", backgroundColor: "#FFFFFF00"}
-    };
-
-    this.setState(prevState => ({gridElements: [...prevState.gridElements, item]}));
-  }
-
-  saveGrid() {
-    const store = {gridElements: this.state.gridElements, layout: this.state.layout};
-    localStorage.setItem("test-editor-store", JSON.stringify(store));
-    console.log("Layout saved");
-  }
-
-  loadGrid() {
-    const load = JSON.parse(localStorage.getItem("test-editor-store"));
-    console.log(load);
-    this.setState({layout: load.layout, gridElements: load.gridElements, activeElement: null});
-    console.log("Layout loaded");
-  }
-
-  generateDOM() {
-    return (
-      this.state.gridElements.map((element, index) => {
-        return (
-          React.createElement(LEGEND[element.type].type, {
-            ...element.props,
-            className: this.state.activeElement === index && 'react-grid-item-active',
-            style: this.state.activeElement === index ? this.state.editStyle : element.style,
-            // "data-grid": {x:0, y:0, w:4, h:3, ...LEGEND[element.type].gridOptions},
-            onClick: () => this.elementClicked(index)
-          })
-        )
-      })
-    )
-  }
-
+  // EVENT HANDLERS
   elementClicked(index) {
     // check if the element is already selected, in this case skip everything
     if (this.state.activeElement === index) return;
@@ -145,6 +82,32 @@ export default class Editor extends React.Component {
     }
   }
 
+  tabHandler(name) {
+    if (this.state.tabOpen) {       // if the tabs are open, check if clicking same tab then close, otherwise open clicked tab
+      if (this.state.activeTab === name) {
+        this.setState({tabOpen: false});
+      } else {
+        this.setState({activeTab: name})
+      }
+    } else {                        //if tabs are closed open tabs and set to clicked
+      this.setState({tabOpen: true, activeTab: name});
+    }
+  }
+
+  // UTILITY METHODS
+  getIcon(iconName) {
+    switch (iconName) {
+      case 'Textbox':
+        return require('../assets/icons/simpleText-Icon.png');
+      case 'RichTextbox':
+        return require('../assets/icons/other/011-lines.svg');
+      case 'ContentWithHeader':
+        return require('../assets/icons/other/047-table.svg');
+      case 'Button':
+        return require('../assets/icons/other/093-right-arrow-2.svg');
+    }
+  }
+
   resizePropArray(e, schema, index) {
     const defaultValue = schema.schema.value;
     const name = e.target.name;
@@ -167,6 +130,15 @@ export default class Editor extends React.Component {
     this.setState({editElement: editCopy});
   }
 
+  recursiveAccess(obj, route) {
+    let temp = obj;
+    for (let i = 0; i < route.length; i++) {
+      temp = temp[route[i]]
+    }
+    return temp;
+  }
+
+  // DIRECT FUNCTIONALITY METHODS
   applyChange() {
     let elements = JSON.parse(JSON.stringify(this.state.gridElements));
     for (let [keyOld, valueOld] of Object.entries(elements[this.state.activeElement].props)) {
@@ -188,13 +160,57 @@ export default class Editor extends React.Component {
 
   }
 
-  recursiveAccess(obj, route) {
-    let temp = obj;
-    for (let i = 0; i < route.length; i++) {
-      temp = temp[route[i]]
-    }
+  saveGrid() {
+    const store = {gridElements: this.state.gridElements, layout: this.state.layout};
+    localStorage.setItem("test-editor-store", JSON.stringify(store));
+    console.log("Layout saved");
+  }
 
-    return temp;
+  loadGrid() {
+    const load = JSON.parse(localStorage.getItem("test-editor-store"));
+    console.log(load);
+    this.setState({layout: load.layout, gridElements: load.gridElements, activeElement: null});
+    console.log("Layout loaded");
+  }
+
+  // ITEM GENERATION
+  generateItem(typeName) {
+    // let item = {type: "Textbox", props: {content: {value: "hello world "}, key: this.state.gridElements.length + 1}};
+    const typeRef = LEGEND[typeName];
+    let key;
+    do {
+      key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    } while (this.state.gridElements.length !== 0 && this.state.gridElements.filter(e => e.props.key === key).length > 0);
+
+    // it is important that props be added last, when parsing props the form generator will ignore the first two props (key and data-grid)
+    const height = this.state.layout.reduce((total, value) => {
+      if (value.y + value.h > total) return (value.y + value.h);
+      return total
+    }, 0);
+    let item = {
+      type: typeName,
+      props: {key: key, "data-grid": {x: 0, y: height, ...typeRef.gridOptions}, ...typeRef.props},
+      style: {fontSize: "1em", color: "#000", backgroundColor: "#FFFFFF00"}
+    };
+
+    this.setState(prevState => ({gridElements: [...prevState.gridElements, item]}));
+  }
+
+  // DOM GENERATION FROM DATA
+  generateDOM() {
+    return (
+      this.state.gridElements.map((element, index) => {
+        return (
+          React.createElement(LEGEND[element.type].type, {
+            ...element.props,
+            className: this.state.activeElement === index && 'react-grid-item-active',
+            style: this.state.activeElement === index ? this.state.editStyle : element.style,
+            // "data-grid": {x:0, y:0, w:4, h:3, ...LEGEND[element.type].gridOptions},
+            onClick: () => this.elementClicked(index)
+          })
+        )
+      })
+    )
   }
 
   formGeneration(schema, key, index = undefined) {
@@ -273,6 +289,7 @@ export default class Editor extends React.Component {
     }
   }
 
+  // DIRECT RENDER FUNCTIONS
   layoutEditor() {
     return (
       <div>
@@ -383,18 +400,6 @@ export default class Editor extends React.Component {
         >Sample Text</p>
       </div>
     )
-  }
-
-  tabHandler(name) {
-    if (this.state.tabOpen) {       // if the tabs are open, check if clicking same tab then close, otherwise open clicked tab
-      if (this.state.activeTab === name) {
-        this.setState({tabOpen: false});
-      } else {
-        this.setState({activeTab: name})
-      }
-    } else {                        //if tabs are closed open tabs and set to clicked
-      this.setState({tabOpen: true, activeTab: name});
-    }
   }
 
   render() {
