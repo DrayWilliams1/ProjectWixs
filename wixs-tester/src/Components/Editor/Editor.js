@@ -199,6 +199,8 @@ export default class Editor extends React.Component {
     };
     localStorage.setItem("test-editor-store", JSON.stringify(store));
     console.log("Layout saved");
+
+    // TODO: save should sent updated template_data to database
   }
 
   /**
@@ -546,6 +548,9 @@ export default class Editor extends React.Component {
       });
   }
 
+  /**
+   *
+   */
   getTemplate() {
     const params = {
       template_id: this.state.template_id
@@ -555,6 +560,14 @@ export default class Editor extends React.Component {
       .post(GET_TEMPLATE_URL, qs.stringify(params))
       .then(response => {
         console.log(response.data);
+
+        //console.log(response.data.template[0].template_data);
+        localStorage.setItem(
+          "test-editor-store",
+          response.data.template[0].template_data
+        );
+
+        this.loadGrid();
 
         // TODO: load the template into the editor here
       })

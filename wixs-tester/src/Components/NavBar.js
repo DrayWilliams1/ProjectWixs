@@ -170,15 +170,6 @@ class NavBar extends Component {
             </NavLink>
 
             <NavLink
-              to="/editor"
-              className="navLink-normal"
-              activeClassName="navLink-selected"
-            >
-              {/* Will possibly change this to activeClassName when using css file */}
-              Editor
-            </NavLink>
-
-            <NavLink
               to="/upload"
               className="navLink-normal"
               activeClassName="navLink-selected"
@@ -227,21 +218,11 @@ class NavBar extends Component {
             </NavLink>
 
             <NavLink
-              to="/editor"
-              className="navLink-normal"
-              activeClassName="navLink-selected"
-            >
-              {/* Will possibly change this to activeClassName when using css file */}
-              Editor
-            </NavLink>
-
-            <NavLink
               to="/upload"
               id="upload-link"
               className="navLink-normal"
               activeClassName="navLink-selected"
             >
-              {/* Will possibly change this to activeClassName when using css file */}
               Upload
             </NavLink>
 
@@ -274,7 +255,7 @@ class NavBar extends Component {
                 Login
               </Button>
             </ButtonGroup>
-            {/* <Navbar.Text> </Navbar.Text> */}
+
             <ButtonGroup className="px-2" aria-label="Logout button">
               <Button variant="warning" href={"#/register"}>
                 Register
@@ -305,7 +286,6 @@ class NavBar extends Component {
               className="navLink-normal"
               activeClassName="navLink-selected"
             >
-              {/* Will possibly change this to activeClassName when using css file */}
               About Us
             </NavLink>
 
@@ -314,7 +294,6 @@ class NavBar extends Component {
               className="navLink-normal"
               activeClassName="navLink-selected"
             >
-              {/* Will possibly change this to activeClassName when using css file */}
               Help/FAQs
             </NavLink>
 
