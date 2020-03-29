@@ -13,6 +13,13 @@
   padding-left: 10px;
   padding-right: 10px;
 }
-.editor-link{
-	color:$primary-2;
+.editor-link {
+  color: $primary-2;
+}
+
+.custom-template-form {
+  margin-top: 20px;
+  outline-color: $accent-3;
+  border-width: medium;
+  border-color: $accent-2;
 }
