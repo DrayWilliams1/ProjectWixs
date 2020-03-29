@@ -37,6 +37,7 @@ export const SCHEMA = {
   gridOptions: {h: 21, w: 5, minW: 5, minH: 21},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
   title: "Register Form",
   desc: "A Basic Register Form",
+  iconPathName: require('../../../assets/icons/other/047-table.svg'),
   props: {
     content: {
       type: "StringArea",

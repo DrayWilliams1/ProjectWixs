@@ -19,6 +19,7 @@ this schema is loosely based off [JSON Schema](https://json-schema.org/). Fields
       gridOptions: { *h: int, *w: int, minW: int, minH: int, maxW: int, maxW: int },
       *title: "some title to display in the editor",
       *desc: "A description of the component to display in the editor",
+      *iconPathName: The path to an image icon to be displayed on the sidebar, in 	the format of: require('path/to/file')
       props: {
         <parameter_name>: {
             *type: <TYPE>,

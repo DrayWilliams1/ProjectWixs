@@ -20,6 +20,7 @@ export const SCHEMA = {
   gridOptions: {h: 2, w: 4, minW: 2, minH: 2},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
   title: "Plain Text Area",
   desc: "A simple text component with no styling",
+  iconPathName: require('../../../assets/icons/simpleText-Icon.png'),
   props: {
     content: {
       type: "StringArea",

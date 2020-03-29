@@ -20,6 +20,7 @@ export const SCHEMA = {
   title: "Rich Text Area",
   iconName: "plus.svg",
   desc: "A text component that allows for bold, underline, bullet points and more",
+  iconPathName: require('../../../assets/icons/other/011-lines.svg'),
   props: {
     content: {
       type: "RichText",

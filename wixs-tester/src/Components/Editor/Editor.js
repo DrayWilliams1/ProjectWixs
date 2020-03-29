@@ -65,7 +65,6 @@ export default class Editor extends React.Component {
     this.applyStyle = this.applyStyle.bind(this);
     this.resizePropArray = this.resizePropArray.bind(this);
     this.applyChange = this.applyChange.bind(this);
-    this.getIcon = this.getIcon.bind(this);
     this.tabHandler = this.tabHandler.bind(this);
     this.getUser = this.getUser.bind(this);
     this.getTemplate = this.getTemplate.bind(this);
@@ -128,18 +127,6 @@ export default class Editor extends React.Component {
   }
 
   // UTILITY METHODS
-  getIcon(iconName) {
-    switch (iconName) {
-      case "Textbox":
-        return require("../assets/icons/simpleText-Icon.png");
-      case "RichTextbox":
-        return require("../assets/icons/other/011-lines.svg");
-      case "ContentWithHeader":
-        return require("../assets/icons/other/047-table.svg");
-      case "Button":
-        return require("../assets/icons/other/093-right-arrow-2.svg");
-    }
-  }
 
   resizePropArray(e, schema, index) {
     const defaultValue = schema.schema.value;
@@ -421,7 +408,7 @@ export default class Editor extends React.Component {
                     <Card.Body>
                       <Card.Img
                         variant="top"
-                        src={this.getIcon(key)}
+                        src={value.iconPathName}
                         className="card-images"
                       />
                       <Card.Text>{value.title}</Card.Text>
@@ -430,9 +417,41 @@ export default class Editor extends React.Component {
                 </div>
               );
             })}
-
-            <button onClick={this.saveGrid}>SAVE LAYOUT</button>
-            <button onClick={this.loadGrid}>LOAD LAYOUT</button>
+            <div className="col-sm-6"></div>
+            <div className="col-sm-6"> 
+              <Card
+                  bg="light"
+                  style={{
+                    height: "25px",
+                    width: "120px",
+                    cursor: "pointer"
+                  }}
+                  className="text-center"
+                  align="center"
+                  tag="a"
+                  title="Save current layout"
+                  onClick={this.saveGrid}
+              >
+                SAVE LAYOUT
+              </Card> 
+            </div>
+            <div className="col-sm-6">   
+              <Card 
+                  bg="light"
+                  style={{
+                    height: "25px",
+                    width: "120px",
+                    cursor: "pointer",
+                  }}
+                  className="text-center"
+                  align="center"
+                  tag="a"
+                  title="Load to last saved layout"
+                  onClick={this.loadGrid}
+              >
+                LOAD LAYOUT
+              </Card>        
+            </div>
           </div>
         </Container>
       </div>

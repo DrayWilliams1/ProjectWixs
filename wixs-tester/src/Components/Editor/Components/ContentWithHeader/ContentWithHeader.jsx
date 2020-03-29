@@ -23,6 +23,7 @@ export const SCHEMA = {
   gridOptions: {h: 4, w: 4, minW: 2, minH: 3},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
   title: "Text with Header",
   desc: "Rich text with a fatty header",
+  iconPathName: require('../../../assets/icons/other/032-spreadsheet-7.svg'),
   props: {
     header:{
       type: "String",
