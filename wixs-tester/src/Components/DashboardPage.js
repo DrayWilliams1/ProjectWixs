@@ -92,7 +92,7 @@ export default class DashboardPage extends Component {
   componentDidMount() {
     this.getUser(); // get user from database which matches email from cookies
     this.getTemplates(); // get templates that belong to currently signed in user
-    this.render();
+    //this.render();
   }
 
   render() {

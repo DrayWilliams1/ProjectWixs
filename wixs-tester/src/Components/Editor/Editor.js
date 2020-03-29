@@ -24,12 +24,17 @@ import fontDown from "../assets/icons/other/FontDown.png";
 const GET_USER_URL = "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUser.php";
 const GET_TEMPLATE_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUserTemplate.php";
+const SAVE_TEMPLATE_URL =
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/setTemplate.php";
+
+var dateFormat = require("dateformat");
 
 export default class Editor extends React.Component {
   constructor(props) {
     super(props);
 
     var currentUser = auth.getCookie("user");
+    //var dateFormat = require('dateformat');
 
     const urlHash = window.location.hash; // gets the entire URL after the hash (eg. editor?......URL params that were sent...)
     const queryString = urlHash.substring(urlHash.indexOf("?")); // extracts URL params being sent after the hash
@@ -197,10 +202,35 @@ export default class Editor extends React.Component {
       gridElements: this.state.gridElements,
       layout: this.state.layout
     };
-    localStorage.setItem("test-editor-store", JSON.stringify(store));
-    console.log("Layout saved");
 
-    // TODO: save should sent updated template_data to database
+    const currentTime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
+
+    const params = {
+      template_id: this.state.template_id,
+      template_data: JSON.stringify(store),
+      last_modified: currentTime
+    };
+
+    axios
+      .post(SAVE_TEMPLATE_URL, qs.stringify(params))
+      .then(response => {
+        console.log(response.data);
+
+        if (response.data["success"] === true) {
+          // template saved successfully
+          localStorage.setItem("test-editor-store", JSON.stringify(store));
+          alert(response.data["message"]);
+          window.location.reload();
+        } else {
+          // error occurred during save
+          alert(response.data["message"]);
+        }
+
+        // TODO: load the template into the editor here
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   /**
