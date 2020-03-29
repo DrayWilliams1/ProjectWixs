@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Project Wixs is a Content Management System allowing for a seamless creation of single-page web pages featuring an easy-to-use drag and drop component interface. Project Wixs aims to provide an intuitive experience for a wide range of users; from complete beginners unfamiliar with any form of web design or HTML, to veteran designers with multiple years of experience. The system will be able to have up to ten user accounts that can create and edit web pages with a range of content typical of any modern day website (such as text, images, and video). Users will be able to create, edit, and delete up to four templates and publish one at any time for live viewing.
+Project Wixs is a Content Management System allowing for a seamless creation of single-page web templates featuring a simplistic drag-and-drop component interface. Project Wixs aims to provide an intuitive experience for a wide range of users; from complete beginners unfamiliar with any form of web design or HTML, to veteran designers with multiple years of experience. The system will be able to have up to ten user accounts that can create and edit web pages with a range of content typical of any modern day website (such as text, images, and video). Users will be able to create, edit, and delete up to four templates and publish one at any time for live viewing.
 
 Production build of the project can be found here: http://cosc.brocku.ca/~c4f00g02/projectWixs
 
