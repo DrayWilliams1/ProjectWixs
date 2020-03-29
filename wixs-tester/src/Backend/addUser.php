@@ -89,37 +89,37 @@ function validInputs() {
 
     // checking first name length
     if(strlen($fName_post) > 50) {
-        echo "Invalid name: first name length too long. ";
+        $responseObject['message']= "Invalid name: first name length too long. ";
         return false;
     }
 
     // checking last name length
     if(strlen($lName_post) > 50) {
-        echo "Invalid name: last name length too long. ";
+        $responseObject['message']= "Invalid name: last name length too long. ";
         return false;
     }
 
     // checking password length
     if(strlen($password_post) > 100) {
-        echo "Invalid password: length too long. ";
+        $responseObject['message']= "Invalid password: length too long. ";
         return false;
     }
 
     // checking password length
     if(strlen($password_post) < 8) {
-        echo "Invalid password: length too short. ";
+        $responseObject['message']= "Invalid password: length too short. ";
         return false;
     }
 
     // checking if valid user email provided
     if(!filter_var($email_post, FILTER_VALIDATE_EMAIL)){
-        echo "Invalid email: formatting.  ";
+        $responseObject['message']= "Invalid email: formatting.  ";
         return false; // invalid
     }
 
     // checking if valid integer for user template count provided
     if(!(filter_var($tempCount_post, FILTER_VALIDATE_INT) === 0 || filter_var($tempCount_post, FILTER_VALIDATE_INT))) {
-        echo "Invalid template count: formatting. ";
+        $responseObject['message']= "Invalid template count: formatting. ";
         return false; // invalid
     }
 

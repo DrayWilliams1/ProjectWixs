@@ -77,7 +77,7 @@ class NavBar extends Component {
 
             window.alert(response.data["message"]);
 
-            this.props.history.push("/"); // redirects to the landing page
+            window.location.replace("/");
           } else {
             window.alert(response.data["message"]);
           }
@@ -106,7 +106,7 @@ class NavBar extends Component {
       axios
         .post(CHECK_IS_ADMIN, qs.stringify(params))
         .then(response => {
-          console.log(response);
+          //console.log(response);
 
           if (response.data["success"] === true) {
             // script success
