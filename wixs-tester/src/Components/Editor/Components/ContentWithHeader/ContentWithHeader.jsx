@@ -9,7 +9,9 @@ export class ContentWithHeader extends Component {
       <div {...this.props} className={[this.props.className].join(' ')}>
         {this.props.children}
         <h1 className={'content-with-header-header'}>{this.props.header.value}</h1>
-        <RichTextDisplay content={this.props.content.value} />
+        <div>
+          <RichTextDisplay content={this.props.content.value} />
+        </div>
       </div>
     );
   }
@@ -21,6 +23,7 @@ export const SCHEMA = {
   gridOptions: {h: 4, w: 4, minW: 2, minH: 3},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
   title: "Text with Header",
   desc: "Rich text with a fatty header",
+  iconPathName: require('../../../assets/icons/other/032-spreadsheet-7.svg'),
   props: {
     header:{
       type: "String",

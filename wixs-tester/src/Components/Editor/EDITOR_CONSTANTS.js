@@ -4,6 +4,7 @@ import {SCHEMA as ContentWithHeaderSchema} from "./Components/ContentWithHeader/
 import {SCHEMA as StandardButtonSchema} from "./Components/StandardButton/StandardButton";
 import {SCHEMA as RawHTMLBoxSchema} from "./Components/RawHTMLBox/RawHTMLBox";
 import {SCHEMA as TableSchema} from "./Components/Table/EditorTable";
+import {SCHEMA as registerformSchema} from "./Components/RegisterForm/registerform";
 
 
 export const LEGEND = {
@@ -12,5 +13,6 @@ export const LEGEND = {
   ContentWithHeader: ContentWithHeaderSchema,
   StandardButton: StandardButtonSchema,
   RawHTMLBox: RawHTMLBoxSchema,
-  Table: TableSchema
+  Table: TableSchema,
+  registerform: registerformSchema
 };

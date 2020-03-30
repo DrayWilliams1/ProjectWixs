@@ -1,0 +1,25 @@
+@import '../sass/Colors.scss';
+
+.editorComponentStyleBar{
+  position: absolute;
+  z-index: 10;
+  //width: 200px;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid $accent-2;
+  border-radius: 4px;
+  left: 0;
+  top: -32px;
+  background-color: white;
+}
+
+.editorComponentStyleBarFontSize{
+  width: 30px;
+  cursor: pointer;
+}
+.editorComponentStyleBarFontSize:hover{
+  filter: brightness(0.8);
+}
+.editorComponentStyleBarFontSize img{
+  width: 100%;
+}

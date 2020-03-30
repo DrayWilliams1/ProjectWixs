@@ -19,6 +19,7 @@ export const SCHEMA = {
   gridOptions: {h: 2, w: 2, minW: 2, minH: 2},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
   title: "HTML box",
   desc: "A box to allow for raw html code",
+  iconPathName: require('../../../assets/icons/other/087-work-tools.svg'),
   props: {
     content: {
       type: "StringArea",

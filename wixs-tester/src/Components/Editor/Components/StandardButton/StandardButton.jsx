@@ -19,6 +19,7 @@ export const SCHEMA = {
   gridOptions: {h: 2, w: 2, minW: 2, minH: 2},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
   title: "Button",
   desc: "A Standard Button",
+  iconPathName: require('../../../assets/icons/other/093-right-arrow-2.svg'),
   props: {
     content: {
       type: "StringArea",
