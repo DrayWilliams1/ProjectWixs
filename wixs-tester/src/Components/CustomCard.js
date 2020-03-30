@@ -85,7 +85,7 @@ export default class CustomCard extends Component {
   }
 
   setActive() {
-    console.log("Set active pressed.");
+    console.log("Set active clicked.");
   }
 
   render() {
@@ -94,15 +94,13 @@ export default class CustomCard extends Component {
         <Card border="success">
           <Card.Body>
             <Card.Title>
-              {this.props.template["custom_name"]}
-              <span>&nbsp;&nbsp;</span>
-              <small className="text-muted"> (Active Template) </small>
+              {this.props.template["custom_name"]}{" "}
+              <small className="text-muted">( Active )</small>
             </Card.Title>
             <Card.Text>
               <Button variant="primary" size="sm" onClick={this.toEditor}>
                 Edit
-              </Button>
-              <span>&nbsp;&nbsp;</span>
+              </Button>{" "}
               <Button variant="danger" size="sm" onClick={this.delTemplate}>
                 Delete
               </Button>
