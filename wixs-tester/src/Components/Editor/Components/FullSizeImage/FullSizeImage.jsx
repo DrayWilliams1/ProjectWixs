@@ -7,7 +7,10 @@ export class FullSizeImage extends Component {
     return (
       <div {...this.props} className={[this.props.className, "FullSizeImage-style"].join(' ')}>
         {this.props.children}
+        <p className={"FullSizeImage-top-text"} >{this.props.topText.value}</p>
+        <p className={"FullSizeImage-mid-text"} >{this.props.midText.value}</p>
         <img className={"FullSizeImage-image"} src={this.props.image.value}/>
+        <p className={"FullSizeImage-bottom-text"} >{this.props.bottomText.value}</p>
       </div>
     );
   }
@@ -25,6 +28,21 @@ export const SCHEMA = {
       type: "Image",
       name: "Display Image",
       value: "",
-    }
+    },
+    topText: {
+      type: "String",
+      name: "Top Text",
+      value: ""
+    },
+    midText: {
+      type: "String",
+      name: "Overlay Text",
+      value: ""
+    },
+    bottomText: {
+      type: "String",
+      name: "Bottom Text",
+      value: ""
+    },
   }
 };
