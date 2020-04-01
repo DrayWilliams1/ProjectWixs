@@ -686,6 +686,8 @@ export default class Editor extends React.Component {
           compactType={null}
           preventCollision={true}
           margin={[1, 1]}
+          // isDraggable={false}
+          // isResizable={false}
         >
           {this.generateDOM()}
         </GridLayout>

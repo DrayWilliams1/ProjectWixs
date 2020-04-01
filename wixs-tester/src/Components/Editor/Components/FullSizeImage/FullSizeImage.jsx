@@ -16,7 +16,7 @@ export class FullSizeImage extends Component {
 // legend information
 export const SCHEMA = {
   type: FullSizeImage,
-  gridOptions: {h: 2, w: 2, minW: 2, minH: 2},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
+  gridOptions: {h: 2, w: 2, minW: 1, minH: 1},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
   title: "Image",
   desc: "A simple image container",
   iconPathName: require('../../../assets/icons/other/photo.svg'),
