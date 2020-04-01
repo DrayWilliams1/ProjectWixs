@@ -14,5 +14,5 @@ export const LEGEND = {
   StandardButton: StandardButtonSchema,
   RawHTMLBox: RawHTMLBoxSchema,
   Table: TableSchema,
-  registerform: registerformSchema
+  registerform: registerformSchema,
 };

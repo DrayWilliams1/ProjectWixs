@@ -112,7 +112,7 @@ export default class DashboardPage extends Component {
     if (this.state.custom_name === "") {
       // template custom name is empty
 
-      alert("New template must be given custom name.");
+      alert("New template must be given custom name");
       return false;
     }
 

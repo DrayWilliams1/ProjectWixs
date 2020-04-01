@@ -106,7 +106,7 @@
   background-color: $accent-3;
 }
 
-.component-editor-close-button {
+.editor-close-button {
   width: 35px;
   position: absolute;
   right: 10px;
@@ -155,4 +155,11 @@
 .card-images{
   width: 66%;
   height: 66%;
+}
+
+.gallery-grid{
+  display: grid;
+  grid-template-rows: 300px;
+  grid-template-columns: 250px;
+  right:100px;
 }
