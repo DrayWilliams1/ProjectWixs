@@ -5,7 +5,7 @@ import GridLayout from "react-grid-layout";
 import { LEGEND } from "./EDITOR_CONSTANTS";
 import ComponentStyleBar from "./ComponentStyleBar";
 
-import { Button, Form, Card, Container } from "react-bootstrap";
+import {Button, Form, Card, Container, Spinner} from "react-bootstrap";
 import RichTextEditor from "./RichTextEditor/RichTextEditor";
 import { ChromePicker } from "react-color";
 import axios from "axios";
@@ -49,7 +49,8 @@ export default class Editor extends React.Component {
       gridElements: [],
       layout: [],
       activeElement: null,
-      editStyle: null
+      editStyle: null,
+      saving: false,
     };
 
     this.generateItem = this.generateItem.bind(this);
@@ -70,6 +71,65 @@ export default class Editor extends React.Component {
     this.getTemplate = this.getTemplate.bind(this);
 
     this.slideWidth = "300px";
+  }
+
+  componentDidMount() {
+    this.getUser();
+    this.getTemplate();
+  }
+
+  /**
+   * Obtains the user details from the database
+   */
+  getUser() {
+    const params = {
+      email: this.state.email
+    };
+
+    axios
+      .post(GET_USER_URL, qs.stringify(params))
+      .then(response => {
+        console.log(response.data);
+
+        if (response.data["success"] === true) {
+          this.setState({
+            first_name: response.data.user.first_name
+          });
+        } else {
+          console.log(response.data["message"]);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  /**
+   *
+   */
+  getTemplate() {
+    const params = {
+      template_id: this.state.template_id
+    };
+
+    axios
+      .post(GET_TEMPLATE_URL, qs.stringify(params))
+      .then(response => {
+        console.log(response.data);
+
+        //console.log(response.data.template[0].template_data);
+        localStorage.setItem(
+          "test-editor-store",
+          response.data.template[0].template_data
+        );
+
+        this.loadGrid();
+
+        // TODO: load the template into the editor here
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   // EVENT HANDLERS
@@ -172,19 +232,20 @@ export default class Editor extends React.Component {
         }
       }
     }
-    this.setState({ gridElements: elements });
+    this.setState({ gridElements: elements }, this.saveGrid);
   }
 
   applyStyle() {
     let elements = JSON.parse(JSON.stringify(this.state.gridElements));
     elements[this.state.activeElement].style = this.state.editStyle;
-    this.setState({ gridElements: elements });
+    this.setState({ gridElements: elements }, this.saveGrid);
   }
 
   /**
    *
    */
-  saveGrid() {
+  saveGrid(notify = false) {
+    this.setState({saving: true});
     const store = {
       gridElements: this.state.gridElements,
       layout: this.state.layout
@@ -202,12 +263,15 @@ export default class Editor extends React.Component {
       .post(SAVE_TEMPLATE_URL, qs.stringify(params))
       .then(response => {
         console.log(response.data);
+        this.setState({saving: false});
 
         if (response.data["success"] === true) {
           // template saved successfully
           localStorage.setItem("test-editor-store", JSON.stringify(store));
-          alert(response.data["message"]);
-          window.location.reload();
+          if(notify){
+            alert(response.data["message"]);
+            window.location.reload();
+          }
         } else {
           // error occurred during save
           alert(response.data["message"]);
@@ -418,40 +482,6 @@ export default class Editor extends React.Component {
               );
             })}
             <div className="col-sm-6"></div>
-            <div className="col-sm-6"> 
-              <Card
-                  bg="light"
-                  style={{
-                    height: "25px",
-                    width: "120px",
-                    cursor: "pointer"
-                  }}
-                  className="text-center"
-                  align="center"
-                  tag="a"
-                  title="Save current layout"
-                  onClick={this.saveGrid}
-              >
-                SAVE LAYOUT
-              </Card> 
-            </div>
-            <div className="col-sm-6">   
-              <Card 
-                  bg="light"
-                  style={{
-                    height: "25px",
-                    width: "120px",
-                    cursor: "pointer",
-                  }}
-                  className="text-center"
-                  align="center"
-                  tag="a"
-                  title="Load to last saved layout"
-                  onClick={this.loadGrid}
-              >
-                LOAD LAYOUT
-              </Card>        
-            </div>
           </div>
         </Container>
       </div>
@@ -571,64 +601,6 @@ export default class Editor extends React.Component {
     );
   }
 
-  /**
-   * Obtains the user details from the database
-   */
-  getUser() {
-    const params = {
-      email: this.state.email
-    };
-
-    axios
-      .post(GET_USER_URL, qs.stringify(params))
-      .then(response => {
-        console.log(response.data);
-
-        if (response.data["success"] === true) {
-          this.setState({
-            first_name: response.data.user.first_name
-          });
-        } else {
-          console.log(response.data["message"]);
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  /**
-   *
-   */
-  getTemplate() {
-    const params = {
-      template_id: this.state.template_id
-    };
-
-    axios
-      .post(GET_TEMPLATE_URL, qs.stringify(params))
-      .then(response => {
-        console.log(response.data);
-
-        //console.log(response.data.template[0].template_data);
-        localStorage.setItem(
-          "test-editor-store",
-          response.data.template[0].template_data
-        );
-
-        this.loadGrid();
-
-        // TODO: load the template into the editor here
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  componentDidMount() {
-    this.getUser();
-    this.getTemplate();
-  }
 
   render() {
     return (
@@ -636,13 +608,14 @@ export default class Editor extends React.Component {
         className={"editor-container"}
         style={{ marginRight: this.state.tabOpen ? "300px" : 0 }}
       >
+        {this.state.saving && <Spinner animation={"border"} style={{position: "absolute", right: "5px", opacity: 0.5}} />}
         <GridLayout
           className="editor-grid"
           layout={this.state.layout}
           cols={12}
           rowHeight={30}
           width={1200}
-          onLayoutChange={l => this.setState({ layout: l })}
+          onLayoutChange={l => this.setState({ layout: l }, this.saveGrid)}
           compactType={null}
           preventCollision={true}
           margin={[1, 1]}
