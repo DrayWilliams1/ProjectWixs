@@ -1,6 +1,9 @@
 // Dependencies
 import React, { Component } from "react";
 import { HashRouter as HRouter, Route, Switch } from "react-router-dom";
+import auth from "/auth.js";
+import axios from "axios";
+import qs from "qs"; // for packaging details collected from the form
 
 // Components
 import HomePage from "./components/HomePage.js";
@@ -22,6 +25,9 @@ import NavBar from "./Components/NavBar";
 import Footer from "./components/Footer";
 import Editor from "./Components/Editor/Editor";
 
+// Axios URLs
+const GET_USER_URL = "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUser.php";
+
 /**
  * Purpose: This is a base file for the ProjectWixs application and helps with page routing and shared
  * features/design amongst pages.
@@ -33,14 +39,10 @@ export default class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      email: "",
-      usid: "" // user session identifier
-    };
-
     // Binds React class component methods
-    this.getCookie = this.getCookie.bind(this);
+    //this.getCookie = this.getCookie.bind(this);
     this.getCurrentUser = this.getCurrentUser.bind(this);
+    this.checkCookieAuth = this.checkCookieAuth.bind(this);
 
     window.addEventListener("hashchange", function() {
       this.window.location.reload(); // reloads page any time it notices the # in the URL has changed. Helps with keeping display data current
@@ -48,32 +50,52 @@ export default class App extends Component {
   }
 
   /**
-   * Allows for the retrieval of a cookie based on name
-   *
-   * @param {*} name
-   */
-  getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(";");
-    for (var i = 0; i < ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == " ") c = c.substring(1, c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
-  }
-
-  /**
    * Returns the current logged in user of the system. Displays it in the navbar component
    */
   getCurrentUser() {
-    var currentUser = this.getCookie("user");
+    var currentUser = auth.getCookie("user");
 
     if (currentUser) {
       return currentUser;
     } else {
       return "Not currently signed in.";
     }
+  }
+
+  /**
+   * Checks if the currently stored cookies reflect a user within the database
+   */
+  checkCookieAuth() {
+    var currentUser = auth.getCookie("user");
+
+    if (currentUser) {
+      // if there is a user email stored in cookies
+      const params = {
+        email: currentUser
+      };
+
+      axios
+        .post(GET_USER_URL, qs.stringify(params))
+        .then(response => {
+          console.log(response.data);
+
+          if (response.data["success"] === false) {
+            // A matching user does not exist in the database
+            auth.eraseCookie("user"); // erases user email from cookies
+            auth.eraseCookie("usid"); // erases user session id from cookies
+
+            console.log("Cookies cleared");
+            window.location.reload();
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }
+
+  componentDidMount() {
+    this.checkCookieAuth();
   }
 
   render() {
@@ -86,9 +108,6 @@ export default class App extends Component {
             <Switch>
               {/* Routes to the home page */}
               <Route exact path="/" component={HomePage} />
-
-              {/* Routes to the Editor page (temporary) */}
-              <Route exact path="/editor" component={Editor} />
 
               {/* Routes to the about page */}
               <Route exact path="/about" component={AboutPage} />
@@ -108,6 +127,9 @@ export default class App extends Component {
                 path="/dashboard"
                 component={DashboardPage}
               />
+
+              {/* Routes to the template editor page */}
+              <ProtectedRoute exact path="/editor" component={Editor} />
 
               {/* Routes to the administrator's site info page */}
               <ProtectedRoute exact path="/admin" component={AdminPage} />

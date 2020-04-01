@@ -38,6 +38,7 @@ export const SCHEMA = {
   gridOptions: {h: 5, w: 5, minW: 4, minH: 4},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
   title: "Table",
   desc: "Tables of all sizes",
+  iconPathName: require('../../../assets/icons/other2/133-column.svg'),
   props: {
     content: {
       type: "Array",

@@ -37,8 +37,9 @@
 }
 .editor-sidebar-grid{
   display: grid;
-  grid-template-rows: 300px auto 10px;
-  grid-template-columns: 250px auto 10px;
+  grid-template-rows: 600px;
+  grid-template-columns: 240px auto 10px;
+  right:100px;
 }
 .editor-sidebar::-webkit-scrollbar {
   width: 20px;
@@ -134,7 +135,7 @@
 }
 
 .editor-style-font-icon{
-  height: 30px;
+  height: 26px;
   background-color: white;
   display: inline-block;
   margin: 0;
