@@ -19,6 +19,7 @@ import pencil from "../assets/icons/other/edit.svg";
 import canvas from "../assets/icons/other2/113-canvas.svg";
 import fontUp from "../assets/icons/other/FontUp.png";
 import fontDown from "../assets/icons/other/FontDown.png";
+import trash from "../assets/icons/other/trash.svg";
 
 // Axios URLS
 const GET_USER_URL = "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUser.php";
@@ -50,7 +51,7 @@ export default class Editor extends React.Component {
       layout: [],
       activeElement: null,
       editStyle: null,
-      saving: false,
+      saving: true,
     };
 
     this.generateItem = this.generateItem.bind(this);
@@ -67,6 +68,7 @@ export default class Editor extends React.Component {
     this.resizePropArray = this.resizePropArray.bind(this);
     this.applyChange = this.applyChange.bind(this);
     this.tabHandler = this.tabHandler.bind(this);
+    this.deleteActiveElement = this.deleteActiveElement.bind(this);
     this.getUser = this.getUser.bind(this);
     this.getTemplate = this.getTemplate.bind(this);
 
@@ -151,6 +153,16 @@ export default class Editor extends React.Component {
       editElement: editFields,
       editStyle: style
     });
+  }
+
+  deleteActiveElement(){
+    const index = this.state.activeElement;
+
+    let gridElements = JSON.parse(JSON.stringify(this.state.gridElements));
+    gridElements.splice(index, 1);
+    let layout = JSON.parse(JSON.stringify(this.state.layout));
+    layout.splice(index, 1);
+    this.setState({gridElements: gridElements, layout: layout, activeElement: null, activeTab: "layout"});
   }
 
   handleChange(e, index = undefined) {
@@ -293,7 +305,8 @@ export default class Editor extends React.Component {
     this.setState({
       layout: load.layout,
       gridElements: load.gridElements,
-      activeElement: null
+      activeElement: null,
+      saving: false
     });
     console.log("Layout loaded");
   }
@@ -493,11 +506,9 @@ export default class Editor extends React.Component {
     return (
       <div>
         <img
-          src={close}
+          src={trash}
           className={"component-editor-close-button"}
-          onClick={() =>
-            this.setState({ activeElement: null, activeTab: "layout" })
-          }
+          onClick={this.deleteActiveElement}
         />
         <h2
           style={{
