@@ -3,7 +3,6 @@ import "./Editor.scss";
 
 import GridLayout from "react-grid-layout";
 import { LEGEND } from "./EDITOR_CONSTANTS";
-import ComponentStyleBar from "./ComponentStyleBar";
 
 import {Button, Form, Card, Container, Spinner} from "react-bootstrap";
 import RichTextEditor from "./RichTextEditor/RichTextEditor";
@@ -27,6 +26,8 @@ const GET_TEMPLATE_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUserTemplate.php";
 const SAVE_TEMPLATE_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/setTemplate.php";
+const GET_MEDIA_URL =
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUserMedia.php";
 
 var dateFormat = require("dateformat");
 
@@ -52,6 +53,7 @@ export default class Editor extends React.Component {
       activeElement: null,
       editStyle: null,
       saving: true,
+      userContent: []
     };
 
     this.generateItem = this.generateItem.bind(this);
@@ -71,6 +73,7 @@ export default class Editor extends React.Component {
     this.deleteActiveElement = this.deleteActiveElement.bind(this);
     this.getUser = this.getUser.bind(this);
     this.getTemplate = this.getTemplate.bind(this);
+    this.getMedia = this.getMedia.bind(this);
 
     this.slideWidth = "300px";
   }
@@ -78,6 +81,7 @@ export default class Editor extends React.Component {
   componentDidMount() {
     this.getUser();
     this.getTemplate();
+    this.getMedia();
   }
 
   /**
@@ -128,6 +132,29 @@ export default class Editor extends React.Component {
         this.loadGrid();
 
         // TODO: load the template into the editor here
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  getMedia() {
+    const params = {
+      email: this.state.email
+    };
+
+    axios
+      .post(GET_MEDIA_URL, qs.stringify(params))
+      .then(response => {
+        console.log(response);
+
+        if (response.data["success"] === true) {
+          this.setState({
+            userContent: response.data["content"]
+          });
+        } else {
+          console.log(response.data["message"]);
+        }
       })
       .catch(error => {
         console.log(error);
@@ -274,7 +301,6 @@ export default class Editor extends React.Component {
     axios
       .post(SAVE_TEMPLATE_URL, qs.stringify(params))
       .then(response => {
-        console.log(response.data);
         this.setState({saving: false});
 
         if (response.data["success"] === true) {
@@ -456,6 +482,36 @@ export default class Editor extends React.Component {
           {/*{this.formGeneration(schema.schema, key, 0)}*/}
         </Form.Group>
       );
+    }else if(schema.type === "Image"){
+      return(
+        <Form.Group key={Math.random()}>
+          <Form.Label>{schema.name}</Form.Label>
+          <Form.Control
+            as={"select"}
+            name={key}
+            value={
+              index === undefined
+                ? this.state.editElement[key]
+                : this.recursiveAccess(this.state.editElement[key], index)
+            }
+            onChange={
+              index === undefined
+                ? this.handleChange
+                : e => this.handleChange(e, index)
+            }
+          >
+            <option value={""}>Select an Image</option>
+            {this.state.userContent.map(content => {
+              return(
+                <option value={content.file_location}>
+                  {content.file_name}
+                  {/*<img src={content.file_location} style={{width: "150px"}}/>*/}
+                </option>
+              )
+            })}
+          </Form.Control>
+        </Form.Group>
+      )
     }
   }
 
