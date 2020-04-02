@@ -3,9 +3,8 @@ import "./Editor.scss";
 
 import GridLayout from "react-grid-layout";
 import { LEGEND } from "./EDITOR_CONSTANTS";
-import ComponentStyleBar from "./ComponentStyleBar";
 
-import { Button, Form, Card, Container } from "react-bootstrap";
+import {Button, Form, Card, Container, Spinner} from "react-bootstrap";
 import RichTextEditor from "./RichTextEditor/RichTextEditor";
 import { ChromePicker } from "react-color";
 import axios from "axios";
@@ -19,6 +18,7 @@ import pencil from "../assets/icons/other/edit.svg";
 import canvas from "../assets/icons/other2/113-canvas.svg";
 import fontUp from "../assets/icons/other/FontUp.png";
 import fontDown from "../assets/icons/other/FontDown.png";
+import trash from "../assets/icons/other/trash.svg";
 
 // Axios URLS
 const GET_USER_URL = "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUser.php";
@@ -26,6 +26,8 @@ const GET_TEMPLATE_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUserTemplate.php";
 const SAVE_TEMPLATE_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/setTemplate.php";
+const GET_MEDIA_URL =
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/getUserMedia.php";
 
 var dateFormat = require("dateformat");
 
@@ -49,7 +51,9 @@ export default class Editor extends React.Component {
       gridElements: [],
       layout: [],
       activeElement: null,
-      editStyle: null
+      editStyle: null,
+      saving: true,
+      userContent: []
     };
 
     this.generateItem = this.generateItem.bind(this);
@@ -66,9 +70,11 @@ export default class Editor extends React.Component {
     this.resizePropArray = this.resizePropArray.bind(this);
     this.applyChange = this.applyChange.bind(this);
     this.tabHandler = this.tabHandler.bind(this);
+    this.deleteActiveElement = this.deleteActiveElement.bind(this);
     this.getUser = this.getUser.bind(this);
     this.getTemplate = this.getTemplate.bind(this);
     this.selectNewElement = this.selectNewElement.bind(this);
+    this.getMedia = this.getMedia.bind(this);
     this.slideWidth = "300px";
   }
   
@@ -77,6 +83,89 @@ export default class Editor extends React.Component {
     this.tabHandler('component');
   }
   
+
+  componentDidMount() {
+    this.getUser();
+    this.getTemplate();
+    this.getMedia();
+  }
+
+  /**
+   * Obtains the user details from the database
+   */
+  getUser() {
+    const params = {
+      email: this.state.email
+    };
+
+    axios
+      .post(GET_USER_URL, qs.stringify(params))
+      .then(response => {
+        console.log(response.data);
+
+        if (response.data["success"] === true) {
+          this.setState({
+            first_name: response.data.user.first_name
+          });
+        } else {
+          console.log(response.data["message"]);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  /**
+   *
+   */
+  getTemplate() {
+    const params = {
+      template_id: this.state.template_id
+    };
+
+    axios
+      .post(GET_TEMPLATE_URL, qs.stringify(params))
+      .then(response => {
+        console.log(response.data);
+
+        //console.log(response.data.template[0].template_data);
+        localStorage.setItem(
+          "test-editor-store",
+          response.data.template[0].template_data
+        );
+
+        this.loadGrid();
+
+        // TODO: load the template into the editor here
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  getMedia() {
+    const params = {
+      email: this.state.email
+    };
+
+    axios
+      .post(GET_MEDIA_URL, qs.stringify(params))
+      .then(response => {
+        console.log(response);
+
+        if (response.data["success"] === true) {
+          this.setState({
+            userContent: response.data["content"]
+          });
+        } else {
+          console.log(response.data["message"]);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   // EVENT HANDLERS
   elementClicked(index) {
@@ -98,6 +187,16 @@ export default class Editor extends React.Component {
       editStyle: style
     });
     this.tabHandler('component');
+  }
+
+  deleteActiveElement(){
+    const index = this.state.activeElement;
+
+    let gridElements = JSON.parse(JSON.stringify(this.state.gridElements));
+    gridElements.splice(index, 1);
+    let layout = JSON.parse(JSON.stringify(this.state.layout));
+    layout.splice(index, 1);
+    this.setState({gridElements: gridElements, layout: layout, activeElement: null, activeTab: "layout"});
   }
 
   handleChange(e, index = undefined) {
@@ -179,19 +278,20 @@ export default class Editor extends React.Component {
         }
       }
     }
-    this.setState({ gridElements: elements });
+    this.setState({ gridElements: elements }, this.saveGrid);
   }
 
   applyStyle() {
     let elements = JSON.parse(JSON.stringify(this.state.gridElements));
     elements[this.state.activeElement].style = this.state.editStyle;
-    this.setState({ gridElements: elements });
+    this.setState({ gridElements: elements }, this.saveGrid);
   }
 
   /**
    *
    */
-  saveGrid() {
+  saveGrid(notify = false) {
+    this.setState({saving: true});
     const store = {
       gridElements: this.state.gridElements,
       layout: this.state.layout
@@ -208,13 +308,15 @@ export default class Editor extends React.Component {
     axios
       .post(SAVE_TEMPLATE_URL, qs.stringify(params))
       .then(response => {
-        console.log(response.data);
+        this.setState({saving: false});
 
         if (response.data["success"] === true) {
           // template saved successfully
           localStorage.setItem("test-editor-store", JSON.stringify(store));
-          alert(response.data["message"]);
-          window.location.reload();
+          if(notify){
+            alert(response.data["message"]);
+            window.location.reload();
+          }
         } else {
           // error occurred during save
           alert(response.data["message"]);
@@ -236,7 +338,8 @@ export default class Editor extends React.Component {
     this.setState({
       layout: load.layout,
       gridElements: load.gridElements,
-      activeElement: null
+      activeElement: null,
+      saving: false
     });
     console.log("Layout loaded");
   }
@@ -387,7 +490,37 @@ export default class Editor extends React.Component {
           {/*{this.formGeneration(schema.schema, key, 0)}*/}
         </Form.Group>
       );
-    } 
+  	}else if(schema.type === "Image"){
+      return(
+        <Form.Group key={Math.random()}>
+          <Form.Label>{schema.name}</Form.Label>
+          <Form.Control
+            as={"select"}
+            name={key}
+            value={
+              index === undefined
+                ? this.state.editElement[key]
+                : this.recursiveAccess(this.state.editElement[key], index)
+            }
+            onChange={
+              index === undefined
+                ? this.handleChange
+                : e => this.handleChange(e, index)
+            }
+          >
+            <option value={""}>Select an Image</option>
+            {this.state.userContent.map(content => {
+              return(
+                <option value={content.file_location}>
+                  {content.file_name}
+                  {/*<img src={content.file_location} style={{width: "150px"}}/>*/}
+                </option>
+              )
+            })}
+          </Form.Control>
+        </Form.Group>
+      )
+    }
   }
 
   // DIRECT RENDER FUNCTIONS
@@ -487,6 +620,11 @@ export default class Editor extends React.Component {
     return (
       <div>
         <img
+          src={trash}
+          className={"editor-delete-button"}
+          onClick={this.deleteActiveElement}
+          />
+      	<img
           src={close}
           className={"editor-close-button"}
           onClick={() =>
@@ -527,6 +665,11 @@ export default class Editor extends React.Component {
   styleEditor() {
     return (
       <div>
+      <img
+          src={trash}
+          className={"editor-delete-button"}
+          onClick={this.deleteActiveElement}
+          />
       <img
           src={close}
           className={"editor-close-button"}
@@ -602,64 +745,6 @@ export default class Editor extends React.Component {
     );
   }
 
-  /**
-   * Obtains the user details from the database
-   */
-  getUser() {
-    const params = {
-      email: this.state.email
-    };
-
-    axios
-      .post(GET_USER_URL, qs.stringify(params))
-      .then(response => {
-        console.log(response.data);
-
-        if (response.data["success"] === true) {
-          this.setState({
-            first_name: response.data.user.first_name
-          });
-        } else {
-          console.log(response.data["message"]);
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  /**
-   *
-   */
-  getTemplate() {
-    const params = {
-      template_id: this.state.template_id
-    };
-
-    axios
-      .post(GET_TEMPLATE_URL, qs.stringify(params))
-      .then(response => {
-        console.log(response.data);
-
-        //console.log(response.data.template[0].template_data);
-        localStorage.setItem(
-          "test-editor-store",
-          response.data.template[0].template_data
-        );
-
-        this.loadGrid();
-
-        // TODO: load the template into the editor here
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  componentDidMount() {
-    this.getUser();
-    this.getTemplate();
-  }
 
   render() {
     return (
@@ -667,16 +752,19 @@ export default class Editor extends React.Component {
         className={"editor-container"}
         style={{ marginRight: this.state.tabOpen ? "300px" : 0 }}
       >
+        {this.state.saving && <Spinner animation={"border"} style={{position: "absolute", right: "5px", opacity: 0.5}} />}
         <GridLayout
           className="editor-grid"
           layout={this.state.layout}
           cols={12}
           rowHeight={30}
           width={1200}
-          onLayoutChange={l => this.setState({ layout: l })}
+          onLayoutChange={l => this.setState({ layout: l }, this.saveGrid)}
           compactType={null}
           preventCollision={true}
           margin={[1, 1]}
+          // isDraggable={false}
+          // isResizable={false}
         >
           {this.generateDOM()}
         </GridLayout>
