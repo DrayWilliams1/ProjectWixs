@@ -116,6 +116,16 @@
   z-index: 10;
   filter: invert(1) opacity(0.8);
 }
+.editor-delete-button {
+  width: 35px;
+  position: absolute;
+  right: 10px;
+  top: 60px;
+  margin: 5px;
+  cursor: pointer;
+  z-index: 10;
+  filter: invert(1) opacity(0.8);
+}
 
 .component-editor-close-button:hover{
   filter: invert(1) opacity(1);
