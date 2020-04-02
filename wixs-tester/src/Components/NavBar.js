@@ -277,7 +277,7 @@ class NavBar extends Component {
         >
           <Navbar.Brand href="./">
             <img src={logo} width="50" height="50" />
-            ProjectWixs v1.0.0
+            Project Wixs
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">

@@ -19,6 +19,7 @@ export default class CustomCard extends Component {
     this.dateDifference = this.dateDifference.bind(this);
     this.toEditor = this.toEditor.bind(this);
     this.delTemplate = this.delTemplate.bind(this);
+    this.setActive = this.setActive.bind(this);
   }
 
   /**
@@ -83,21 +84,23 @@ export default class CustomCard extends Component {
       });
   }
 
+  setActive() {
+    console.log("Set active clicked.");
+  }
+
   render() {
     if (this.props.template["is_active"]) {
       return (
         <Card border="success">
           <Card.Body>
             <Card.Title>
-              {this.props.template["custom_name"]}
-              <span>&nbsp;&nbsp;</span>
-              <small className="text-muted"> (Active Template) </small>
+              {this.props.template["custom_name"]}{" "}
+              <small className="text-muted">( Active )</small>
             </Card.Title>
             <Card.Text>
               <Button variant="primary" size="sm" onClick={this.toEditor}>
                 Edit
-              </Button>
-              <span>&nbsp;&nbsp;</span>
+              </Button>{" "}
               <Button variant="danger" size="sm" onClick={this.delTemplate}>
                 Delete
               </Button>
@@ -118,10 +121,12 @@ export default class CustomCard extends Component {
           <Card.Body>
             <Card.Title>{this.props.template["custom_name"]}</Card.Title>
             <Card.Text>
+              <Button variant="success" size="sm" onClick={this.setActive}>
+                Set Active
+              </Button>{" "}
               <Button variant="primary" size="sm" onClick={this.toEditor}>
                 Edit
-              </Button>
-              <span>&nbsp;&nbsp;</span>
+              </Button>{" "}
               <Button variant="danger" size="sm" onClick={this.delTemplate}>
                 Delete
               </Button>
