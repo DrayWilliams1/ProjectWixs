@@ -5,9 +5,11 @@ import "./RichTextbox.scss";
 export class RichTextBox extends Component {
   render() {
     return (
-      <div {...this.props} className={[this.props.className, "richtextbox-component-styles"].join(' ')}>
+      <div {...this.props} className={[this.props.className].join(' ')}>
         {this.props.children}
-        <RichTextDisplay content={this.props.content.value} />
+        <div className={"richtextbox-component-styles"}>
+          <RichTextDisplay content={this.props.content.value} />
+        </div>
       </div>
     );
   }
