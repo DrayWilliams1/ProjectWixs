@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Table} from "react-bootstrap";
+import "./EditorTable.scss";
 
 export class EditorTable extends Component {
   render() {
@@ -8,25 +9,24 @@ export class EditorTable extends Component {
     return (
       <div {...this.props} className={[this.props.className].join(' ')}>
         {this.props.children}
-        <Table>
-          <thead>
-          <tr>
-            {this.props.content.value.map((item, index) => <th key={"heading" + index}>{item[0]}</th>)}
-          </tr>
-          </thead>
-          <tbody>
-          {transposed.map((items) => {
-            return(
-              <tr>
-                {items.map((item) => <td>{item}</td>)}
-              </tr>
-            )
-          })}
-          </tbody>
-        </Table>
-        {/*{this.props.content.value.map(item => {*/}
-        {/*  return(<p>{item}</p>)*/}
-        {/*})}*/}
+        <div className={"editortable-main"}>
+          <Table>
+            <thead>
+            <tr>
+              {this.props.content.value.map((item, index) => <th key={"heading" + index}>{item[0]}</th>)}
+            </tr>
+            </thead>
+            <tbody>
+            {transposed.map((items) => {
+              return(
+                <tr>
+                  {items.map((item) => <td>{item}</td>)}
+                </tr>
+              )
+            })}
+            </tbody>
+          </Table>
+        </div>
       </div>
     );
   }
