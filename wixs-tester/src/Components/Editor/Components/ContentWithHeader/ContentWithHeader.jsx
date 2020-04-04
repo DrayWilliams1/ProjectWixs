@@ -1,16 +1,18 @@
 import React, {Component} from 'react';
 import RichTextDisplay from "../RichTextDisplay";
 
-import "./ContentWithHeader.scss"
+import "./ContentWithHeader.scss";
 
 export class ContentWithHeader extends Component {
   render() {
     return (
       <div {...this.props} className={[this.props.className].join(' ')}>
         {this.props.children}
-        <h1 className={'content-with-header-header'}>{this.props.header.value}</h1>
-        <div>
-          <RichTextDisplay content={this.props.content.value} />
+        <div className={"content-with-header-container"}>
+          <h1 className={'content-with-header-header'}>{this.props.header.value}</h1>
+          <div>
+            <RichTextDisplay content={this.props.content.value} />
+          </div>
         </div>
       </div>
     );

@@ -15,6 +15,7 @@ import RegisterPage from "./components/RegisterPage.js";
 import DashboardPage from "./components/DashboardPage.js";
 import AdminPage from "./components/AdminPage.js";
 import UploadPage from "./components/UploadPage.js";
+import PublishPage from "./components/PublishPage.js";
 
 // Secure Route (can send multiple different components here)
 import ProtectedRoute from "./components/ProtectedRoute.js";
@@ -44,7 +45,7 @@ export default class App extends Component {
     this.getCurrentUser = this.getCurrentUser.bind(this);
     this.checkCookieAuth = this.checkCookieAuth.bind(this);
 
-    window.addEventListener("hashchange", function() {
+    window.addEventListener("hashchange", function () {
       this.window.location.reload(); // reloads page any time it notices the # in the URL has changed. Helps with keeping display data current
     });
   }
@@ -71,12 +72,12 @@ export default class App extends Component {
     if (currentUser) {
       // if there is a user email stored in cookies
       const params = {
-        email: currentUser
+        email: currentUser,
       };
 
       axios
         .post(GET_USER_URL, qs.stringify(params))
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
 
           if (response.data["success"] === false) {
@@ -88,7 +89,7 @@ export default class App extends Component {
             window.location.reload();
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     }
@@ -127,6 +128,9 @@ export default class App extends Component {
                 path="/dashboard"
                 component={DashboardPage}
               />
+
+              {/* Routes to the published page */}
+              <Route exact path="/published" component={PublishPage} />
 
               {/* Routes to the template editor page */}
               <ProtectedRoute exact path="/editor" component={Editor} />

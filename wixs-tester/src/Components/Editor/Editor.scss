@@ -106,11 +106,21 @@
   background-color: $accent-3;
 }
 
-.component-editor-close-button {
+.editor-close-button {
   width: 35px;
   position: absolute;
   right: 10px;
   top: 10px;
+  margin: 5px;
+  cursor: pointer;
+  z-index: 10;
+  filter: invert(1) opacity(0.8);
+}
+.editor-delete-button {
+  width: 35px;
+  position: absolute;
+  right: 10px;
+  top: 60px;
   margin: 5px;
   cursor: pointer;
   z-index: 10;
@@ -155,4 +165,11 @@
 .card-images{
   width: 66%;
   height: 66%;
+}
+
+.gallery-grid{
+  display: grid;
+  grid-template-rows: 300px;
+  grid-template-columns: 250px;
+  right:100px;
 }

@@ -13,6 +13,9 @@ require_once 'dbConfig.php';
 
 $dsn = "pgsql:host=$host;port=$port;dbname=$db;user=$username;password=$password";
 
+// Constants
+define("MAX_TEMPLATE_COUNT", 4);
+
 $responseObject = array();
 $responseObject['success']=false; // whether the operation executed successfully
 $responseObject['message']=""; // the message from the execution, error or success
@@ -37,7 +40,7 @@ try {
 
             $is_active_post = false;
    
-            if (validInputs() && updateTemplate()) {
+            if (validInputs() && !limitExceeded() && updateTemplate()) {
                 $responseObject['success']=true; // echoing a response that can be used to redirect page after AJAX call
             } // otherwise, error, response message is displayed in alert
                
@@ -70,6 +73,30 @@ function validInputs() {
     $custom_name_post = filter_var($custom_name_post,FILTER_SANITIZE_STRING);
 
     return true; // tests passed -> valid
+}
+
+function limitExceeded() {
+    global $pdo;
+    global $owner_email_post;
+    global $responseObject;
+    global $template;
+
+    $sql_select = "SELECT * FROM templates WHERE owner_email = ?";
+    $stmt = $pdo->prepare($sql_select);
+
+    // pass and bind values to the statement
+    $stmt->bindValue(1, $owner_email_post, PDO::PARAM_STR); // binding to string
+    
+    if($stmt->execute()) { // The query has executed successfully
+        if ($stmt->rowCount() >= MAX_TEMPLATE_COUNT) { // another user with same email found
+            $responseObject['message']="User is at template limit. Template not created. ";
+            return true;
+        } else { // database users not full
+            return false;
+        }
+    } else {
+        $responseObject['message']="Error querying template table: capacity. ";
+    }
 }
 
 /**

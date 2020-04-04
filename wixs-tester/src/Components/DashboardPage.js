@@ -33,7 +33,9 @@ export default class DashboardPage extends Component {
       last_name: "",
       admin: false, // if user is admin, display link to admin page
       templateArray: [],
-      custom_name: "" // the name to create a new template with
+      custom_name: "", // the name to create a new template with
+      publishedLink:
+        "http://cosc.brocku.ca/~c4f00g02/projectWixs/#/published?user=",
     };
 
     this.getUser = this.getUser.bind(this);
@@ -48,23 +50,23 @@ export default class DashboardPage extends Component {
    */
   getUser() {
     const params = {
-      email: this.state.email
+      email: this.state.email,
     };
 
     axios
       .post(GET_USER_URL, qs.stringify(params))
-      .then(response => {
+      .then((response) => {
         console.log(response.data);
 
         if (response.data["success"] === true) {
           this.setState({
-            first_name: response.data.user.first_name
+            first_name: response.data.user.first_name,
           });
         } else {
           console.log(response.data["message"]);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
@@ -74,22 +76,22 @@ export default class DashboardPage extends Component {
    */
   getTemplates() {
     const params = {
-      email: this.state.email
+      email: this.state.email,
     };
 
     axios
       .post(GET_TEMPLATES_URL, qs.stringify(params))
-      .then(response => {
+      .then((response) => {
         console.log(response);
         if (response.data["success"] === true) {
           this.setState({
-            templateArray: response.data["templates"]
+            templateArray: response.data["templates"],
           });
         } else {
           console.log(response.data["message"]);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
@@ -101,7 +103,7 @@ export default class DashboardPage extends Component {
    */
   cNameChanged(e) {
     this.setState({
-      custom_name: e.target.value
+      custom_name: e.target.value,
     });
   }
 
@@ -147,12 +149,12 @@ export default class DashboardPage extends Component {
         owner_email: this.state.email,
         custom_name: this.state.custom_name,
         last_modified: currentTime,
-        template_data: newTemplate
+        template_data: newTemplate,
       };
 
       axios
         .post(CREATE_TEMPLATE_URL, qs.stringify(params))
-        .then(response => {
+        .then((response) => {
           console.log(response);
 
           if (response.data["success"] === true) {
@@ -163,7 +165,7 @@ export default class DashboardPage extends Component {
             window.alert(response.data["message"]);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     }
@@ -175,7 +177,6 @@ export default class DashboardPage extends Component {
   componentDidMount() {
     this.getUser(); // get user from database which matches email from cookies
     this.getTemplates(); // get templates that belong to currently signed in user
-    //this.render();
   }
 
   render() {
@@ -196,6 +197,14 @@ export default class DashboardPage extends Component {
       <div>
         <Container>
           <div className="word-content">{greeting}</div>
+        </Container>
+
+        <Container>
+          <span>
+            <strong>Shareable live site link available at:</strong>{" "}
+            {this.state.publishedLink}
+            {this.state.email}
+          </span>
         </Container>
 
         <Container>

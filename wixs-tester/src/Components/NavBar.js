@@ -5,7 +5,7 @@ import {
   Nav,
   Button,
   ButtonToolbar,
-  ButtonGroup
+  ButtonGroup,
 } from "react-bootstrap";
 import { NavLink, withRouter } from "react-router-dom";
 import axios from "axios"; // for AJAX call to PHP files
@@ -38,10 +38,13 @@ class NavBar extends Component {
 
     //const isAuthenticated = auth.isAuthenticated();
     //const isAdmin = auth.isAdmin();
+    var currentUser = auth.getCookie("user");
 
     this.state = {
+      email: currentUser,
       isAuthenticated: false,
-      isAdmin: false
+      isAdmin: false,
+      publishedLink: "/published?user=",
     };
 
     this.logoutUser = this.logoutUser.bind(this);
@@ -62,12 +65,12 @@ class NavBar extends Component {
     if (currentUser && currentSession) {
       // checks that cookie fields are not empty
       const params = {
-        email: currentUser
+        email: currentUser,
       };
 
       axios
         .post(LOGOUT_USER_URL, qs.stringify(params))
-        .then(response => {
+        .then((response) => {
           console.log(response);
 
           if (response.data["success"] === true) {
@@ -77,12 +80,12 @@ class NavBar extends Component {
 
             window.alert(response.data["message"]);
 
-            window.location.replace("/");
+            window.location.replace("./");
           } else {
             window.alert(response.data["message"]);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
 
@@ -100,12 +103,12 @@ class NavBar extends Component {
 
     if (currentUser) {
       const params = {
-        email: currentUser
+        email: currentUser,
       };
 
       axios
         .post(CHECK_IS_ADMIN, qs.stringify(params))
-        .then(response => {
+        .then((response) => {
           //console.log(response);
 
           if (response.data["success"] === true) {
@@ -113,12 +116,12 @@ class NavBar extends Component {
             if (response.data["isAdmin"] === true) {
               // user is an admin
               this.setState({
-                isAdmin: true
+                isAdmin: true,
               });
             } else {
               // user is not an admin
               this.setState({
-                isAdmin: false
+                isAdmin: false,
               });
             }
           } else {
@@ -126,7 +129,7 @@ class NavBar extends Component {
             console.log(response.data["message"]);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     }
@@ -138,7 +141,7 @@ class NavBar extends Component {
 
     if (isAuthenticated) {
       this.setState({
-        isAuthenticated: true
+        isAuthenticated: true,
       });
     }
 
@@ -176,6 +179,15 @@ class NavBar extends Component {
             >
               {/* Will possibly change this to activeClassName when using css file */}
               Upload
+            </NavLink>
+
+            <NavLink
+              to={this.state.publishedLink.concat(this.state.email)}
+              id="go-live-link"
+              className="navLink-normal"
+              activeClassName="navLink-selected"
+            >
+              View Live
             </NavLink>
 
             <NavLink
@@ -219,11 +231,19 @@ class NavBar extends Component {
 
             <NavLink
               to="/upload"
-              id="upload-link"
               className="navLink-normal"
               activeClassName="navLink-selected"
             >
               Upload
+            </NavLink>
+
+            <NavLink
+              to="/published"
+              id="go-live-link"
+              className="navLink-normal"
+              activeClassName="navLink-selected"
+            >
+              View Live
             </NavLink>
 
             <Button
