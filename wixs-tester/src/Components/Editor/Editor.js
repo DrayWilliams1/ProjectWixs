@@ -389,12 +389,12 @@ export default class Editor extends React.Component {
       return React.createElement(LEGEND[element.type].type, {
         ...element.props,
         className:
-          this.state.activeElement === index && "react-grid-item-active",
+          this.state.activeElement === index ? "editor-grid-item-active" : "editor-grid-item",
         style:
           this.state.activeElement === index
             ? this.state.editStyle
             : element.style,
-        // "data-grid": {x:0, y:0, w:4, h:3, ...LEGEND[element.type].gridOptions},        
+        // "data-grid": {x:0, y:0, w:4, h:3, ...LEGEND[element.type].gridOptions},
         onClick: () => this.elementClicked(index)
       });
     });
@@ -575,40 +575,6 @@ export default class Editor extends React.Component {
             {
               (emptyColumn)
             }
-            <div className="col-sm-6"> 
-              <Card
-                  bg="light"
-                  style={{
-                    height: "25px",
-                    width: "120px",
-                    cursor: "pointer"
-                  }}
-                  className="text-center"
-                  align="center"
-                  tag="a"
-                  title="Save current layout"
-                  onClick={this.saveGrid}
-              >
-                SAVE LAYOUT
-              </Card> 
-            </div>
-            <div className="col-sm-6">   
-              <Card 
-                  bg="light"
-                  style={{
-                    height: "25px",
-                    width: "120px",
-                    cursor: "pointer",
-                  }}
-                  className="text-center"
-                  align="center"
-                  tag="a"
-                  title="Load to last saved layout"
-                  onClick={this.loadGrid}
-              >
-                LOAD LAYOUT
-              </Card>        
-            </div>
           </div>
         </Container>
       </div>

@@ -25,7 +25,6 @@ class PublishPage extends Component {
 
     this.state = {
       owner_email,
-      owner_email,
       gridElements: [],
       layout: [],
       noActive: false,
@@ -120,7 +119,7 @@ class PublishPage extends Component {
             width={1200}
             compactType={null}
             preventCollision={true}
-            margin={[1, 1]}
+            margin={[0, 0]}
             isDraggable={false}
             isResizable={false}
           >
