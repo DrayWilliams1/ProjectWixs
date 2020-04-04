@@ -1,10 +1,14 @@
 import React, { Component } from "react";
+import { Container } from "react-bootstrap";
 import GridLayout from "react-grid-layout";
 import { LEGEND } from "./Editor/EDITOR_CONSTANTS";
 
 import axios from "axios";
 //import auth from "/auth.js";
 import qs from "qs"; // for packaging details collected from the form
+
+// CSS/SASS
+import "./sass/PublishPage.scss";
 
 // Axios URLs
 const GET_ACTIVE_TEMP_URL =
@@ -24,6 +28,7 @@ class PublishPage extends Component {
       owner_email,
       gridElements: [],
       layout: [],
+      noActive: false,
     };
 
     this.loadGrid = this.loadGrid.bind(this);
@@ -64,13 +69,20 @@ class PublishPage extends Component {
       .then((response) => {
         console.log(response.data);
 
-        //console.log(response.data.template[0].template_data);
-        localStorage.setItem(
-          "published-editor-store",
-          response.data.template[0].template_data
-        );
+        if (response.data["success"] === true) {
+          localStorage.setItem(
+            "published-editor-store",
+            response.data.template[0].template_data
+          );
 
-        this.loadGrid();
+          this.loadGrid();
+        } else {
+          // no active templates for the user returned
+
+          this.setState({
+            noActive: true, // state updated to reflect no template
+          });
+        }
 
         // TODO: load the template into the editor here
       })
@@ -84,22 +96,37 @@ class PublishPage extends Component {
   }
 
   render() {
+    let emptyTemplate;
+
+    if (this.state.noActive) {
+      emptyTemplate = (
+        <div className="empty-temp-text">
+          <Container>
+            <p>User does not have any active templates.</p>
+          </Container>
+        </div>
+      );
+    }
+
     return (
-      <div className={"publish-container"}>
-        <GridLayout
-          className="editor-grid"
-          layout={this.state.layout}
-          cols={12}
-          rowHeight={30}
-          width={1200}
-          compactType={null}
-          preventCollision={true}
-          margin={[1, 1]}
-          isDraggable={false}
-          isResizable={false}
-        >
-          {this.generateDOM()}
-        </GridLayout>
+      <div>
+        <div>{emptyTemplate}</div>
+        <div className={"publish-container"}>
+          <GridLayout
+            className="editor-grid"
+            layout={this.state.layout}
+            cols={12}
+            rowHeight={30}
+            width={1200}
+            compactType={null}
+            preventCollision={true}
+            margin={[1, 1]}
+            isDraggable={false}
+            isResizable={false}
+          >
+            {this.generateDOM()}
+          </GridLayout>
+        </div>
       </div>
     );
   }
