@@ -1,6 +1,7 @@
 // Dependencies
 import React, { Component } from "react";
 import { Button, Card } from "react-bootstrap";
+import auth from "/auth.js";
 import axios from "axios";
 import qs from "qs"; // for packaging details collected from the form
 
@@ -8,6 +9,8 @@ import qs from "qs"; // for packaging details collected from the form
 import "./sass/CustomCard.scss";
 const DEL_TEMPLATE_URL =
   "http://cosc.brocku.ca/~c4f00g02/projectWixs/deleteTemplate.php";
+const SET_ACTIVE_TEMP_URL =
+  "http://cosc.brocku.ca/~c4f00g02/projectWixs/setActiveTemplate.php";
 
 /**
  * Purpose: This is a file displaying a card element to represent a template on the dashboard page
@@ -15,6 +18,12 @@ const DEL_TEMPLATE_URL =
 export default class CustomCard extends Component {
   constructor(props) {
     super(props);
+
+    var currentUser = auth.getCookie("user");
+
+    this.state = {
+      email: currentUser,
+    };
 
     this.dateDifference = this.dateDifference.bind(this);
     this.toEditor = this.toEditor.bind(this);
@@ -68,24 +77,39 @@ export default class CustomCard extends Component {
    */
   delTemplate() {
     const params = {
-      template_id: this.props.template["template_id"]
+      template_id: this.props.template["template_id"],
     };
 
     axios
       .post(DEL_TEMPLATE_URL, qs.stringify(params))
-      .then(response => {
+      .then((response) => {
         console.log(response);
 
         alert(response.data["message"]);
         window.location.reload();
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
 
   setActive() {
-    console.log("Set active clicked.");
+    const params = {
+      owner_email: this.state.email,
+      template_id: this.props.template["template_id"],
+    };
+
+    axios
+      .post(SET_ACTIVE_TEMP_URL, qs.stringify(params))
+      .then((response) => {
+        console.log(response);
+
+        alert(response.data["message"]);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   render() {
