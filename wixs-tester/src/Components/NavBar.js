@@ -80,7 +80,7 @@ class NavBar extends Component {
 
             window.alert(response.data["message"]);
 
-            window.location.replace("/");
+            window.location.replace("./");
           } else {
             window.alert(response.data["message"]);
           }
