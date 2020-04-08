@@ -21,7 +21,7 @@ export default class AdminPage extends Component {
       email: "",
       users: [], // the array containing all the users to be displayed
       isAdmin: true,
-      isAuthenticated: false
+      isAuthenticated: false,
     };
 
     this.isAdmin = this.isAdmin.bind(this);
@@ -38,12 +38,12 @@ export default class AdminPage extends Component {
 
     if (currentUser) {
       const params = {
-        email: currentUser
+        email: currentUser,
       };
 
       axios
         .post(CHECK_IS_ADMIN, qs.stringify(params))
-        .then(response => {
+        .then((response) => {
           console.log(response);
 
           if (response.data["success"] === true) {
@@ -51,12 +51,12 @@ export default class AdminPage extends Component {
             if (response.data["isAdmin"] === true) {
               // user is an admin
               this.setState({
-                isAdmin: true
+                isAdmin: true,
               });
             } else {
               // user is not an admin
               this.setState({
-                isAdmin: false
+                isAdmin: false,
               });
             }
           } else {
@@ -64,7 +64,7 @@ export default class AdminPage extends Component {
             console.log(response.data["message"]);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     }
@@ -76,19 +76,19 @@ export default class AdminPage extends Component {
   getAllUsers() {
     axios
       .post(GET_ALL_USERS_URL)
-      .then(response => {
+      .then((response) => {
         console.log(response);
 
         if (response.data["success"] === true) {
           // successfully obtained system users
           this.setState({
-            users: response.data["users"]
+            users: response.data["users"],
           });
         } else {
           console.log(response.data["message"]);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
@@ -122,7 +122,6 @@ export default class AdminPage extends Component {
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Admin</th>
-                <th># of Templates</th>
               </tr>
             </thead>
             <tbody>
