@@ -17,7 +17,7 @@ $dsn = "pgsql:host=$host;port=$port;dbname=$db;user=$username;password=$password
 // newly registered user can not be an admin and will not have any templates
 define("NOT_ADMIN", false);
 define("TEMP_COUNT", 0);
-define("MAX_DATABASE_SIZE", 10);
+define("MAX_DATABASE_SIZE", 15);
 
 $responseObject = array();
 $responseObject['success']=false; // whether the operation executed successfully
