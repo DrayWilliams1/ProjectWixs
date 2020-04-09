@@ -6,7 +6,8 @@ export class StandardButton extends Component {
   render() {
     console.log(this.props);
     return (
-      <div {...this.props} className={[this.props.className, "standardButton-style"].join(' ')} style={{...this.props.style, backgroundColor: 'transparent'}}>
+      <div {...this.props} className={[this.props.className, "standardButton-style"].join(' ')}
+           style={{...this.props.style, backgroundColor: 'transparent'}}>
         {this.props.children}
         <input
           type="button"
@@ -30,7 +31,7 @@ export const SCHEMA = {
   title: "Button",
   desc: "A Standard Button",
   iconPathName: require('../../../assets/icons/other/093-right-arrow-2.svg'),
-  style: { fontSize: "1em", color: "#ffffff", backgroundColor: "#3f7dff" },
+  style: {fontSize: "1em", color: "#ffffff", backgroundColor: "#3f7dff"},
   props: {
     content: {
       type: "StringArea",
