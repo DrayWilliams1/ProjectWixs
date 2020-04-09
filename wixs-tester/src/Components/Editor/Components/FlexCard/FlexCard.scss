@@ -1,0 +1,15 @@
+.editor-flex-card{
+  height: 100%;
+  max-height: 100%;
+  overflow: auto;
+}
+
+.editor-flex-card .card-body{
+  overflow: auto;
+  padding: 0.65em;
+}
+
+.editor-flex-card-image{
+  object-fit: cover;
+  max-height: 50%;
+}

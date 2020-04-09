@@ -4,7 +4,6 @@ import "./StandardButton.scss";
 export class StandardButton extends Component {
 
   render() {
-    console.log(this.props);
     return (
       <div {...this.props} className={[this.props.className, "standardButton-style"].join(' ')}
            style={{...this.props.style, backgroundColor: 'transparent'}}>
