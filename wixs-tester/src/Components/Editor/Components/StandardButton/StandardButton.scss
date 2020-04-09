@@ -6,7 +6,11 @@
     
   }
   .button {
-    background-color: #008CBA;;
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+
+    background-color: #008CBA;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -14,6 +18,6 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
+    //margin: 4px 2px;
     cursor: pointer;
   }
