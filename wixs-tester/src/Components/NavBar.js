@@ -238,7 +238,7 @@ class NavBar extends Component {
             </NavLink>
 
             <NavLink
-              to="/published"
+              to={this.state.publishedLink.concat(this.state.email)}
               id="go-live-link"
               className="navLink-normal"
               activeClassName="navLink-selected"
