@@ -7,7 +7,7 @@ import Carousel from "react-bootstrap/Carousel";
 import logo from "./assets/logo-v6.png";
 import editorPreview from "./assets/editorPreview.png";
 import uploadPreview from "./assets/uploadPreview.png";
-import plaintextPreview from "./assets/plaintextPreview.png";
+import liveEditor from "./assets/liveEditor.png";
 
 // CSS/SASS
 import "./sass/HomePage.scss";
@@ -51,7 +51,7 @@ function HomePage() {
             <Card.Img variant="top" src={uploadPreview} />
             <Card.Title>Content Uploading Services</Card.Title>
             <Card.Text>
-              Project Wixs allows users to upload a range of photo and video
+              Project Wixs allows users to upload a range of media
               content to the server. This media can then be shared easily on
               your Project Wixs site!
             </Card.Text>
@@ -63,13 +63,13 @@ function HomePage() {
           className="text-center"
         >
           <Card.Body>
-            <Card.Img variant="top" src={plaintextPreview} />
-            <Card.Title>Advanced Editor Features</Card.Title>
+            <Card.Img variant="top" src={liveEditor} />
+            <Card.Title>Responsive Live Editor</Card.Title>
             <Card.Text>
-              Comfortable with web design? Switch to the plain text editor to
-              create your ideal web page from scratch or use it in conjuction
-              with our drag-and-drop editor to get your site up and running{" "}
-              <i>fast</i>.
+              Get your site up and running <i>fast</i>. Start with one of our
+              default templates, modifying as you go along. With our auto-save
+              and upload editor, users will see your design come to life
+              before their very eyes!
             </Card.Text>
           </Card.Body>
         </Card>
