@@ -20,7 +20,12 @@ function HelpPage() {
               {/* Will give errors in the inspector for certain modifiers, however, nothing is wrong. */}
               <p>
                 This page offers tutorials and guides for those who require help
-                with formatting and creation of their site.
+                with formatting and creation of their site. Please remember for
+                intended proper usage of this system, do not block any browser
+                alerts and javascript must be enabled. Any additional issues may
+                also be rememdied by whitelisting our site so that third-party
+                services (like the YouTube videos available on this page) may
+                display correctly.
               </p>
             </div>
           </Col>
