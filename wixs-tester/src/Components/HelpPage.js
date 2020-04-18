@@ -42,10 +42,10 @@ function HelpPage() {
               <iframe
                 width="560"
                 height="315"
-                src="https://www.youtube.com/embed/71EZb94AS1k"
-                frameBorder="0"
+                src="https://www.youtube.com/embed/H6x4t3ry3Vw"
+                frameborder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
+                allowfullscreen
               ></iframe>
             </div>
           </Col>
@@ -72,10 +72,10 @@ function HelpPage() {
               <iframe
                 width="560"
                 height="315"
-                src="https://www.youtube.com/embed/71EZb94AS1k"
-                frameBorder="0"
+                src="https://www.youtube.com/embed/MIzRWGwgeU4"
+                frameborder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
+                allowfullscreen
               ></iframe>
             </div>
           </Col>
@@ -88,10 +88,10 @@ function HelpPage() {
               <iframe
                 width="560"
                 height="315"
-                src="https://www.youtube.com/embed/71EZb94AS1k"
-                frameBorder="0"
+                src="https://www.youtube.com/embed/YkK9PmlT1uM"
+                frameborder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
+                allowfullscreen
               ></iframe>
             </div>
           </Col>
