@@ -62,6 +62,8 @@ function validInputs() {
         return false; // invalid
     }
 
+    //$template_data_post = filter_var($template_data_post,FILTER_SANITIZE_STRING);
+
     return true; // tests passed -> valid
 }
 

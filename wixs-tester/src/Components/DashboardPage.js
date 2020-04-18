@@ -36,6 +36,7 @@ export default class DashboardPage extends Component {
       custom_name: "", // the name to create a new template with
       publishedLink:
         "http://cosc.brocku.ca/~c4f00g02/projectWixs/#/published?user=",
+      combinedLink: "",
     };
 
     this.getUser = this.getUser.bind(this);
@@ -177,6 +178,10 @@ export default class DashboardPage extends Component {
   componentDidMount() {
     this.getUser(); // get user from database which matches email from cookies
     this.getTemplates(); // get templates that belong to currently signed in user
+
+    this.setState({
+      combinedLink: this.state.publishedLink.concat(this.state.email),
+    });
   }
 
   render() {
@@ -201,9 +206,8 @@ export default class DashboardPage extends Component {
 
         <Container>
           <span>
-            <strong>Shareable live site link available at:</strong>{" "}
-            {this.state.publishedLink}
-            {this.state.email}
+            <strong>Shareable live template link:</strong>{" "}
+            <a href={this.state.combinedLink}>{this.state.combinedLink}</a>
           </span>
         </Container>
 

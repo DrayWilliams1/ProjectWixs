@@ -8,6 +8,7 @@ import {SCHEMA as registerformSchema} from "./Components/RegisterForm/registerfo
 import {SCHEMA as FullSizeImageSchema} from "./Components/FullSizeImage/FullSizeImage";
 import {SCHEMA as HeaderSchema} from "./Components/Header/Header";
 import {SCHEMA as FooterSchema} from "./Components/Footer/Footer";
+import {SCHEMA as FlexCardSchema} from "./Components/FlexCard/FlexCard";
 
 
 export const LEGEND = {
@@ -20,5 +21,6 @@ export const LEGEND = {
   registerform: registerformSchema,
   FullSizeImage: FullSizeImageSchema,
   Header: HeaderSchema,
-  Footer: FooterSchema
+  Footer: FooterSchema,
+  FlexCard: FlexCardSchema,
 };

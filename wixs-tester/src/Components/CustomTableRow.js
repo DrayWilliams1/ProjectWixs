@@ -25,7 +25,7 @@ export default class CustomTableRow extends Component {
     this.state = {
       email: this.props.user.email,
       displayButtons: true,
-      currentUser: currentUser
+      currentUser: currentUser,
     };
   }
 
@@ -33,17 +33,17 @@ export default class CustomTableRow extends Component {
     e.preventDefault();
     const params = {
       email: email,
-      setAdmin: setAdmin
+      setAdmin: setAdmin,
     };
 
     axios
       .post(SET_ADMIN_URL, qs.stringify(params))
-      .then(response => {
+      .then((response) => {
         console.log(response);
         alert(response.data["message"]);
         window.location.reload(); // reloads page
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
@@ -56,18 +56,18 @@ export default class CustomTableRow extends Component {
   deleteUser(email, e) {
     e.preventDefault();
     const params = {
-      email: email
+      email: email,
     };
 
     axios
       .post(DELETE_USER_URL, qs.stringify(params))
-      .then(response => {
+      .then((response) => {
         console.log(response);
 
         alert(response.data["message"]);
         window.location.reload();
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
@@ -91,7 +91,7 @@ export default class CustomTableRow extends Component {
             id={this.props.user.email}
             variant="outline-primary"
             size="sm"
-            onClick={e => this.toggleAdmin(true, this.props.user.email, e)}
+            onClick={(e) => this.toggleAdmin(true, this.props.user.email, e)}
           >
             Set Admin
           </Button>
@@ -103,7 +103,7 @@ export default class CustomTableRow extends Component {
             id={this.props.user.email}
             variant="outline-warning"
             size="sm"
-            onClick={e => this.toggleAdmin(false, this.props.user.email, e)}
+            onClick={(e) => this.toggleAdmin(false, this.props.user.email, e)}
           >
             Unset Admin
           </Button>
@@ -116,7 +116,7 @@ export default class CustomTableRow extends Component {
             id={this.props.user.email}
             variant="outline-danger"
             size="sm"
-            onClick={e => this.deleteUser(this.props.user.email, e)}
+            onClick={(e) => this.deleteUser(this.props.user.email, e)}
           >
             Delete User
           </Button>
@@ -135,7 +135,6 @@ export default class CustomTableRow extends Component {
         <th>{this.props.user.first_name}</th>
         <th>{this.props.user.last_name}</th>
         {isAdmin}
-        <th>{this.props.user.template_count}</th>
         {setAdmin}
         {unsetAdmin}
         {deleteButton}

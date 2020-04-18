@@ -101,7 +101,6 @@ export default class Editor extends React.Component {
     axios
       .post(GET_USER_URL, qs.stringify(params))
       .then(response => {
-        console.log(response.data);
 
         if (response.data["success"] === true) {
           this.setState({
@@ -127,7 +126,6 @@ export default class Editor extends React.Component {
     axios
       .post(GET_TEMPLATE_URL, qs.stringify(params))
       .then(response => {
-        console.log(response.data);
 
         //console.log(response.data.template[0].template_data);
         localStorage.setItem(
@@ -152,7 +150,6 @@ export default class Editor extends React.Component {
     axios
       .post(GET_MEDIA_URL, qs.stringify(params))
       .then(response => {
-        console.log(response);
 
         if (response.data["success"] === true) {
           this.setState({
@@ -334,14 +331,12 @@ export default class Editor extends React.Component {
    */
   loadGrid() {
     const load = JSON.parse(localStorage.getItem("test-editor-store"));
-    console.log(load);
     this.setState({
       layout: load.layout,
       gridElements: load.gridElements,
       activeElement: null,
       saving: false
     });
-    console.log("Layout loaded");
   }
 
   // ITEM GENERATION
@@ -374,7 +369,7 @@ export default class Editor extends React.Component {
         "data-grid": { x: 0, y: height, ...typeRef.gridOptions },
         ...typeRef.props
       },
-      style: { fontSize: "1em", color: "#000", backgroundColor: "#FFFFFF00" }
+      style: typeof typeRef.style == 'undefined' ? { fontSize: "1em", color: "#000", backgroundColor: "#FFFFFF00" } : typeRef.style
     };
     this.setState(prevState => ({
       gridElements: [...prevState.gridElements, item]
@@ -705,8 +700,6 @@ export default class Editor extends React.Component {
         >
           APPLY
         </Button>
-        <h2>Sample output</h2>
-        <p style={this.state.editStyle}>Sample Text</p>
       </div>
     );
   }
