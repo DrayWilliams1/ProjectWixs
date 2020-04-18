@@ -22,10 +22,14 @@ function HelpPage() {
                 This page offers tutorials and guides for those who require help
                 with formatting and creation of their site. Please remember for
                 intended proper usage of this system, do not block any browser
-                alerts and javascript must be enabled. Any additional issues may
-                also be rememdied by whitelisting our site so that third-party
-                services (like the YouTube videos available on this page) may
-                display correctly.
+                alerts and javascript must be enabled. For the sake of
+                professors accessing this website who may have cookies stored
+                from other student's projects, we recommend clearing any cookies
+                stored on the cosc.brocku.ca domain so there are no unintended
+                interferences. Any additional issues may also be rememdied by
+                whitelisting our site on your Adblocker (we're looking at you
+                uBlock Origin) so that third-party services, like the YouTube
+                videos available on this page, may display correctly.
               </p>
             </div>
           </Col>
@@ -110,63 +114,44 @@ function HelpPage() {
             <h2>
               <strong>FAQs</strong>
             </h2>
+            <p>
+              <strong>Q: </strong>
+              How many users can be added to the system?
+              <strong> A: </strong>
+              15.
+            </p>
+            <p>
+              <strong>Q: </strong>
+              What is the maximum size for photo uploads?
+              <strong> A: </strong>
+              10MB.
+            </p>
+            <p>
+              <strong>Q: </strong>
+              How many templates can you have live at once?
+              <strong> A: </strong>
+              Only 1 at a time.
+            </p>
+            <p>
+              <strong>Q: </strong>
+              Do you need internet access to use this system?
+              <strong> A: </strong>
+              Wait, how are you seeing this page right now?
+            </p>
+            <p>
+              <strong>Q: </strong>
+              Do you have an investment strategy for cryptocurrency?
+              <strong> A: </strong>
+              HODL.
+            </p>
+            <p>
+              <strong>Q: </strong>
+              What is Dave Bockus' favourite colour(s)?
+              <strong> A: </strong>
+              This one is for bonus marks, <em>blue and/or green</em>. Don't
+              worry we aren't kiss-asses.
+            </p>
           </Col>
-        </Row>
-
-        <Row>
-          <p>
-            <strong>Q: </strong>
-            How many users can be added to the system?
-            <strong> A: </strong>
-            15.
-          </p>
-        </Row>
-        <Row>
-          <p>
-            <strong>Q: </strong>
-            What is the maximum size for photo uploads?
-            <strong> A: </strong>
-            10MB.
-          </p>
-        </Row>
-        <Row>
-          <p>
-            <strong>Q: </strong>
-            How many templates can each user account have?
-            <strong> A: </strong>4 maximum.
-          </p>
-        </Row>
-        <Row>
-          <p>
-            <strong>Q: </strong>
-            How many templates can you have live at once?
-            <strong> A: </strong>
-            Only 1 at a time.
-          </p>
-        </Row>
-        <Row>
-          <p>
-            <strong>Q: </strong>
-            Do you need internet access to use this system?
-            <strong> A: </strong>
-            Wait, how are you seeing this page right now?
-          </p>
-        </Row>
-        <Row>
-          <p>
-            <strong>Q: </strong>
-            Do you have an investment strategy for cryptocurrency?
-            <strong> A: </strong>
-            HODL.
-          </p>
-        </Row>
-        <Row>
-          <p>
-            <strong>Q: </strong>
-            What is Dave Bockus' favourite colour(s)?
-            <strong> A: </strong>
-            This one is for bonus marks, <em>blue and/or green</em>
-          </p>
         </Row>
 
         <Row className="help-sections">
