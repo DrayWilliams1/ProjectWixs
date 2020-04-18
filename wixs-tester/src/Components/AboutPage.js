@@ -15,37 +15,76 @@ function AboutPage() {
       <Container>
         <div className="word-content">
           <h1>About Us</h1>
-          <h2 id="purpose">What is ProjectWix?</h2>
-            <p>
-              ProjectWixs is a Content Management System allowing for a seamless
-              creation of single-page web pages featuring an easy-to-use drag and
-              drop component interface. ProjectWixs aims to provide an intuitive
-              experience for a wide range of users; from complete beginners
-              unfamiliar with any form of web design or HTML, to veteran designers
-              with multiple years of experience. The system will be able to have
-              up to ten user accounts that can create and edit web pages with a
-              range of content typical of any modern day website (such as text,
-              images, and video). Users will be able to create, edit, and delete
-              up to four templates and publish one at any time for live viewing.
-            </p>
+          <h2 id="purpose">
+            <strong>What is Project Wix?</strong>
+          </h2>
+          <p>
+            Launched in early 2020, Project Wixs is a Content Management System
+            allowing for the seamless creation of single-page web pages
+            featuring an easy-to-use drag and drop component interface. Project
+            Wixs aims to provide an intuitive experience for a wide range of
+            users; from complete beginners unfamiliar with any form of web
+            design or HTML, to veteran designers with multiple years of
+            experience. The system allows for up to 15 user accounts that can
+            create and edit web pages with a range of content typical of any
+            modern day website (such as stylized text and images). Users will be
+            able to create, edit, and delete up to four templates and publish
+            one at any time for live viewing.
+          </p>
 
-            <h2 id="purpose">What do we offer?</h2>
-            <p>Each user account will be able to edit and create four user templates as well as host a private collection of web media content (images and videos). To customize these sites, Project Wixs features a drag-and-drop editor that will allow users to create web templates with little to no knowledge of HTML. This will include standard HTML components such as headers, text, links, etc. as well as the aforementioned media content that can all be organized and arranged in a visual interface. For more experienced users, an option to switch to a plaintext HTML editor will be included as well, to allow direct customization.</p>
+          <h2 id="purpose">
+            <strong>What do we offer?</strong>
+          </h2>
+          <p>
+            Each user account will be able to edit and create four user
+            templates as well as host a private collection images. To customize
+            these sites, Project Wixs features a drag-and-drop editor that will
+            allow users to create web templates with little to no knowledge of
+            HTML. This will include standard HTML components such as headers,
+            text, links, etc. as well as the aforementioned media content that
+            can all be organized and arranged in a visual interface. For more
+            experienced users, an option to switch to a plaintext HTML editor
+            will be included as well, to allow direct customization.
+          </p>
 
-          <h2 id="purpose">Skill levels</h2>
-            <p>
-                We offer 3 different tiers of users to account for 3 different skill levels. Certain features of ProjectWixs may or may not be relevant on the user’s skill’s level so they are restricted to prevent clutter and confusion. Overall, ProjectWixs will favour Beginner and Intermediate users with limited to no HTML experience as the drag-and-drop functionality lends itself better to these low-level users, rather than high-level users who want greater freedom of customization. 
-            </p>
-            <ul>
-              <li>Beginner</li>
-                <dl>Beginner users are those with little to no experience with HTML or web design. Project Wixs seeks to appeal to them by allowing them not to have to touch HTML code at all, and to work exclusively within the visual drag-and-drop editor.</dl> 
-              <li>Intermediate </li>
-                <dl>Intermediate users would be those with under 5 years of experience with HTML and/or web design. They mave feel confident using HTML, but could appreciate the convenience that the drag-and-drop editor provides and use a mix of both.</dl>
-              <li>Expert</li>
-                <dl>Expert users have over 5 years of experience with HTML/web design, and may not want to even bother with learning the drag-and-drop editor. This option allows the user to take advantage of the plain text editor.</dl>
-            </ul>
+          <h2 id="purpose">
+            <strong>Skill levels</strong>
+          </h2>
+          <p>
+            We cater to 2 different tiers of users for 2 different skill levels.
+            Certain features of Project Wixs may or may not be relevant on the
+            user’s skill level so they are restricted to prevent clutter and
+            confusion. Overall, Project Wixs will favour Beginner users with
+            limited to no HTML experience as the drag-and-drop functionality
+            lends itself better to these low-level users, rather than high-level
+            users who want greater freedom of customization.
+          </p>
+          <ul>
+            <li>
+              <strong>Beginner</strong>
+            </li>
+            <dl>
+              Beginner users are those with little to no experience with HTML or
+              web design. Project Wixs seeks to appeal to them by allowing them
+              not to have to touch HTML code at all, and to work exclusively
+              within the visual drag-and-drop editor.
+            </dl>
+            <li>
+              <strong>Expert</strong>
+            </li>
+            <dl>
+              Expert users have over ~5 years of experience with HTML/web
+              design, and may not want to even bother with learning the
+              drag-and-drop editor. This option allows the user to take
+              advantage of the plain text editor. This element is built directly
+              into the editor and allows for even deeper customization of the
+              selected template
+            </dl>
+          </ul>
 
-          <h2 id="team">The ProjectWixs Team</h2>
+          <h2 id="team">
+            <strong>The Project Wixs Team</strong>
+          </h2>
           <ul>
             <li>
               <strong>Drayton Williams</strong> - GitHub Profile:{" "}
