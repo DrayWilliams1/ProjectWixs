@@ -99,7 +99,7 @@ function HelpPage() {
             <h2>
               <strong>Content Operations</strong>
             </h2>
-            <h3>Uploading and Deletion, and Usage</h3>
+            <h3>Uploading, Deletion, and Usage</h3>
             <p>
               Written walkthrough of how to go about each process... usage is
               referring to how they can be accessed and used in the template
