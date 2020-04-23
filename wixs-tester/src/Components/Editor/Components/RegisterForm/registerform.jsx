@@ -41,11 +41,5 @@ export const SCHEMA = {
   title: "Register Form",
   desc: "A Basic Register Form",
   iconPathName: require('../../../assets/icons/other/047-table.svg'),
-  props: {
-    content: {
-      type: "StringArea",
-      name: "Content",
-      value: "",
-    }
-  }
+  
 };
