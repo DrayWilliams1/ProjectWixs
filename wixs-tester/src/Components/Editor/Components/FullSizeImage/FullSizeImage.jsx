@@ -21,7 +21,7 @@ export const SCHEMA = {
   type: FullSizeImage,
   gridOptions: {h: 2, w: 2, minW: 1, minH: 1},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
   title: "Image",
-  desc: "A simple image container",
+  desc: "A Simple Image Container",
   iconPathName: require('../../../assets/icons/other/photo.svg'),
   props: {
     image: {

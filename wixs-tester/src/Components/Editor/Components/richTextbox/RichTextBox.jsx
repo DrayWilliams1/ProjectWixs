@@ -21,7 +21,7 @@ export const SCHEMA = {
   gridOptions: {h: 2, w: 4, minW: 2, minH: 2},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
   title: "Rich Text Area",
   iconName: "plus.svg",
-  desc: "A text component that allows for bold, underline, bullet points and more",
+  desc: "A Text Component that Allows for Text Styling such as Bold, Underline, Bullet Points, etc",
   iconPathName: require('../../../assets/icons/other/011-lines.svg'),
   props: {
     content: {

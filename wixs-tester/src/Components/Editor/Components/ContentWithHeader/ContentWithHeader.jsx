@@ -24,7 +24,7 @@ export const SCHEMA = {
   type: ContentWithHeader,
   gridOptions: {h: 4, w: 4, minW: 2, minH: 3},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
   title: "Text with Header",
-  desc: "Rich text with a fatty header",
+  desc: "Rich Text Box With a Header",
   iconPathName: require('../../../assets/icons/other/032-spreadsheet-7.svg'),
   props: {
     header:{

@@ -5,6 +5,7 @@ import {SCHEMA as StandardButtonSchema} from "./Components/StandardButton/Standa
 import {SCHEMA as RawHTMLBoxSchema} from "./Components/RawHTMLBox/RawHTMLBox";
 import {SCHEMA as TableSchema} from "./Components/Table/EditorTable";
 import {SCHEMA as registerformSchema} from "./Components/RegisterForm/registerform";
+import {SCHEMA as loginformSchema} from "./Components/LoginForm/loginform";
 import {SCHEMA as FullSizeImageSchema} from "./Components/FullSizeImage/FullSizeImage";
 import {SCHEMA as HeaderSchema} from "./Components/Header/Header";
 import {SCHEMA as FooterSchema} from "./Components/Footer/Footer";
@@ -19,6 +20,7 @@ export const LEGEND = {
   RawHTMLBox: RawHTMLBoxSchema,
   Table: TableSchema,
   registerform: registerformSchema,
+  loginform: loginformSchema,
   FullSizeImage: FullSizeImageSchema,
   Header: HeaderSchema,
   Footer: FooterSchema,
