@@ -54,7 +54,9 @@ function HelpPage() {
               <strong>Account Operations</strong>
             </h2>
             <h3>Registration, Login, and Logout</h3>
-            <p>Written walkthrough of how to go about each process...</p>
+            <p>Logging in or registering a new account is as easy as clicking on the corresponding button found on the top right on the navigation bar or the bottom of the home page!
+              After logging in or creating a new account you will be brought to your dashboard, from here you can edit templates and more as shown in the "Template Operations" section.
+            </p>
           </Col>
         </Row>
 
@@ -64,7 +66,10 @@ function HelpPage() {
               <strong>Template Operations</strong>
             </h2>
             <h3>Creation, Editing, Deletion, and Publishing</h3>
-            <p>Written walkthrough of how to go about each process...</p>
+            <p>If logging in for the first time you will be met with a dashboard empty of any templates.
+            Once a template Is created, you have the option to set it as active; others can see your active site using the “shareable live template link” found at the top of the page. You also have the option to edit or delete any template.
+            Once in the editor, clicking on the plus sign on the right side of the screen opens the component palette. Further clicking on an a component places it onto the site. A selected component can then be dragged around and edited through the orange tab in the pallete. Finally, the blue tab allows users to make additional stylistic changes to a component.
+            </p>
           </Col>
           <Col>
             {/* Video wrapper div allowing for video that maintains aspect ratio and resizes based on device screen size */}
@@ -101,10 +106,7 @@ function HelpPage() {
             </h2>
             <h3>Uploading, Deletion, and Usage</h3>
             <p>
-              Written walkthrough of how to go about each process... usage is
-              referring to how they can be accessed and used in the template
-              editor section (this can just say refer to 'section' for how to
-              make use of uploaded content)
+              User images may also be inserted onto a template! Firstly, upload your image under the “Upload” tab on Project Wixs’ Nav-bar. After this is done, they can be inserted by means of the “image component” and further edited as shown.
             </p>
           </Col>
         </Row>
@@ -119,6 +121,12 @@ function HelpPage() {
               How many users can be added to the system?
               <strong> A: </strong>
               15.
+            </p>
+            <p>
+              <strong>Q: </strong>
+              How many Templates can we have in total?
+              <strong> A: </strong>
+              4.
             </p>
             <p>
               <strong>Q: </strong>
