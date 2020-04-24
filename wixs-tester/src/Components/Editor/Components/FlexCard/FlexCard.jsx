@@ -26,7 +26,7 @@ export const SCHEMA = {
   type: FlexCard,
   gridOptions: {h: 5, w: 3, minW: 2, minH: 4},     // grid options parameters: minW, maxW, minH, maxH, isDraggable, isResizable, static
   title: "Flexible Card",
-  desc: "A flexible card useful for images with text or just text blocks",
+  desc: "A Flexible Card that Includes an Image, Header, Body, and Footer sections",
   iconPathName: require('../../../assets/icons/other/card.svg'),
   props: {
     image: {

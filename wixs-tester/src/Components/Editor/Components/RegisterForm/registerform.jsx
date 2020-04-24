@@ -3,6 +3,8 @@ import "./registerform.scss";
 
 export class registerform extends Component {
 
+  
+
   render() {
     return (
       <div {...this.props} className={[this.props.className, "registerform-style"].join(' ')}>
@@ -14,11 +16,12 @@ export class registerform extends Component {
                 <hr></hr>
 
                 <label for="email"><b>Email</b></label>
-                <input type = "text" placeholder="Enter Email" name="email" required></input>
+                <input type = "text" placeholder="Enter Email" name="email" required ></input>
                 <label for="password"><b>Password</b></label>
-                <input type = "password" placeholder="Enter Password" name="password" required></input>
-                <label for="passwordrepeat"><b>Enter Password Again</b></label>
-                <input type = "password" placeholder="Enter Password Again" name="password" required></input>
+                <input type = "password" placeholder="Enter Password" name="password" required ></input>
+                <label for="password"><b>Confirm Password</b></label>
+                <input type = "password" placeholder="Enter Password Again" name="password" required ></input>
+               
                 <hr></hr>
                 <button type="submit" class="registerbutton">Register</button>
                 
@@ -38,11 +41,5 @@ export const SCHEMA = {
   title: "Register Form",
   desc: "A Basic Register Form",
   iconPathName: require('../../../assets/icons/other/047-table.svg'),
-  props: {
-    content: {
-      type: "StringArea",
-      name: "Content",
-      value: "",
-    }
-  }
+  
 };
